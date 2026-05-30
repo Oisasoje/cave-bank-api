@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Session {
+  id         String   @id @default(uuid())
+  user       users    @relation(fields: [userId], references: [id])
+  created_at DateTime @default(now())
+  expires_at DateTime
+  userId     String
+}
+
+model auth_attempt {
+  id         String   @id @default(uuid())
+  phone      String
+  created_at DateTime @default(now())
+  expires_at DateTime
+  attempts   Int      @default(0)
+}
+
+model audit_log {
+  id          Int      @id @default(autoincrement())
+  table_name  String
+  operation   String
+  old_data    Json?
+  new_data    Json?
+  executed_at DateTime @default(now())
+}
+
+model bulk_transfers {
+  id                    String         @id
+  initiated_by_id       String
+  from_address          String
+  total_amount          Int
+  recipient_count       Int
+  created_at            DateTime       @default(now())
+  campaign_name         String
+  distribution_category String
+  wallets               wallets        @relation(fields: [from_address], references: [address])
+  users                 users          @relation(fields: [initiated_by_id], references: [id])
+  transactions          transactions[]
+}
+
+model mint_burn_events {
+  id        String       @id
+  amount    Int
+  type      MintBurnType
+  timestamp DateTime     @default(now())
+  reason    String
+}
+
+model otps {
+  email      String   @id
+  code       String
+  created_at DateTime @default(now())
+  expires_at DateTime
+  attempts   Int      @default(0)
+}
+
+model transactions {
+  id                                         String          @id
+  amount                                     Int
+  reason                                     String
+  timestamp                                  DateTime        @default(now())
+  initiated_by_id                            String
+  from_address                               String
+  to_address                                 String
+  bulk_transfer_id                           String?
+  bulk_transfers                             bulk_transfers? @relation(fields: [bulk_transfer_id], references: [id])
+  wallets_transactions_from_addressTowallets wallets         @relation("transactions_from_addressTowallets", fields: [from_address], references: [address])
+  users                                      users           @relation(fields: [initiated_by_id], references: [id])
+  wallets_transactions_to_addressTowallets   wallets         @relation("transactions_to_addressTowallets", fields: [to_address], references: [address])
+}
+
+model treasuries {
+  id                   String                 @id
+  vault_name           String
+  purpose              String
+  created_by_id        String
+  created_at           DateTime               @default(now())
+  deactivated_at       DateTime?
+  is_active            Boolean                @default(true)
+  users                users                  @relation(fields: [created_by_id], references: [id])
+  treasury_signatories treasury_signatories[]
+  wallets              wallets?
+}
+
+model treasury_signatories {
+  signatory_id String
+  treasury_id  String
+  added_at     DateTime   @default(now())
+  users        users      @relation(fields: [signatory_id], references: [id])
+  treasuries   treasuries @relation(fields: [treasury_id], references: [id])
+
+  @@id([signatory_id, treasury_id])
+}
+
+model users {
+  id                   String                 @id
+  name                 String
+  email                String                 @unique
+  phone                String                 @unique
+  birthday             DateTime               @db.Date
+  academic_status      AcademicStatus
+  space                Space
+  tribe                Tribe?
+  schools_attended     School[]
+  pin_hash             String?
+  is_admin             Boolean                @default(false)
+  member_since_year    Int
+  member_since_month   Int
+  is_active            Boolean                @default(true)
+  deactivated_at       DateTime?
+  created_at           DateTime               @default(now())
+  updated_at           DateTime
+  bulk_transfers       bulk_transfers[]
+  transactions         transactions[]
+  treasuries           treasuries[]
+  treasury_signatories treasury_signatories[]
+  wallets              wallets?
+  sessions             Session[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model wallets {
+  address                                         String           @id
+  balance                                         Int              @default(0)
+  created_at                                      DateTime         @default(now())
+  owner_user_id                                   String?          @unique
+  owner_treasury_id                               String?          @unique
+  bulk_transfers                                  bulk_transfers[]
+  transactions_transactions_from_addressTowallets transactions[]   @relation("transactions_from_addressTowallets")
+  transactions_transactions_to_addressTowallets   transactions[]   @relation("transactions_to_addressTowallets")
+  treasuries                                      treasuries?      @relation(fields: [owner_treasury_id], references: [id])
+  users                                           users?           @relation(fields: [owner_user_id], references: [id])
+}
+
+enum AcademicStatus {
+  Student
+  Graduate
+}
+
+enum MintBurnType {
+  Mint
+  Burn
+}
+
+enum School {
+  Selling
+  Impact
+  Influence
+}
+
+enum Space {
+  Onboarding
+  Lounge
+  Bridge
+  Citadel
+}
+
+enum Tribe {
+  Tech
+  Creative
+  Business
+  Impact
+}
