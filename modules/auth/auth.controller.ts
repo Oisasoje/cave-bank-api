@@ -1,12 +1,12 @@
 import { log, span, error } from "@oisasoje/gloo";
 import { getSession, logoutUser, startAuth, verifyAuth } from "./auth.service";
-import { loginSchema, startSchema, verifySchema } from "./auth.schema";
+import { startSchema, verifySchema } from "./auth.schema";
 import { Request, Response } from "express";
 
 export async function start(req: Request, res: Response) {
   const result = startSchema.safeParse(req.body);
   if (!result.success) {
-    return res.status(400).json({ error: result.error.issues });
+    return res.status(400).json({ message: result.error.issues });
   }
 
   try {
@@ -18,14 +18,14 @@ export async function start(req: Request, res: Response) {
       .status(200)
       .send({ data: { id: attempt.id, phone_number: attempt.phone } });
   } catch (err: any) {
-    return res.status(400).json({ error: err.message });
+    return res.status(400).json({ message: err.message });
   }
 }
 
 export async function verify(req: Request, res: Response) {
   const result = verifySchema.safeParse(req.body);
   if (!result.success) {
-    return res.status(400).json({ error: result.error.issues });
+    return res.status(400).json({ message: result.error.issues });
   }
   try {
     const { id, pin } = result.data;
@@ -35,15 +35,15 @@ export async function verify(req: Request, res: Response) {
 
     const { user, session } = await verifyAuth(id, pin);
 
-    let { pin_hash, id: userId, is_admin, ...userWithoutPin } = user;
+    let { pin_hash, id: userId, is_admin, name, ..._ } = user;
 
     res.json({
       message: "Login successful!",
-      data: { user: { id: userId, isAdmin: is_admin }, session },
+      data: { user: { id: userId, name, isAdmin: is_admin }, session },
     });
   } catch (err: any) {
     error(err);
-    return res.status(401).json({ error: err.message });
+    return res.status(401).json({ message: err.message });
   }
 }
 
@@ -52,7 +52,9 @@ export async function me(req: any, res: any) {
   const sessionId = req.cookies.sessionId;
 
   if (!sessionId) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).json({
+      message: "You do not have an active session. Please login.",
+    });
   }
 
   const session = await span("getSession operation", () =>
@@ -60,7 +62,9 @@ export async function me(req: any, res: any) {
   );
 
   if (!session) {
-    return res.status(401).json({ error: "Invalid session" });
+    return res
+      .status(401)
+      .json({ error: "This session has expired. Please login." });
   }
 
   const { pin_hash, ...userWithoutPin } = session.user;

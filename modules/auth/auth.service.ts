@@ -5,6 +5,8 @@ import { log, span } from "@oisasoje/gloo";
 
 const DUMMY_HASH = "$argon2id$v=19$m=65536,t=3,p=4$dummyhashdummyhashdummyhash";
 
+export async function signUpAuth() {}
+
 export async function startAuth(phone: any) {
   const user = await span("prisma.users.findUnique", () =>
     prisma.users.findUnique({

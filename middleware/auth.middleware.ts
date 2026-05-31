@@ -21,7 +21,7 @@ export async function requireAuth(req: any, res: any, next: any) {
 
 export const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 10,
+  limit: 105,
   message: {
     message: "Too many login attempts. Try again later.",
   },
