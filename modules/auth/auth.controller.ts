@@ -37,6 +37,14 @@ export async function verify(req: Request, res: Response) {
 
     let { pin_hash, id: userId, is_admin, name, ..._ } = user;
 
+    // Set the sessionId cookie for session authentication
+    res.cookie("sessionId", session.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    });
+
     res.json({
       message: "Login successful!",
       data: { user: { id: userId, name, isAdmin: is_admin }, session },
