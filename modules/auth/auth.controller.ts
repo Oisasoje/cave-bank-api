@@ -3,6 +3,8 @@ import { getSession, logoutUser, startAuth, verifyAuth } from "./auth.service";
 import { startSchema, verifySchema } from "./auth.schema";
 import { Request, Response } from "express";
 
+const isProd = process.env.NODE_ENV === "production";
+
 export async function start(req: Request, res: Response) {
   const result = startSchema.safeParse(req.body);
   if (!result.success) {
@@ -14,9 +16,7 @@ export async function start(req: Request, res: Response) {
 
     const attempt = await startAuth(phone);
 
-    return res
-      .status(200)
-      .send({ data: { id: attempt.id, phone_number: attempt.phone } });
+    return res.status(200).send({ data: { id: attempt.id } });
   } catch (err: any) {
     return res.status(400).json({ message: err.message });
   }
@@ -30,9 +30,6 @@ export async function verify(req: Request, res: Response) {
   try {
     const { id, pin } = result.data;
 
-    log(id);
-    log(pin);
-
     const { user, session } = await verifyAuth(id, pin);
 
     let { pin_hash, id: userId, is_admin, name, ..._ } = user;
@@ -40,14 +37,21 @@ export async function verify(req: Request, res: Response) {
     // Set the sessionId cookie for session authentication
     res.cookie("sessionId", session.id, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      path: "/",
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
     res.json({
       message: "Login successful!",
-      data: { user: { id: userId, name, isAdmin: is_admin }, session },
+      data: {
+        user: {
+          id: userId,
+          name,
+          isAdmin: is_admin,
+        },
+      },
     });
   } catch (err: any) {
     error(err);
@@ -61,7 +65,7 @@ export async function me(req: any, res: any) {
 
   if (!sessionId) {
     return res.status(401).json({
-      message: "You do not have an active session. Please login.",
+      message: "Authentication required.",
     });
   }
 
@@ -70,9 +74,7 @@ export async function me(req: any, res: any) {
   );
 
   if (!session) {
-    return res
-      .status(401)
-      .json({ error: "This session has expired. Please login." });
+    return res.status(401).json({ message: "Authentication required." });
   }
 
   const { pin_hash, ...userWithoutPin } = session.user;
