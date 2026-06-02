@@ -7,13 +7,16 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "tsx watch server.js"
+    "dev": "tsx watch server.ts",
+    "build": "tsc && node ./dist/server.js",
+    "start": "node ./dist/server.js"
   },
   "dependencies": {
     "@oisasoje/gloo": "^1.0.2",
     "@prisma/adapter-neon": "^7.8.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@vercel/node": "^5.8.8",
     "argon2": "^0.44.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",

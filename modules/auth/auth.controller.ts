@@ -1,6 +1,6 @@
 import { log, span, error } from "@oisasoje/gloo";
-import { getSession, logoutUser, startAuth, verifyAuth } from "./auth.service";
-import { startSchema, verifySchema } from "./auth.schema";
+import { getSession, logoutUser, startAuth, verifyAuth } from "./auth.service.js";
+import { startSchema, verifySchema } from "./auth.schema.js";
 import { Request, Response } from "express";
 
 const isProd = process.env.NODE_ENV === "production";

@@ -1,5 +1,5 @@
-import { prisma } from "../../lib/prisma";
-import verifyPin from "../../utils/password";
+import { prisma } from "../../lib/prisma.js";
+import verifyPin from "../../utils/password.js";
 import crypto from "crypto";
 import { log, span } from "@oisasoje/gloo";
 

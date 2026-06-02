@@ -1,4 +1,4 @@
-import { getSession } from "../modules/auth/auth.service";
+import { getSession } from "../modules/auth/auth.service.js";
 import rateLimit from "express-rate-limit";
 
 export async function requireAuth(req: any, res: any, next: any) {
