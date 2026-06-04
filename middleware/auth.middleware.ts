@@ -1,5 +1,5 @@
 import { getSession } from "../modules/auth/auth.service.js";
-import rateLimit from "express-rate-limit";
+import { rateLimit } from "express-rate-limit";
 
 export async function requireAuth(req: any, res: any, next: any) {
   const sessionId = req.cookies.sessionId;
