@@ -1,11 +1,17 @@
 import { log, span, error } from "@oisasoje/gloo";
-import { getSession, logoutUser, startAuth, verifyAuth } from "./auth.service.js";
+import {
+  getSession,
+  loginAuthStart,
+  signupAuthStart,
+  logoutUser,
+  loginAuthVerify,
+} from "./auth.service.js";
 import { startSchema, verifySchema } from "./auth.schema.js";
 import { Request, Response } from "express";
 
 const isProd = process.env.NODE_ENV === "production";
 
-export async function start(req: Request, res: Response) {
+export async function signupStart(req: Request, res: Response) {
   const result = startSchema.safeParse(req.body);
   if (!result.success) {
     return res.status(400).json({ message: result.error.issues });
@@ -14,7 +20,7 @@ export async function start(req: Request, res: Response) {
   try {
     const { phone } = result.data;
 
-    const attempt = await startAuth(phone);
+    const attempt = await signupAuthStart(phone);
 
     return res.status(200).send({ data: { id: attempt.id } });
   } catch (err: any) {
@@ -22,7 +28,24 @@ export async function start(req: Request, res: Response) {
   }
 }
 
-export async function verify(req: Request, res: Response) {
+export async function loginStart(req: Request, res: Response) {
+  const result = startSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ message: result.error.issues });
+  }
+
+  try {
+    const { phone } = result.data;
+
+    const attempt = await loginAuthStart(phone);
+
+    return res.status(200).send({ data: { id: attempt.id } });
+  } catch (err: any) {
+    return res.status(400).json({ message: err.message });
+  }
+}
+
+export async function loginVerify(req: Request, res: Response) {
   const result = verifySchema.safeParse(req.body);
   if (!result.success) {
     return res.status(400).json({ message: result.error.issues });
@@ -30,7 +53,7 @@ export async function verify(req: Request, res: Response) {
   try {
     const { id, pin } = result.data;
 
-    const { user, session } = await verifyAuth(id, pin);
+    const { user, session } = await loginAuthVerify(id, pin);
 
     let { pin_hash, id: userId, is_admin, name, ..._ } = user;
 

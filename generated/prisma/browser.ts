@@ -23,10 +23,15 @@ export * from './enums.js';
  */
 export type Session = Prisma.SessionModel
 /**
- * Model auth_attempt
+ * Model login_attempts
  * 
  */
-export type auth_attempt = Prisma.auth_attemptModel
+export type login_attempts = Prisma.login_attemptsModel
+/**
+ * Model signup_attempts
+ * 
+ */
+export type signup_attempts = Prisma.signup_attemptsModel
 /**
  * Model audit_log
  * 
@@ -47,6 +52,16 @@ export type mint_burn_events = Prisma.mint_burn_eventsModel
  * 
  */
 export type otps = Prisma.otpsModel
+/**
+ * Model signup_otps
+ * 
+ */
+export type signup_otps = Prisma.signup_otpsModel
+/**
+ * Model reset_password_otps
+ * 
+ */
+export type reset_password_otps = Prisma.reset_password_otpsModel
 /**
  * Model transactions
  * 

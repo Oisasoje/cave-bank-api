@@ -28,3 +28,12 @@ export const loginLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
+export const signupLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 105,
+  message: {
+    message: "Too many signup attempts. Try again later.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});

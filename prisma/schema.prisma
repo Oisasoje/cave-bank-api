@@ -1,9 +1,10 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider            = "prisma-client"
+  output              = "../generated/prisma"
   importFileExtension = "js"
   outputFileExtension = "js"
 }
+
 datasource db {
   provider = "postgresql"
 }
@@ -16,7 +17,15 @@ model Session {
   userId     String
 }
 
-model auth_attempt {
+model login_attempts {
+  id         String   @id @default(uuid())
+  phone      String
+  created_at DateTime @default(now())
+  expires_at DateTime
+  attempts   Int      @default(0)
+}
+
+model signup_attempts {
   id         String   @id @default(uuid())
   phone      String
   created_at DateTime @default(now())
@@ -56,6 +65,22 @@ model mint_burn_events {
 }
 
 model otps {
+  email      String   @id
+  code       String
+  created_at DateTime @default(now())
+  expires_at DateTime
+  attempts   Int      @default(0)
+}
+
+model signup_otps {
+  email      String   @id
+  code       String
+  created_at DateTime @default(now())
+  expires_at DateTime
+  attempts   Int      @default(0)
+}
+
+model reset_password_otps {
   email      String   @id
   code       String
   created_at DateTime @default(now())

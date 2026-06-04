@@ -9,11 +9,14 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Session.js'
-export type * from './models/auth_attempt.js'
+export type * from './models/login_attempts.js'
+export type * from './models/signup_attempts.js'
 export type * from './models/audit_log.js'
 export type * from './models/bulk_transfers.js'
 export type * from './models/mint_burn_events.js'
 export type * from './models/otps.js'
+export type * from './models/signup_otps.js'
+export type * from './models/reset_password_otps.js'
 export type * from './models/transactions.js'
 export type * from './models/treasuries.js'
 export type * from './models/treasury_signatories.js'

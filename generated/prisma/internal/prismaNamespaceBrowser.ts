@@ -52,11 +52,14 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Session: 'Session',
-  auth_attempt: 'auth_attempt',
+  login_attempts: 'login_attempts',
+  signup_attempts: 'signup_attempts',
   audit_log: 'audit_log',
   bulk_transfers: 'bulk_transfers',
   mint_burn_events: 'mint_burn_events',
   otps: 'otps',
+  signup_otps: 'signup_otps',
+  reset_password_otps: 'reset_password_otps',
   transactions: 'transactions',
   treasuries: 'treasuries',
   treasury_signatories: 'treasury_signatories',
@@ -90,7 +93,7 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
-export const Auth_attemptScalarFieldEnum = {
+export const Login_attemptsScalarFieldEnum = {
   id: 'id',
   phone: 'phone',
   created_at: 'created_at',
@@ -98,7 +101,18 @@ export const Auth_attemptScalarFieldEnum = {
   attempts: 'attempts'
 } as const
 
-export type Auth_attemptScalarFieldEnum = (typeof Auth_attemptScalarFieldEnum)[keyof typeof Auth_attemptScalarFieldEnum]
+export type Login_attemptsScalarFieldEnum = (typeof Login_attemptsScalarFieldEnum)[keyof typeof Login_attemptsScalarFieldEnum]
+
+
+export const Signup_attemptsScalarFieldEnum = {
+  id: 'id',
+  phone: 'phone',
+  created_at: 'created_at',
+  expires_at: 'expires_at',
+  attempts: 'attempts'
+} as const
+
+export type Signup_attemptsScalarFieldEnum = (typeof Signup_attemptsScalarFieldEnum)[keyof typeof Signup_attemptsScalarFieldEnum]
 
 
 export const Audit_logScalarFieldEnum = {
@@ -147,6 +161,28 @@ export const OtpsScalarFieldEnum = {
 } as const
 
 export type OtpsScalarFieldEnum = (typeof OtpsScalarFieldEnum)[keyof typeof OtpsScalarFieldEnum]
+
+
+export const Signup_otpsScalarFieldEnum = {
+  email: 'email',
+  code: 'code',
+  created_at: 'created_at',
+  expires_at: 'expires_at',
+  attempts: 'attempts'
+} as const
+
+export type Signup_otpsScalarFieldEnum = (typeof Signup_otpsScalarFieldEnum)[keyof typeof Signup_otpsScalarFieldEnum]
+
+
+export const Reset_password_otpsScalarFieldEnum = {
+  email: 'email',
+  code: 'code',
+  created_at: 'created_at',
+  expires_at: 'expires_at',
+  attempts: 'attempts'
+} as const
+
+export type Reset_password_otpsScalarFieldEnum = (typeof Reset_password_otpsScalarFieldEnum)[keyof typeof Reset_password_otpsScalarFieldEnum]
 
 
 export const TransactionsScalarFieldEnum = {
