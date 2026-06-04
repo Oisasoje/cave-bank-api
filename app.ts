@@ -21,4 +21,11 @@ app.use(cookieParser());
 
 app.use("/auth", authRoutes);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 export default app;
