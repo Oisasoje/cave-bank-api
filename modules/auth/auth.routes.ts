@@ -5,6 +5,9 @@ import {
   loginStart,
   loginVerify,
   signupStart,
+  signupVerifyOTP,
+  createPin,
+  resendOTP,
 } from "./auth.controller.js";
 import {
   loginLimiter,
@@ -14,6 +17,9 @@ import {
 const router = express.Router();
 
 router.post("/signup/start", signupLimiter, signupStart);
+router.post("/signup/verify", signupLimiter, signupVerifyOTP);
+router.post("/signup/resend-otp", signupLimiter, resendOTP);
+router.post("/signup/pin", createPin);
 router.post("/login/start", loginLimiter, loginStart);
 router.post("/login/verify", loginLimiter, loginVerify);
 

@@ -1,4 +1,3 @@
-import { log } from "@oisasoje/gloo";
 import argon2 from "argon2";
 
 async function verifyPin(hash: any, pin: any) {

@@ -5,9 +5,18 @@ import {
   signupAuthStart,
   logoutUser,
   loginAuthVerify,
+  signupAuthOTP,
+  signupCreatePin,
+  resendAuthOTP,
 } from "./auth.service.js";
-import { startSchema, verifySchema } from "./auth.schema.js";
+import {
+  resendOTPSchema,
+  startSchema,
+  verifyLoginSchema,
+  verifySignupOTP,
+} from "./auth.schema.js";
 import { Request, Response } from "express";
+import maskEmail from "../../utils/maskEmail.js";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -20,11 +29,73 @@ export async function signupStart(req: Request, res: Response) {
   try {
     const { phone } = result.data;
 
-    const attempt = await signupAuthStart(phone);
+    const { userEmail, attempt } = await signupAuthStart(phone);
+    const email = maskEmail(userEmail);
 
-    return res.status(200).send({ data: { id: attempt.id } });
+    return res.status(200).send({ data: { id: attempt.id, email } });
   } catch (err: any) {
     return res.status(400).json({ message: err.message });
+  }
+}
+
+export async function signupVerifyOTP(req: Request, res: Response) {
+  const result = verifySignupOTP.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ message: result.error.issues });
+  }
+  try {
+    const { id, otp } = result.data;
+
+    const { user } = await signupAuthOTP(id, otp);
+
+    let { id: userId, ..._ } = user;
+
+    res.json({
+      message: "Email verified successfully!",
+      data: {
+        id: userId,
+      },
+    });
+  } catch (err: any) {
+    error(err);
+    return res.status(401).json({ message: err.message });
+  }
+}
+
+export async function resendOTP(req: Request, res: Response) {
+  const result = resendOTPSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ message: result.error.issues });
+  }
+
+  try {
+    const { id } = result.data;
+
+    resendAuthOTP(id);
+  } catch (err: any) {
+    return res.status(401).json({ message: err.message });
+  }
+}
+
+export async function createPin(req: Request, res: Response) {
+  const { id, pin } = req.body;
+
+  try {
+    const { session, user } = await signupCreatePin(id, pin);
+    // Set the sessionId cookie for session authentication
+    res.cookie("sessionId", session.id, {
+      httpOnly: true,
+      path: "/",
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+    return res
+      .status(200)
+      .send({ message: "Pin created successfully", data: { user } });
+  } catch (err: any) {
+    error(err);
+    return res.status(401).json({ message: err.message });
   }
 }
 
@@ -46,7 +117,7 @@ export async function loginStart(req: Request, res: Response) {
 }
 
 export async function loginVerify(req: Request, res: Response) {
-  const result = verifySchema.safeParse(req.body);
+  const result = verifyLoginSchema.safeParse(req.body);
   if (!result.success) {
     return res.status(400).json({ message: result.error.issues });
   }
