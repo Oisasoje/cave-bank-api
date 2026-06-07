@@ -60,6 +60,7 @@ export const ModelName = {
   otps: 'otps',
   signup_otps: 'signup_otps',
   reset_password_otps: 'reset_password_otps',
+  signup_setup_tokens: 'signup_setup_tokens',
   transactions: 'transactions',
   treasuries: 'treasuries',
   treasury_signatories: 'treasury_signatories',
@@ -183,6 +184,16 @@ export const Reset_password_otpsScalarFieldEnum = {
 } as const
 
 export type Reset_password_otpsScalarFieldEnum = (typeof Reset_password_otpsScalarFieldEnum)[keyof typeof Reset_password_otpsScalarFieldEnum]
+
+
+export const Signup_setup_tokensScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expires_at: 'expires_at',
+  used: 'used'
+} as const
+
+export type Signup_setup_tokensScalarFieldEnum = (typeof Signup_setup_tokensScalarFieldEnum)[keyof typeof Signup_setup_tokensScalarFieldEnum]
 
 
 export const TransactionsScalarFieldEnum = {

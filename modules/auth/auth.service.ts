@@ -5,6 +5,7 @@ import { log, span } from "@oisasoje/gloo";
 import { generateSignupOTP } from "../../services/GenerateOTP.js";
 import { sendOTP } from "../../services/EmailService.js";
 import argon2 from "argon2";
+import { validateAndCreateWalletAddress } from "../../utils/validateAndCreateWalletAddress.js";
 
 const DUMMY_HASH = "$argon2id$v=19$m=65536,t=3,p=4$dummyhashdummyhashdummyhash";
 
@@ -18,12 +19,16 @@ export async function signupAuthStart(phone: string) {
   const userName = user.name;
   const userEmail = user.email;
 
-  const attempt = await prisma.signup_attempts.create({
-    data: {
-      phone,
-      expires_at: new Date(Date.now() + 1000 * 60 * 10),
-    },
-  });
+  log(`User found for phone ${phone}: ${userEmail} (${userName})`);
+
+  const attempt = await span("j", () =>
+    prisma.signup_attempts.create({
+      data: {
+        phone,
+        expires_at: new Date(Date.now() + 1000 * 60 * 10),
+      },
+    }),
+  );
 
   const otp = await generateSignupOTP(userEmail);
 
@@ -85,7 +90,14 @@ export async function signupAuthOTP(id: string, otp: string) {
   await prisma.signup_attempts.delete({ where: { id } });
   await prisma.signup_otps.delete({ where: { email: user.email } });
 
-  return { user };
+  const setupToken = await prisma.signup_setup_tokens.create({
+    data: {
+      userId: user.id,
+      expires_at: new Date(Date.now() + 1000 * 60 * 15), // 15 min
+    },
+  });
+
+  return { setupToken: setupToken.id };
 }
 
 export async function resendAuthOTP(id: string) {
@@ -97,31 +109,44 @@ export async function resendAuthOTP(id: string) {
   await sendOTP(email, name, otp);
 }
 
-export async function signupCreatePin(userId: string, pin: string) {
-  const user = await prisma.users.findUnique({
-    where: { id: userId },
+export async function signupCreatePin(setupToken: string, pin: string) {
+  const token = await prisma.signup_setup_tokens.findUnique({
+    where: { id: setupToken },
+    include: { users: true }, // ← corrected
   });
 
-  if (!user) throw new Error("Something unexpected occurred. Try again later.");
+  if (!token) throw new Error("Invalid or expired setup token.");
+  if (token.used) throw new Error("Setup token has already been used.");
+  if (token.expires_at < new Date()) {
+    await prisma.signup_setup_tokens.delete({ where: { id: setupToken } });
+    throw new Error("Setup token has expired. Please try again.");
+  }
 
   const hashedPin = await argon2.hash(pin);
 
   await prisma.users.update({
-    where: { id: userId },
+    where: { id: token.userId },
     data: { pin_hash: hashedPin, is_active: true },
   });
 
-  const {
-    pin_hash,
-    created_at,
-    updated_at,
-    is_active,
-    deactivated_at,
-    ...rest
-  } = user;
+  await createWallet(token.userId, token.users.phone);
 
-  const session = await createSession(userId);
-  return { session, user: rest };
+  await prisma.signup_setup_tokens.delete({ where: { id: setupToken } });
+
+  const session = await createSession(token.userId);
+  return { session };
+}
+
+async function createWallet(userID: string, phone: string) {
+  const result = validateAndCreateWalletAddress(phone);
+  if (!result.success) {
+    throw new Error(result.error);
+  }
+
+  const { walletAddress } = result;
+  await prisma.wallets.create({
+    data: { address: walletAddress, owner_user_id: userID },
+  });
 }
 
 export async function createSession(userId: string) {
@@ -226,6 +251,12 @@ export async function getSession(sessionId: string) {
   );
 
   if (!session) return null;
+  const wallet = await span("prisma.wallet.findUnique", () =>
+    prisma.users.findUnique({
+      where: { id: session?.user.id },
+      include: { wallets: true },
+    }),
+  );
 
   if (session.expires_at < new Date()) {
     await span("prisma.session.deleteMany", () =>
@@ -237,7 +268,7 @@ export async function getSession(sessionId: string) {
     return null;
   }
 
-  return session;
+  return { session, wallet_address: wallet?.wallets?.address };
 }
 
 export async function logoutUser(sessionId: string) {

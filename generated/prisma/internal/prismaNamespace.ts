@@ -393,6 +393,7 @@ export const ModelName = {
   otps: 'otps',
   signup_otps: 'signup_otps',
   reset_password_otps: 'reset_password_otps',
+  signup_setup_tokens: 'signup_setup_tokens',
   transactions: 'transactions',
   treasuries: 'treasuries',
   treasury_signatories: 'treasury_signatories',
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "session" | "login_attempts" | "signup_attempts" | "audit_log" | "bulk_transfers" | "mint_burn_events" | "otps" | "signup_otps" | "reset_password_otps" | "transactions" | "treasuries" | "treasury_signatories" | "users" | "wallets"
+    modelProps: "session" | "login_attempts" | "signup_attempts" | "audit_log" | "bulk_transfers" | "mint_burn_events" | "otps" | "signup_otps" | "reset_password_otps" | "signup_setup_tokens" | "transactions" | "treasuries" | "treasury_signatories" | "users" | "wallets"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1083,6 +1084,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    signup_setup_tokens: {
+      payload: Prisma.$signup_setup_tokensPayload<ExtArgs>
+      fields: Prisma.signup_setup_tokensFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.signup_setup_tokensFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.signup_setup_tokensFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>
+        }
+        findFirst: {
+          args: Prisma.signup_setup_tokensFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.signup_setup_tokensFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>
+        }
+        findMany: {
+          args: Prisma.signup_setup_tokensFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>[]
+        }
+        create: {
+          args: Prisma.signup_setup_tokensCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>
+        }
+        createMany: {
+          args: Prisma.signup_setup_tokensCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.signup_setup_tokensCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>[]
+        }
+        delete: {
+          args: Prisma.signup_setup_tokensDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>
+        }
+        update: {
+          args: Prisma.signup_setup_tokensUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>
+        }
+        deleteMany: {
+          args: Prisma.signup_setup_tokensDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.signup_setup_tokensUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.signup_setup_tokensUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>[]
+        }
+        upsert: {
+          args: Prisma.signup_setup_tokensUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$signup_setup_tokensPayload>
+        }
+        aggregate: {
+          args: Prisma.Signup_setup_tokensAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSignup_setup_tokens>
+        }
+        groupBy: {
+          args: Prisma.signup_setup_tokensGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Signup_setup_tokensGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.signup_setup_tokensCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Signup_setup_tokensCountAggregateOutputType> | number
+        }
+      }
+    }
     transactions: {
       payload: Prisma.$transactionsPayload<ExtArgs>
       fields: Prisma.transactionsFieldRefs
@@ -1594,6 +1669,16 @@ export const Reset_password_otpsScalarFieldEnum = {
 export type Reset_password_otpsScalarFieldEnum = (typeof Reset_password_otpsScalarFieldEnum)[keyof typeof Reset_password_otpsScalarFieldEnum]
 
 
+export const Signup_setup_tokensScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expires_at: 'expires_at',
+  used: 'used'
+} as const
+
+export type Signup_setup_tokensScalarFieldEnum = (typeof Signup_setup_tokensScalarFieldEnum)[keyof typeof Signup_setup_tokensScalarFieldEnum]
+
+
 export const TransactionsScalarFieldEnum = {
   id: 'id',
   amount: 'amount',
@@ -1976,6 +2061,7 @@ export type GlobalOmitConfig = {
   otps?: Prisma.otpsOmit
   signup_otps?: Prisma.signup_otpsOmit
   reset_password_otps?: Prisma.reset_password_otpsOmit
+  signup_setup_tokens?: Prisma.signup_setup_tokensOmit
   transactions?: Prisma.transactionsOmit
   treasuries?: Prisma.treasuriesOmit
   treasury_signatories?: Prisma.treasury_signatoriesOmit

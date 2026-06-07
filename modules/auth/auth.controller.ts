@@ -28,8 +28,12 @@ export async function signupStart(req: Request, res: Response) {
 
   try {
     const { phone } = result.data;
+    log(`Starting signup process for phone: ${phone}`);
 
     const { userEmail, attempt } = await signupAuthStart(phone);
+    log(
+      `Signup attempt created with ID: ${attempt.id} for email: ${userEmail}`,
+    );
     const email = maskEmail(userEmail);
 
     return res.status(200).send({ data: { id: attempt.id, email } });
@@ -46,14 +50,13 @@ export async function signupVerifyOTP(req: Request, res: Response) {
   try {
     const { id, otp } = result.data;
 
-    const { user } = await signupAuthOTP(id, otp);
-
-    let { id: userId, ..._ } = user;
+    const { setupToken } = await signupAuthOTP(id, otp);
+    log(`Sending OTP for signup userID: ${id}`);
 
     res.json({
       message: "Email verified successfully!",
       data: {
-        id: userId,
+        setup_token_id: setupToken,
       },
     });
   } catch (err: any) {
@@ -78,10 +81,10 @@ export async function resendOTP(req: Request, res: Response) {
 }
 
 export async function createPin(req: Request, res: Response) {
-  const { id, pin } = req.body;
+  const { setup_token_id, pin } = req.body;
 
   try {
-    const { session, user } = await signupCreatePin(id, pin);
+    const { session } = await signupCreatePin(setup_token_id, pin);
     // Set the sessionId cookie for session authentication
     res.cookie("sessionId", session.id, {
       httpOnly: true,
@@ -90,9 +93,7 @@ export async function createPin(req: Request, res: Response) {
       sameSite: isProd ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    return res
-      .status(200)
-      .send({ message: "Pin created successfully", data: { user } });
+    return res.status(200).send({ message: "Pin created successfully" });
   } catch (err: any) {
     error(err);
     return res.status(401).json({ message: err.message });
@@ -163,18 +164,23 @@ export async function me(req: any, res: any) {
     });
   }
 
-  const session = await span("getSession operation", () =>
+  const result = await span("getSession operation", () =>
     getSession(sessionId),
   );
 
-  if (!session) {
+  if (!result) throw new Error("Something went wrong. Try again later.");
+
+  if (!result.session) {
     return res.status(401).json({ message: "Authentication required." });
   }
 
-  const { pin_hash, ...userWithoutPin } = session.user;
+  const { pin_hash, academic_status, id, ...userWithoutPin } =
+    result.session.user;
+  const wallet_address = result.wallet_address;
 
   return res.json({
     user: userWithoutPin,
+    wallet_address,
   });
 }
 

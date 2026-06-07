@@ -318,6 +318,7 @@ export type usersWhereInput = {
   treasury_signatories?: Prisma.Treasury_signatoriesListRelationFilter
   wallets?: Prisma.XOR<Prisma.WalletsNullableScalarRelationFilter, Prisma.walletsWhereInput> | null
   sessions?: Prisma.SessionListRelationFilter
+  signup_setup_tokens?: Prisma.Signup_setup_tokensListRelationFilter
 }
 
 export type usersOrderByWithRelationInput = {
@@ -344,6 +345,7 @@ export type usersOrderByWithRelationInput = {
   treasury_signatories?: Prisma.treasury_signatoriesOrderByRelationAggregateInput
   wallets?: Prisma.walletsOrderByWithRelationInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensOrderByRelationAggregateInput
 }
 
 export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -373,6 +375,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   treasury_signatories?: Prisma.Treasury_signatoriesListRelationFilter
   wallets?: Prisma.XOR<Prisma.WalletsNullableScalarRelationFilter, Prisma.walletsWhereInput> | null
   sessions?: Prisma.SessionListRelationFilter
+  signup_setup_tokens?: Prisma.Signup_setup_tokensListRelationFilter
 }, "id" | "email" | "phone">
 
 export type usersOrderByWithAggregationInput = {
@@ -447,6 +450,7 @@ export type usersCreateInput = {
   treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateInput = {
@@ -473,6 +477,7 @@ export type usersUncheckedCreateInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersUpdateInput = {
@@ -499,6 +504,7 @@ export type usersUpdateInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateInput = {
@@ -525,6 +531,7 @@ export type usersUncheckedUpdateInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateManyInput = {
@@ -701,6 +708,20 @@ export type usersUpdateOneRequiredWithoutBulk_transfersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutBulk_transfersInput, Prisma.usersUpdateWithoutBulk_transfersInput>, Prisma.usersUncheckedUpdateWithoutBulk_transfersInput>
 }
 
+export type usersCreateNestedOneWithoutSignup_setup_tokensInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutSignup_setup_tokensInput, Prisma.usersUncheckedCreateWithoutSignup_setup_tokensInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutSignup_setup_tokensInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutSignup_setup_tokensNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutSignup_setup_tokensInput, Prisma.usersUncheckedCreateWithoutSignup_setup_tokensInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutSignup_setup_tokensInput
+  upsert?: Prisma.usersUpsertWithoutSignup_setup_tokensInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutSignup_setup_tokensInput, Prisma.usersUpdateWithoutSignup_setup_tokensInput>, Prisma.usersUncheckedUpdateWithoutSignup_setup_tokensInput>
+}
+
 export type usersCreateNestedOneWithoutTransactionsInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutTransactionsInput, Prisma.usersUncheckedCreateWithoutTransactionsInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutTransactionsInput
@@ -803,6 +824,7 @@ export type usersCreateWithoutSessionsInput = {
   treasuries?: Prisma.treasuriesCreateNestedManyWithoutUsersInput
   treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutSessionsInput = {
@@ -828,6 +850,7 @@ export type usersUncheckedCreateWithoutSessionsInput = {
   treasuries?: Prisma.treasuriesUncheckedCreateNestedManyWithoutUsersInput
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutSessionsInput = {
@@ -869,6 +892,7 @@ export type usersUpdateWithoutSessionsInput = {
   treasuries?: Prisma.treasuriesUpdateManyWithoutUsersNestedInput
   treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutSessionsInput = {
@@ -894,6 +918,7 @@ export type usersUncheckedUpdateWithoutSessionsInput = {
   treasuries?: Prisma.treasuriesUncheckedUpdateManyWithoutUsersNestedInput
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutBulk_transfersInput = {
@@ -919,6 +944,7 @@ export type usersCreateWithoutBulk_transfersInput = {
   treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutBulk_transfersInput = {
@@ -944,6 +970,7 @@ export type usersUncheckedCreateWithoutBulk_transfersInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutBulk_transfersInput = {
@@ -985,6 +1012,7 @@ export type usersUpdateWithoutBulk_transfersInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutBulk_transfersInput = {
@@ -1005,6 +1033,127 @@ export type usersUncheckedUpdateWithoutBulk_transfersInput = {
   deactivated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transactions?: Prisma.transactionsUncheckedUpdateManyWithoutUsersNestedInput
+  treasuries?: Prisma.treasuriesUncheckedUpdateManyWithoutUsersNestedInput
+  treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
+  wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
+}
+
+export type usersCreateWithoutSignup_setup_tokensInput = {
+  id: string
+  name: string
+  email: string
+  phone: string
+  birthday: Date | string
+  academic_status: $Enums.AcademicStatus
+  space: $Enums.Space
+  tribe?: $Enums.Tribe | null
+  schools_attended?: Prisma.usersCreateschools_attendedInput | $Enums.School[]
+  pin_hash?: string | null
+  is_admin?: boolean
+  member_since_year: number
+  member_since_month: number
+  is_active?: boolean
+  deactivated_at?: Date | string | null
+  created_at?: Date | string
+  updated_at: Date | string
+  bulk_transfers?: Prisma.bulk_transfersCreateNestedManyWithoutUsersInput
+  transactions?: Prisma.transactionsCreateNestedManyWithoutUsersInput
+  treasuries?: Prisma.treasuriesCreateNestedManyWithoutUsersInput
+  treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
+  wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type usersUncheckedCreateWithoutSignup_setup_tokensInput = {
+  id: string
+  name: string
+  email: string
+  phone: string
+  birthday: Date | string
+  academic_status: $Enums.AcademicStatus
+  space: $Enums.Space
+  tribe?: $Enums.Tribe | null
+  schools_attended?: Prisma.usersCreateschools_attendedInput | $Enums.School[]
+  pin_hash?: string | null
+  is_admin?: boolean
+  member_since_year: number
+  member_since_month: number
+  is_active?: boolean
+  deactivated_at?: Date | string | null
+  created_at?: Date | string
+  updated_at: Date | string
+  bulk_transfers?: Prisma.bulk_transfersUncheckedCreateNestedManyWithoutUsersInput
+  transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutUsersInput
+  treasuries?: Prisma.treasuriesUncheckedCreateNestedManyWithoutUsersInput
+  treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
+  wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type usersCreateOrConnectWithoutSignup_setup_tokensInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutSignup_setup_tokensInput, Prisma.usersUncheckedCreateWithoutSignup_setup_tokensInput>
+}
+
+export type usersUpsertWithoutSignup_setup_tokensInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutSignup_setup_tokensInput, Prisma.usersUncheckedUpdateWithoutSignup_setup_tokensInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutSignup_setup_tokensInput, Prisma.usersUncheckedCreateWithoutSignup_setup_tokensInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutSignup_setup_tokensInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutSignup_setup_tokensInput, Prisma.usersUncheckedUpdateWithoutSignup_setup_tokensInput>
+}
+
+export type usersUpdateWithoutSignup_setup_tokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_status?: Prisma.EnumAcademicStatusFieldUpdateOperationsInput | $Enums.AcademicStatus
+  space?: Prisma.EnumSpaceFieldUpdateOperationsInput | $Enums.Space
+  tribe?: Prisma.NullableEnumTribeFieldUpdateOperationsInput | $Enums.Tribe | null
+  schools_attended?: Prisma.usersUpdateschools_attendedInput | $Enums.School[]
+  pin_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_admin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  member_since_year?: Prisma.IntFieldUpdateOperationsInput | number
+  member_since_month?: Prisma.IntFieldUpdateOperationsInput | number
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deactivated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUpdateManyWithoutUsersNestedInput
+  transactions?: Prisma.transactionsUpdateManyWithoutUsersNestedInput
+  treasuries?: Prisma.treasuriesUpdateManyWithoutUsersNestedInput
+  treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
+  wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type usersUncheckedUpdateWithoutSignup_setup_tokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_status?: Prisma.EnumAcademicStatusFieldUpdateOperationsInput | $Enums.AcademicStatus
+  space?: Prisma.EnumSpaceFieldUpdateOperationsInput | $Enums.Space
+  tribe?: Prisma.NullableEnumTribeFieldUpdateOperationsInput | $Enums.Tribe | null
+  schools_attended?: Prisma.usersUpdateschools_attendedInput | $Enums.School[]
+  pin_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_admin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  member_since_year?: Prisma.IntFieldUpdateOperationsInput | number
+  member_since_month?: Prisma.IntFieldUpdateOperationsInput | number
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deactivated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUncheckedUpdateManyWithoutUsersNestedInput
   transactions?: Prisma.transactionsUncheckedUpdateManyWithoutUsersNestedInput
   treasuries?: Prisma.treasuriesUncheckedUpdateManyWithoutUsersNestedInput
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
@@ -1035,6 +1184,7 @@ export type usersCreateWithoutTransactionsInput = {
   treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutTransactionsInput = {
@@ -1060,6 +1210,7 @@ export type usersUncheckedCreateWithoutTransactionsInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutTransactionsInput = {
@@ -1101,6 +1252,7 @@ export type usersUpdateWithoutTransactionsInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutTransactionsInput = {
@@ -1126,6 +1278,7 @@ export type usersUncheckedUpdateWithoutTransactionsInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutTreasuriesInput = {
@@ -1151,6 +1304,7 @@ export type usersCreateWithoutTreasuriesInput = {
   treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutTreasuriesInput = {
@@ -1176,6 +1330,7 @@ export type usersUncheckedCreateWithoutTreasuriesInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutTreasuriesInput = {
@@ -1217,6 +1372,7 @@ export type usersUpdateWithoutTreasuriesInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutTreasuriesInput = {
@@ -1242,6 +1398,7 @@ export type usersUncheckedUpdateWithoutTreasuriesInput = {
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutTreasury_signatoriesInput = {
@@ -1267,6 +1424,7 @@ export type usersCreateWithoutTreasury_signatoriesInput = {
   treasuries?: Prisma.treasuriesCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutTreasury_signatoriesInput = {
@@ -1292,6 +1450,7 @@ export type usersUncheckedCreateWithoutTreasury_signatoriesInput = {
   treasuries?: Prisma.treasuriesUncheckedCreateNestedManyWithoutUsersInput
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutTreasury_signatoriesInput = {
@@ -1333,6 +1492,7 @@ export type usersUpdateWithoutTreasury_signatoriesInput = {
   treasuries?: Prisma.treasuriesUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutTreasury_signatoriesInput = {
@@ -1358,6 +1518,7 @@ export type usersUncheckedUpdateWithoutTreasury_signatoriesInput = {
   treasuries?: Prisma.treasuriesUncheckedUpdateManyWithoutUsersNestedInput
   wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 export type usersCreateWithoutWalletsInput = {
@@ -1383,6 +1544,7 @@ export type usersCreateWithoutWalletsInput = {
   treasuries?: Prisma.treasuriesCreateNestedManyWithoutUsersInput
   treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
 }
 
 export type usersUncheckedCreateWithoutWalletsInput = {
@@ -1408,6 +1570,7 @@ export type usersUncheckedCreateWithoutWalletsInput = {
   treasuries?: Prisma.treasuriesUncheckedCreateNestedManyWithoutUsersInput
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
 }
 
 export type usersCreateOrConnectWithoutWalletsInput = {
@@ -1449,6 +1612,7 @@ export type usersUpdateWithoutWalletsInput = {
   treasuries?: Prisma.treasuriesUpdateManyWithoutUsersNestedInput
   treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
 }
 
 export type usersUncheckedUpdateWithoutWalletsInput = {
@@ -1474,6 +1638,7 @@ export type usersUncheckedUpdateWithoutWalletsInput = {
   treasuries?: Prisma.treasuriesUncheckedUpdateManyWithoutUsersNestedInput
   treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
 }
 
 
@@ -1487,6 +1652,7 @@ export type UsersCountOutputType = {
   treasuries: number
   treasury_signatories: number
   sessions: number
+  signup_setup_tokens: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1495,6 +1661,7 @@ export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   treasuries?: boolean | UsersCountOutputTypeCountTreasuriesArgs
   treasury_signatories?: boolean | UsersCountOutputTypeCountTreasury_signatoriesArgs
   sessions?: boolean | UsersCountOutputTypeCountSessionsArgs
+  signup_setup_tokens?: boolean | UsersCountOutputTypeCountSignup_setup_tokensArgs
 }
 
 /**
@@ -1542,6 +1709,13 @@ export type UsersCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.SessionWhereInput
 }
 
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountSignup_setup_tokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.signup_setup_tokensWhereInput
+}
+
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1567,6 +1741,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   treasury_signatories?: boolean | Prisma.users$treasury_signatoriesArgs<ExtArgs>
   wallets?: boolean | Prisma.users$walletsArgs<ExtArgs>
   sessions?: boolean | Prisma.users$sessionsArgs<ExtArgs>
+  signup_setup_tokens?: boolean | Prisma.users$signup_setup_tokensArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -1638,6 +1813,7 @@ export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   treasury_signatories?: boolean | Prisma.users$treasury_signatoriesArgs<ExtArgs>
   wallets?: boolean | Prisma.users$walletsArgs<ExtArgs>
   sessions?: boolean | Prisma.users$sessionsArgs<ExtArgs>
+  signup_setup_tokens?: boolean | Prisma.users$signup_setup_tokensArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1652,6 +1828,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     treasury_signatories: Prisma.$treasury_signatoriesPayload<ExtArgs>[]
     wallets: Prisma.$walletsPayload<ExtArgs> | null
     sessions: Prisma.$SessionPayload<ExtArgs>[]
+    signup_setup_tokens: Prisma.$signup_setup_tokensPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2071,6 +2248,7 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
   treasury_signatories<T extends Prisma.users$treasury_signatoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$treasury_signatoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$treasury_signatoriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   wallets<T extends Prisma.users$walletsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$walletsArgs<ExtArgs>>): Prisma.Prisma__walletsClient<runtime.Types.Result.GetResult<Prisma.$walletsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sessions<T extends Prisma.users$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  signup_setup_tokens<T extends Prisma.users$signup_setup_tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$signup_setup_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$signup_setup_tokensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2646,6 +2824,30 @@ export type users$sessionsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+}
+
+/**
+ * users.signup_setup_tokens
+ */
+export type users$signup_setup_tokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the signup_setup_tokens
+   */
+  select?: Prisma.signup_setup_tokensSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the signup_setup_tokens
+   */
+  omit?: Prisma.signup_setup_tokensOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.signup_setup_tokensInclude<ExtArgs> | null
+  where?: Prisma.signup_setup_tokensWhereInput
+  orderBy?: Prisma.signup_setup_tokensOrderByWithRelationInput | Prisma.signup_setup_tokensOrderByWithRelationInput[]
+  cursor?: Prisma.signup_setup_tokensWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Signup_setup_tokensScalarFieldEnum | Prisma.Signup_setup_tokensScalarFieldEnum[]
 }
 
 /**

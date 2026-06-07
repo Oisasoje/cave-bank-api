@@ -389,10 +389,6 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type treasuriesCreateNestedOneWithoutTreasury_signatoriesInput = {
   create?: Prisma.XOR<Prisma.treasuriesCreateWithoutTreasury_signatoriesInput, Prisma.treasuriesUncheckedCreateWithoutTreasury_signatoriesInput>
   connectOrCreate?: Prisma.treasuriesCreateOrConnectWithoutTreasury_signatoriesInput

@@ -88,6 +88,14 @@ model reset_password_otps {
   attempts   Int      @default(0)
 }
 
+model signup_setup_tokens {
+  id         String   @id @default(uuid())
+  userId     String
+  expires_at DateTime
+  used       Boolean  @default(false)
+  users      users    @relation(fields: [userId], references: [id])
+}
+
 model transactions {
   id                                         String          @id
   amount                                     Int
@@ -150,6 +158,7 @@ model users {
   treasury_signatories treasury_signatories[]
   wallets              wallets?
   sessions             Session[]
+  signup_setup_tokens  signup_setup_tokens[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

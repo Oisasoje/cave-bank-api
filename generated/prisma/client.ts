@@ -87,6 +87,11 @@ export type signup_otps = Prisma.signup_otpsModel
  */
 export type reset_password_otps = Prisma.reset_password_otpsModel
 /**
+ * Model signup_setup_tokens
+ * 
+ */
+export type signup_setup_tokens = Prisma.signup_setup_tokensModel
+/**
  * Model transactions
  * 
  */
