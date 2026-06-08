@@ -1,4 +1,5 @@
 import { prisma } from "../../lib/prisma.js";
+import crypto from "crypto";
 
 export default async function transferService({
   fromAccountId,
@@ -15,73 +16,80 @@ export default async function transferService({
   reason?: string;
   initiatedById: string;
 }) {
-  return prisma.$transaction(async (tx: any) => {
-    // STEP 1: idempotency check
+  return prisma.$transaction(async (tx) => {
+    // 1. IDEMPOTENCY CHECK
     const existing = await tx.transactions.findUnique({
       where: { reference },
     });
 
     if (existing) return existing;
 
-    // STEP 2: lock sender account
-    const sender = await tx.accounts.findUnique({
-      where: { id: fromAccountId },
+    // 2. VERIFY ACCOUNTS EXIST (no extra logic)
+    const [senderAccount, receiverAccount] = await Promise.all([
+      tx.accounts.findUnique({ where: { id: fromAccountId } }),
+      tx.accounts.findUnique({ where: { id: toAccountId } }),
+    ]);
+
+    if (!senderAccount || !receiverAccount) {
+      throw new Error("Invalid accounts");
+    }
+
+    // 3. ATOMIC DEBIT (single source of truth for balance safety)
+    const debitResult = await tx.wallets.updateMany({
+      where: {
+        address: senderAccount.address,
+        balance: { gte: amount },
+      },
+      data: {
+        balance: { decrement: amount },
+      },
     });
 
-    const receiver = await tx.accounts.findUnique({
-      where: { id: toAccountId },
-    });
-
-    if (!sender || !receiver) throw new Error("Invalid accounts");
-
-    // STEP 3: balance check
-    if (sender.balance < amount) {
+    if (debitResult.count === 0) {
       throw new Error("Insufficient funds");
     }
 
-    // STEP 4: create transaction
+    // 4. CREDIT (no need to pre-read wallet)
+    await tx.wallets.update({
+      where: { address: receiverAccount.address },
+      data: {
+        balance: { increment: amount },
+      },
+    });
+
+    // 5. TRANSACTION RECORD (audit/event layer)
     const transaction = await tx.transactions.create({
       data: {
         id: crypto.randomUUID(),
         amount,
         reference,
-        reason,
+        reason: reason ?? "transfer",
         initiated_by_id: initiatedById,
-        from_address: fromAccountId,
-        to_address: toAccountId,
+        from_account_id: fromAccountId,
+        to_account_id: toAccountId,
+        from_address: senderAccount.address,
+        to_address: receiverAccount.address,
       },
     });
 
-    // STEP 5: ledger entries
-    await tx.ledger_entries.create({
-      data: {
-        id: crypto.randomUUID(),
-        transaction_id: transaction.id,
-        account_id: fromAccountId,
-        debit: amount,
-        credit: 0,
-      },
-    });
-
-    await tx.ledger_entries.create({
-      data: {
-        id: crypto.randomUUID(),
-        transaction_id: transaction.id,
-        account_id: toAccountId,
-        debit: 0,
-        credit: amount,
-      },
-    });
-
-    // STEP 6: update balances
-    await tx.accounts.update({
-      where: { id: fromAccountId },
-      data: { balance: { decrement: amount } },
-    });
-
-    await tx.accounts.update({
-      where: { id: toAccountId },
-      data: { balance: { increment: amount } },
+    // 6. LEDGER (truth layer)
+    await tx.ledger_entries.createMany({
+      data: [
+        {
+          id: crypto.randomUUID(),
+          transaction_id: transaction.id,
+          account_id: fromAccountId,
+          debit: amount,
+          credit: 0,
+        },
+        {
+          id: crypto.randomUUID(),
+          transaction_id: transaction.id,
+          account_id: toAccountId,
+          debit: 0,
+          credit: amount,
+        },
+      ],
     });
 
     return transaction;
