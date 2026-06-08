@@ -9,6 +9,20 @@ datasource db {
   provider = "postgresql"
 }
 
+model accounts {
+  id       String      @id @default(uuid())
+  address  String      @unique
+  owner_id String?
+  type     AccountType
+
+  created_at DateTime @default(now())
+
+  ledger_entries ledger_entries[]
+
+  transactions_from transactions[] @relation("account_from")
+  transactions_to   transactions[] @relation("account_to")
+}
+
 model Session {
   id         String   @id @default(uuid())
   user       users    @relation(fields: [userId], references: [id])
@@ -40,6 +54,21 @@ model audit_log {
   old_data    Json?
   new_data    Json?
   executed_at DateTime @default(now())
+}
+
+model ledger_entries {
+  id String @id @default(uuid())
+
+  transaction_id String
+  account_id     String
+
+  debit  Int @default(0)
+  credit Int @default(0)
+
+  created_at DateTime @default(now())
+
+  transactions transactions @relation(fields: [transaction_id], references: [id])
+  accounts     accounts     @relation(fields: [account_id], references: [id])
 }
 
 model bulk_transfers {
@@ -98,17 +127,25 @@ model signup_setup_tokens {
 
 model transactions {
   id                                         String          @id
+  created_at                                 DateTime        @default(now())
   amount                                     Int
+  reference                                  String?         @unique
   reason                                     String
   timestamp                                  DateTime        @default(now())
   initiated_by_id                            String
   from_address                               String
   to_address                                 String
+  from_account_id                            String?
+  to_account_id                              String?
   bulk_transfer_id                           String?
   bulk_transfers                             bulk_transfers? @relation(fields: [bulk_transfer_id], references: [id])
   wallets_transactions_from_addressTowallets wallets         @relation("transactions_from_addressTowallets", fields: [from_address], references: [address])
   users                                      users           @relation(fields: [initiated_by_id], references: [id])
   wallets_transactions_to_addressTowallets   wallets         @relation("transactions_to_addressTowallets", fields: [to_address], references: [address])
+  accounts_from                              accounts?       @relation("account_from", fields: [from_account_id], references: [id])
+  accounts_to                                accounts?       @relation("account_to", fields: [to_account_id], references: [id])
+
+  ledger_lines ledger_entries[]
 }
 
 model treasuries {
@@ -203,4 +240,10 @@ enum Tribe {
   Creative
   Business
   Impact
+}
+
+enum AccountType {
+  USER
+  TREASURY
+  SYSTEM
 }

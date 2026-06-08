@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums.js'
 export * from './enums.js';
 /**
+ * Model accounts
+ * 
+ */
+export type accounts = Prisma.accountsModel
+/**
  * Model Session
  * 
  */
@@ -37,6 +42,11 @@ export type signup_attempts = Prisma.signup_attemptsModel
  * 
  */
 export type audit_log = Prisma.audit_logModel
+/**
+ * Model ledger_entries
+ * 
+ */
+export type ledger_entries = Prisma.ledger_entriesModel
 /**
  * Model bulk_transfers
  * 

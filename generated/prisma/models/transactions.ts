@@ -36,34 +36,46 @@ export type TransactionsSumAggregateOutputType = {
 
 export type TransactionsMinAggregateOutputType = {
   id: string | null
+  created_at: Date | null
   amount: number | null
+  reference: string | null
   reason: string | null
   timestamp: Date | null
   initiated_by_id: string | null
   from_address: string | null
   to_address: string | null
+  from_account_id: string | null
+  to_account_id: string | null
   bulk_transfer_id: string | null
 }
 
 export type TransactionsMaxAggregateOutputType = {
   id: string | null
+  created_at: Date | null
   amount: number | null
+  reference: string | null
   reason: string | null
   timestamp: Date | null
   initiated_by_id: string | null
   from_address: string | null
   to_address: string | null
+  from_account_id: string | null
+  to_account_id: string | null
   bulk_transfer_id: string | null
 }
 
 export type TransactionsCountAggregateOutputType = {
   id: number
+  created_at: number
   amount: number
+  reference: number
   reason: number
   timestamp: number
   initiated_by_id: number
   from_address: number
   to_address: number
+  from_account_id: number
+  to_account_id: number
   bulk_transfer_id: number
   _all: number
 }
@@ -79,34 +91,46 @@ export type TransactionsSumAggregateInputType = {
 
 export type TransactionsMinAggregateInputType = {
   id?: true
+  created_at?: true
   amount?: true
+  reference?: true
   reason?: true
   timestamp?: true
   initiated_by_id?: true
   from_address?: true
   to_address?: true
+  from_account_id?: true
+  to_account_id?: true
   bulk_transfer_id?: true
 }
 
 export type TransactionsMaxAggregateInputType = {
   id?: true
+  created_at?: true
   amount?: true
+  reference?: true
   reason?: true
   timestamp?: true
   initiated_by_id?: true
   from_address?: true
   to_address?: true
+  from_account_id?: true
+  to_account_id?: true
   bulk_transfer_id?: true
 }
 
 export type TransactionsCountAggregateInputType = {
   id?: true
+  created_at?: true
   amount?: true
+  reference?: true
   reason?: true
   timestamp?: true
   initiated_by_id?: true
   from_address?: true
   to_address?: true
+  from_account_id?: true
+  to_account_id?: true
   bulk_transfer_id?: true
   _all?: true
 }
@@ -199,12 +223,16 @@ export type transactionsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 
 export type TransactionsGroupByOutputType = {
   id: string
+  created_at: Date
   amount: number
+  reference: string | null
   reason: string
   timestamp: Date
   initiated_by_id: string
   from_address: string
   to_address: string
+  from_account_id: string | null
+  to_account_id: string | null
   bulk_transfer_id: string | null
   _count: TransactionsCountAggregateOutputType | null
   _avg: TransactionsAvgAggregateOutputType | null
@@ -233,60 +261,85 @@ export type transactionsWhereInput = {
   OR?: Prisma.transactionsWhereInput[]
   NOT?: Prisma.transactionsWhereInput | Prisma.transactionsWhereInput[]
   id?: Prisma.StringFilter<"transactions"> | string
+  created_at?: Prisma.DateTimeFilter<"transactions"> | Date | string
   amount?: Prisma.IntFilter<"transactions"> | number
+  reference?: Prisma.StringNullableFilter<"transactions"> | string | null
   reason?: Prisma.StringFilter<"transactions"> | string
   timestamp?: Prisma.DateTimeFilter<"transactions"> | Date | string
   initiated_by_id?: Prisma.StringFilter<"transactions"> | string
   from_address?: Prisma.StringFilter<"transactions"> | string
   to_address?: Prisma.StringFilter<"transactions"> | string
+  from_account_id?: Prisma.StringNullableFilter<"transactions"> | string | null
+  to_account_id?: Prisma.StringNullableFilter<"transactions"> | string | null
   bulk_transfer_id?: Prisma.StringNullableFilter<"transactions"> | string | null
   bulk_transfers?: Prisma.XOR<Prisma.Bulk_transfersNullableScalarRelationFilter, Prisma.bulk_transfersWhereInput> | null
   wallets_transactions_from_addressTowallets?: Prisma.XOR<Prisma.WalletsScalarRelationFilter, Prisma.walletsWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   wallets_transactions_to_addressTowallets?: Prisma.XOR<Prisma.WalletsScalarRelationFilter, Prisma.walletsWhereInput>
+  accounts_from?: Prisma.XOR<Prisma.AccountsNullableScalarRelationFilter, Prisma.accountsWhereInput> | null
+  accounts_to?: Prisma.XOR<Prisma.AccountsNullableScalarRelationFilter, Prisma.accountsWhereInput> | null
+  ledger_lines?: Prisma.Ledger_entriesListRelationFilter
 }
 
 export type transactionsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  reference?: Prisma.SortOrderInput | Prisma.SortOrder
   reason?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   initiated_by_id?: Prisma.SortOrder
   from_address?: Prisma.SortOrder
   to_address?: Prisma.SortOrder
+  from_account_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  to_account_id?: Prisma.SortOrderInput | Prisma.SortOrder
   bulk_transfer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   bulk_transfers?: Prisma.bulk_transfersOrderByWithRelationInput
   wallets_transactions_from_addressTowallets?: Prisma.walletsOrderByWithRelationInput
   users?: Prisma.usersOrderByWithRelationInput
   wallets_transactions_to_addressTowallets?: Prisma.walletsOrderByWithRelationInput
+  accounts_from?: Prisma.accountsOrderByWithRelationInput
+  accounts_to?: Prisma.accountsOrderByWithRelationInput
+  ledger_lines?: Prisma.ledger_entriesOrderByRelationAggregateInput
 }
 
 export type transactionsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  reference?: string
   AND?: Prisma.transactionsWhereInput | Prisma.transactionsWhereInput[]
   OR?: Prisma.transactionsWhereInput[]
   NOT?: Prisma.transactionsWhereInput | Prisma.transactionsWhereInput[]
+  created_at?: Prisma.DateTimeFilter<"transactions"> | Date | string
   amount?: Prisma.IntFilter<"transactions"> | number
   reason?: Prisma.StringFilter<"transactions"> | string
   timestamp?: Prisma.DateTimeFilter<"transactions"> | Date | string
   initiated_by_id?: Prisma.StringFilter<"transactions"> | string
   from_address?: Prisma.StringFilter<"transactions"> | string
   to_address?: Prisma.StringFilter<"transactions"> | string
+  from_account_id?: Prisma.StringNullableFilter<"transactions"> | string | null
+  to_account_id?: Prisma.StringNullableFilter<"transactions"> | string | null
   bulk_transfer_id?: Prisma.StringNullableFilter<"transactions"> | string | null
   bulk_transfers?: Prisma.XOR<Prisma.Bulk_transfersNullableScalarRelationFilter, Prisma.bulk_transfersWhereInput> | null
   wallets_transactions_from_addressTowallets?: Prisma.XOR<Prisma.WalletsScalarRelationFilter, Prisma.walletsWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
   wallets_transactions_to_addressTowallets?: Prisma.XOR<Prisma.WalletsScalarRelationFilter, Prisma.walletsWhereInput>
-}, "id">
+  accounts_from?: Prisma.XOR<Prisma.AccountsNullableScalarRelationFilter, Prisma.accountsWhereInput> | null
+  accounts_to?: Prisma.XOR<Prisma.AccountsNullableScalarRelationFilter, Prisma.accountsWhereInput> | null
+  ledger_lines?: Prisma.Ledger_entriesListRelationFilter
+}, "id" | "reference">
 
 export type transactionsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  reference?: Prisma.SortOrderInput | Prisma.SortOrder
   reason?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   initiated_by_id?: Prisma.SortOrder
   from_address?: Prisma.SortOrder
   to_address?: Prisma.SortOrder
+  from_account_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  to_account_id?: Prisma.SortOrderInput | Prisma.SortOrder
   bulk_transfer_id?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.transactionsCountOrderByAggregateInput
   _avg?: Prisma.transactionsAvgOrderByAggregateInput
@@ -300,85 +353,119 @@ export type transactionsScalarWhereWithAggregatesInput = {
   OR?: Prisma.transactionsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.transactionsScalarWhereWithAggregatesInput | Prisma.transactionsScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"transactions"> | string
+  created_at?: Prisma.DateTimeWithAggregatesFilter<"transactions"> | Date | string
   amount?: Prisma.IntWithAggregatesFilter<"transactions"> | number
+  reference?: Prisma.StringNullableWithAggregatesFilter<"transactions"> | string | null
   reason?: Prisma.StringWithAggregatesFilter<"transactions"> | string
   timestamp?: Prisma.DateTimeWithAggregatesFilter<"transactions"> | Date | string
   initiated_by_id?: Prisma.StringWithAggregatesFilter<"transactions"> | string
   from_address?: Prisma.StringWithAggregatesFilter<"transactions"> | string
   to_address?: Prisma.StringWithAggregatesFilter<"transactions"> | string
+  from_account_id?: Prisma.StringNullableWithAggregatesFilter<"transactions"> | string | null
+  to_account_id?: Prisma.StringNullableWithAggregatesFilter<"transactions"> | string | null
   bulk_transfer_id?: Prisma.StringNullableWithAggregatesFilter<"transactions"> | string | null
 }
 
 export type transactionsCreateInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   bulk_transfers?: Prisma.bulk_transfersCreateNestedOneWithoutTransactionsInput
   wallets_transactions_from_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_from_addressTowalletsInput
   users: Prisma.usersCreateNestedOneWithoutTransactionsInput
   wallets_transactions_to_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_to_addressTowalletsInput
+  accounts_from?: Prisma.accountsCreateNestedOneWithoutTransactions_fromInput
+  accounts_to?: Prisma.accountsCreateNestedOneWithoutTransactions_toInput
+  ledger_lines?: Prisma.ledger_entriesCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsUncheckedCreateInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   initiated_by_id: string
   from_address: string
   to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
   bulk_transfer_id?: string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bulk_transfers?: Prisma.bulk_transfersUpdateOneWithoutTransactionsNestedInput
   wallets_transactions_from_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_from_addressTowalletsNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutTransactionsNestedInput
   wallets_transactions_to_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_to_addressTowalletsNestedInput
+  accounts_from?: Prisma.accountsUpdateOneWithoutTransactions_fromNestedInput
+  accounts_to?: Prisma.accountsUpdateOneWithoutTransactions_toNestedInput
+  ledger_lines?: Prisma.ledger_entriesUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
   from_address?: Prisma.StringFieldUpdateOperationsInput | string
   to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsCreateManyInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   initiated_by_id: string
   from_address: string
   to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
   bulk_transfer_id?: string | null
 }
 
 export type transactionsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type transactionsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
   from_address?: Prisma.StringFieldUpdateOperationsInput | string
   to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -392,14 +479,23 @@ export type transactionsOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type TransactionsScalarRelationFilter = {
+  is?: Prisma.transactionsWhereInput
+  isNot?: Prisma.transactionsWhereInput
+}
+
 export type transactionsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   initiated_by_id?: Prisma.SortOrder
   from_address?: Prisma.SortOrder
   to_address?: Prisma.SortOrder
+  from_account_id?: Prisma.SortOrder
+  to_account_id?: Prisma.SortOrder
   bulk_transfer_id?: Prisma.SortOrder
 }
 
@@ -409,28 +505,134 @@ export type transactionsAvgOrderByAggregateInput = {
 
 export type transactionsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   initiated_by_id?: Prisma.SortOrder
   from_address?: Prisma.SortOrder
   to_address?: Prisma.SortOrder
+  from_account_id?: Prisma.SortOrder
+  to_account_id?: Prisma.SortOrder
   bulk_transfer_id?: Prisma.SortOrder
 }
 
 export type transactionsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  created_at?: Prisma.SortOrder
   amount?: Prisma.SortOrder
+  reference?: Prisma.SortOrder
   reason?: Prisma.SortOrder
   timestamp?: Prisma.SortOrder
   initiated_by_id?: Prisma.SortOrder
   from_address?: Prisma.SortOrder
   to_address?: Prisma.SortOrder
+  from_account_id?: Prisma.SortOrder
+  to_account_id?: Prisma.SortOrder
   bulk_transfer_id?: Prisma.SortOrder
 }
 
 export type transactionsSumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+}
+
+export type transactionsCreateNestedManyWithoutAccounts_fromInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_fromInput, Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput> | Prisma.transactionsCreateWithoutAccounts_fromInput[] | Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput[]
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutAccounts_fromInput | Prisma.transactionsCreateOrConnectWithoutAccounts_fromInput[]
+  createMany?: Prisma.transactionsCreateManyAccounts_fromInputEnvelope
+  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+}
+
+export type transactionsCreateNestedManyWithoutAccounts_toInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_toInput, Prisma.transactionsUncheckedCreateWithoutAccounts_toInput> | Prisma.transactionsCreateWithoutAccounts_toInput[] | Prisma.transactionsUncheckedCreateWithoutAccounts_toInput[]
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutAccounts_toInput | Prisma.transactionsCreateOrConnectWithoutAccounts_toInput[]
+  createMany?: Prisma.transactionsCreateManyAccounts_toInputEnvelope
+  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+}
+
+export type transactionsUncheckedCreateNestedManyWithoutAccounts_fromInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_fromInput, Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput> | Prisma.transactionsCreateWithoutAccounts_fromInput[] | Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput[]
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutAccounts_fromInput | Prisma.transactionsCreateOrConnectWithoutAccounts_fromInput[]
+  createMany?: Prisma.transactionsCreateManyAccounts_fromInputEnvelope
+  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+}
+
+export type transactionsUncheckedCreateNestedManyWithoutAccounts_toInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_toInput, Prisma.transactionsUncheckedCreateWithoutAccounts_toInput> | Prisma.transactionsCreateWithoutAccounts_toInput[] | Prisma.transactionsUncheckedCreateWithoutAccounts_toInput[]
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutAccounts_toInput | Prisma.transactionsCreateOrConnectWithoutAccounts_toInput[]
+  createMany?: Prisma.transactionsCreateManyAccounts_toInputEnvelope
+  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+}
+
+export type transactionsUpdateManyWithoutAccounts_fromNestedInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_fromInput, Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput> | Prisma.transactionsCreateWithoutAccounts_fromInput[] | Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput[]
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutAccounts_fromInput | Prisma.transactionsCreateOrConnectWithoutAccounts_fromInput[]
+  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutAccounts_fromInput | Prisma.transactionsUpsertWithWhereUniqueWithoutAccounts_fromInput[]
+  createMany?: Prisma.transactionsCreateManyAccounts_fromInputEnvelope
+  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutAccounts_fromInput | Prisma.transactionsUpdateWithWhereUniqueWithoutAccounts_fromInput[]
+  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutAccounts_fromInput | Prisma.transactionsUpdateManyWithWhereWithoutAccounts_fromInput[]
+  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
+}
+
+export type transactionsUpdateManyWithoutAccounts_toNestedInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_toInput, Prisma.transactionsUncheckedCreateWithoutAccounts_toInput> | Prisma.transactionsCreateWithoutAccounts_toInput[] | Prisma.transactionsUncheckedCreateWithoutAccounts_toInput[]
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutAccounts_toInput | Prisma.transactionsCreateOrConnectWithoutAccounts_toInput[]
+  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutAccounts_toInput | Prisma.transactionsUpsertWithWhereUniqueWithoutAccounts_toInput[]
+  createMany?: Prisma.transactionsCreateManyAccounts_toInputEnvelope
+  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutAccounts_toInput | Prisma.transactionsUpdateWithWhereUniqueWithoutAccounts_toInput[]
+  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutAccounts_toInput | Prisma.transactionsUpdateManyWithWhereWithoutAccounts_toInput[]
+  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
+}
+
+export type transactionsUncheckedUpdateManyWithoutAccounts_fromNestedInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_fromInput, Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput> | Prisma.transactionsCreateWithoutAccounts_fromInput[] | Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput[]
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutAccounts_fromInput | Prisma.transactionsCreateOrConnectWithoutAccounts_fromInput[]
+  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutAccounts_fromInput | Prisma.transactionsUpsertWithWhereUniqueWithoutAccounts_fromInput[]
+  createMany?: Prisma.transactionsCreateManyAccounts_fromInputEnvelope
+  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutAccounts_fromInput | Prisma.transactionsUpdateWithWhereUniqueWithoutAccounts_fromInput[]
+  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutAccounts_fromInput | Prisma.transactionsUpdateManyWithWhereWithoutAccounts_fromInput[]
+  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
+}
+
+export type transactionsUncheckedUpdateManyWithoutAccounts_toNestedInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_toInput, Prisma.transactionsUncheckedCreateWithoutAccounts_toInput> | Prisma.transactionsCreateWithoutAccounts_toInput[] | Prisma.transactionsUncheckedCreateWithoutAccounts_toInput[]
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutAccounts_toInput | Prisma.transactionsCreateOrConnectWithoutAccounts_toInput[]
+  upsert?: Prisma.transactionsUpsertWithWhereUniqueWithoutAccounts_toInput | Prisma.transactionsUpsertWithWhereUniqueWithoutAccounts_toInput[]
+  createMany?: Prisma.transactionsCreateManyAccounts_toInputEnvelope
+  set?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  disconnect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  delete?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  connect?: Prisma.transactionsWhereUniqueInput | Prisma.transactionsWhereUniqueInput[]
+  update?: Prisma.transactionsUpdateWithWhereUniqueWithoutAccounts_toInput | Prisma.transactionsUpdateWithWhereUniqueWithoutAccounts_toInput[]
+  updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutAccounts_toInput | Prisma.transactionsUpdateManyWithWhereWithoutAccounts_toInput[]
+  deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
+}
+
+export type transactionsCreateNestedOneWithoutLedger_linesInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutLedger_linesInput, Prisma.transactionsUncheckedCreateWithoutLedger_linesInput>
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutLedger_linesInput
+  connect?: Prisma.transactionsWhereUniqueInput
+}
+
+export type transactionsUpdateOneRequiredWithoutLedger_linesNestedInput = {
+  create?: Prisma.XOR<Prisma.transactionsCreateWithoutLedger_linesInput, Prisma.transactionsUncheckedCreateWithoutLedger_linesInput>
+  connectOrCreate?: Prisma.transactionsCreateOrConnectWithoutLedger_linesInput
+  upsert?: Prisma.transactionsUpsertWithoutLedger_linesInput
+  connect?: Prisma.transactionsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.transactionsUpdateToOneWithWhereWithoutLedger_linesInput, Prisma.transactionsUpdateWithoutLedger_linesInput>, Prisma.transactionsUncheckedUpdateWithoutLedger_linesInput>
 }
 
 export type transactionsCreateNestedManyWithoutBulk_transfersInput = {
@@ -473,10 +675,6 @@ export type transactionsUncheckedUpdateManyWithoutBulk_transfersNestedInput = {
   update?: Prisma.transactionsUpdateWithWhereUniqueWithoutBulk_transfersInput | Prisma.transactionsUpdateWithWhereUniqueWithoutBulk_transfersInput[]
   updateMany?: Prisma.transactionsUpdateManyWithWhereWithoutBulk_transfersInput | Prisma.transactionsUpdateManyWithWhereWithoutBulk_transfersInput[]
   deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-}
-
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
 }
 
 export type transactionsCreateNestedManyWithoutUsersInput = {
@@ -605,24 +803,240 @@ export type transactionsUncheckedUpdateManyWithoutWallets_transactions_to_addres
   deleteMany?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
 }
 
-export type transactionsCreateWithoutBulk_transfersInput = {
+export type transactionsCreateWithoutAccounts_fromInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
+  bulk_transfers?: Prisma.bulk_transfersCreateNestedOneWithoutTransactionsInput
   wallets_transactions_from_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_from_addressTowalletsInput
   users: Prisma.usersCreateNestedOneWithoutTransactionsInput
   wallets_transactions_to_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_to_addressTowalletsInput
+  accounts_to?: Prisma.accountsCreateNestedOneWithoutTransactions_toInput
+  ledger_lines?: Prisma.ledger_entriesCreateNestedManyWithoutTransactionsInput
 }
 
-export type transactionsUncheckedCreateWithoutBulk_transfersInput = {
+export type transactionsUncheckedCreateWithoutAccounts_fromInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   initiated_by_id: string
   from_address: string
   to_address: string
+  to_account_id?: string | null
+  bulk_transfer_id?: string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedCreateNestedManyWithoutTransactionsInput
+}
+
+export type transactionsCreateOrConnectWithoutAccounts_fromInput = {
+  where: Prisma.transactionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_fromInput, Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput>
+}
+
+export type transactionsCreateManyAccounts_fromInputEnvelope = {
+  data: Prisma.transactionsCreateManyAccounts_fromInput | Prisma.transactionsCreateManyAccounts_fromInput[]
+  skipDuplicates?: boolean
+}
+
+export type transactionsCreateWithoutAccounts_toInput = {
+  id: string
+  created_at?: Date | string
+  amount: number
+  reference?: string | null
+  reason: string
+  timestamp?: Date | string
+  bulk_transfers?: Prisma.bulk_transfersCreateNestedOneWithoutTransactionsInput
+  wallets_transactions_from_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_from_addressTowalletsInput
+  users: Prisma.usersCreateNestedOneWithoutTransactionsInput
+  wallets_transactions_to_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_to_addressTowalletsInput
+  accounts_from?: Prisma.accountsCreateNestedOneWithoutTransactions_fromInput
+  ledger_lines?: Prisma.ledger_entriesCreateNestedManyWithoutTransactionsInput
+}
+
+export type transactionsUncheckedCreateWithoutAccounts_toInput = {
+  id: string
+  created_at?: Date | string
+  amount: number
+  reference?: string | null
+  reason: string
+  timestamp?: Date | string
+  initiated_by_id: string
+  from_address: string
+  to_address: string
+  from_account_id?: string | null
+  bulk_transfer_id?: string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedCreateNestedManyWithoutTransactionsInput
+}
+
+export type transactionsCreateOrConnectWithoutAccounts_toInput = {
+  where: Prisma.transactionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_toInput, Prisma.transactionsUncheckedCreateWithoutAccounts_toInput>
+}
+
+export type transactionsCreateManyAccounts_toInputEnvelope = {
+  data: Prisma.transactionsCreateManyAccounts_toInput | Prisma.transactionsCreateManyAccounts_toInput[]
+  skipDuplicates?: boolean
+}
+
+export type transactionsUpsertWithWhereUniqueWithoutAccounts_fromInput = {
+  where: Prisma.transactionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.transactionsUpdateWithoutAccounts_fromInput, Prisma.transactionsUncheckedUpdateWithoutAccounts_fromInput>
+  create: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_fromInput, Prisma.transactionsUncheckedCreateWithoutAccounts_fromInput>
+}
+
+export type transactionsUpdateWithWhereUniqueWithoutAccounts_fromInput = {
+  where: Prisma.transactionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.transactionsUpdateWithoutAccounts_fromInput, Prisma.transactionsUncheckedUpdateWithoutAccounts_fromInput>
+}
+
+export type transactionsUpdateManyWithWhereWithoutAccounts_fromInput = {
+  where: Prisma.transactionsScalarWhereInput
+  data: Prisma.XOR<Prisma.transactionsUpdateManyMutationInput, Prisma.transactionsUncheckedUpdateManyWithoutAccounts_fromInput>
+}
+
+export type transactionsScalarWhereInput = {
+  AND?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
+  OR?: Prisma.transactionsScalarWhereInput[]
+  NOT?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
+  id?: Prisma.StringFilter<"transactions"> | string
+  created_at?: Prisma.DateTimeFilter<"transactions"> | Date | string
+  amount?: Prisma.IntFilter<"transactions"> | number
+  reference?: Prisma.StringNullableFilter<"transactions"> | string | null
+  reason?: Prisma.StringFilter<"transactions"> | string
+  timestamp?: Prisma.DateTimeFilter<"transactions"> | Date | string
+  initiated_by_id?: Prisma.StringFilter<"transactions"> | string
+  from_address?: Prisma.StringFilter<"transactions"> | string
+  to_address?: Prisma.StringFilter<"transactions"> | string
+  from_account_id?: Prisma.StringNullableFilter<"transactions"> | string | null
+  to_account_id?: Prisma.StringNullableFilter<"transactions"> | string | null
+  bulk_transfer_id?: Prisma.StringNullableFilter<"transactions"> | string | null
+}
+
+export type transactionsUpsertWithWhereUniqueWithoutAccounts_toInput = {
+  where: Prisma.transactionsWhereUniqueInput
+  update: Prisma.XOR<Prisma.transactionsUpdateWithoutAccounts_toInput, Prisma.transactionsUncheckedUpdateWithoutAccounts_toInput>
+  create: Prisma.XOR<Prisma.transactionsCreateWithoutAccounts_toInput, Prisma.transactionsUncheckedCreateWithoutAccounts_toInput>
+}
+
+export type transactionsUpdateWithWhereUniqueWithoutAccounts_toInput = {
+  where: Prisma.transactionsWhereUniqueInput
+  data: Prisma.XOR<Prisma.transactionsUpdateWithoutAccounts_toInput, Prisma.transactionsUncheckedUpdateWithoutAccounts_toInput>
+}
+
+export type transactionsUpdateManyWithWhereWithoutAccounts_toInput = {
+  where: Prisma.transactionsScalarWhereInput
+  data: Prisma.XOR<Prisma.transactionsUpdateManyMutationInput, Prisma.transactionsUncheckedUpdateManyWithoutAccounts_toInput>
+}
+
+export type transactionsCreateWithoutLedger_linesInput = {
+  id: string
+  created_at?: Date | string
+  amount: number
+  reference?: string | null
+  reason: string
+  timestamp?: Date | string
+  bulk_transfers?: Prisma.bulk_transfersCreateNestedOneWithoutTransactionsInput
+  wallets_transactions_from_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_from_addressTowalletsInput
+  users: Prisma.usersCreateNestedOneWithoutTransactionsInput
+  wallets_transactions_to_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_to_addressTowalletsInput
+  accounts_from?: Prisma.accountsCreateNestedOneWithoutTransactions_fromInput
+  accounts_to?: Prisma.accountsCreateNestedOneWithoutTransactions_toInput
+}
+
+export type transactionsUncheckedCreateWithoutLedger_linesInput = {
+  id: string
+  created_at?: Date | string
+  amount: number
+  reference?: string | null
+  reason: string
+  timestamp?: Date | string
+  initiated_by_id: string
+  from_address: string
+  to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
+  bulk_transfer_id?: string | null
+}
+
+export type transactionsCreateOrConnectWithoutLedger_linesInput = {
+  where: Prisma.transactionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.transactionsCreateWithoutLedger_linesInput, Prisma.transactionsUncheckedCreateWithoutLedger_linesInput>
+}
+
+export type transactionsUpsertWithoutLedger_linesInput = {
+  update: Prisma.XOR<Prisma.transactionsUpdateWithoutLedger_linesInput, Prisma.transactionsUncheckedUpdateWithoutLedger_linesInput>
+  create: Prisma.XOR<Prisma.transactionsCreateWithoutLedger_linesInput, Prisma.transactionsUncheckedCreateWithoutLedger_linesInput>
+  where?: Prisma.transactionsWhereInput
+}
+
+export type transactionsUpdateToOneWithWhereWithoutLedger_linesInput = {
+  where?: Prisma.transactionsWhereInput
+  data: Prisma.XOR<Prisma.transactionsUpdateWithoutLedger_linesInput, Prisma.transactionsUncheckedUpdateWithoutLedger_linesInput>
+}
+
+export type transactionsUpdateWithoutLedger_linesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUpdateOneWithoutTransactionsNestedInput
+  wallets_transactions_from_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_from_addressTowalletsNestedInput
+  users?: Prisma.usersUpdateOneRequiredWithoutTransactionsNestedInput
+  wallets_transactions_to_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_to_addressTowalletsNestedInput
+  accounts_from?: Prisma.accountsUpdateOneWithoutTransactions_fromNestedInput
+  accounts_to?: Prisma.accountsUpdateOneWithoutTransactions_toNestedInput
+}
+
+export type transactionsUncheckedUpdateWithoutLedger_linesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_address?: Prisma.StringFieldUpdateOperationsInput | string
+  to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type transactionsCreateWithoutBulk_transfersInput = {
+  id: string
+  created_at?: Date | string
+  amount: number
+  reference?: string | null
+  reason: string
+  timestamp?: Date | string
+  wallets_transactions_from_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_from_addressTowalletsInput
+  users: Prisma.usersCreateNestedOneWithoutTransactionsInput
+  wallets_transactions_to_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_to_addressTowalletsInput
+  accounts_from?: Prisma.accountsCreateNestedOneWithoutTransactions_fromInput
+  accounts_to?: Prisma.accountsCreateNestedOneWithoutTransactions_toInput
+  ledger_lines?: Prisma.ledger_entriesCreateNestedManyWithoutTransactionsInput
+}
+
+export type transactionsUncheckedCreateWithoutBulk_transfersInput = {
+  id: string
+  created_at?: Date | string
+  amount: number
+  reference?: string | null
+  reason: string
+  timestamp?: Date | string
+  initiated_by_id: string
+  from_address: string
+  to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsCreateOrConnectWithoutBulk_transfersInput = {
@@ -651,38 +1065,34 @@ export type transactionsUpdateManyWithWhereWithoutBulk_transfersInput = {
   data: Prisma.XOR<Prisma.transactionsUpdateManyMutationInput, Prisma.transactionsUncheckedUpdateManyWithoutBulk_transfersInput>
 }
 
-export type transactionsScalarWhereInput = {
-  AND?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-  OR?: Prisma.transactionsScalarWhereInput[]
-  NOT?: Prisma.transactionsScalarWhereInput | Prisma.transactionsScalarWhereInput[]
-  id?: Prisma.StringFilter<"transactions"> | string
-  amount?: Prisma.IntFilter<"transactions"> | number
-  reason?: Prisma.StringFilter<"transactions"> | string
-  timestamp?: Prisma.DateTimeFilter<"transactions"> | Date | string
-  initiated_by_id?: Prisma.StringFilter<"transactions"> | string
-  from_address?: Prisma.StringFilter<"transactions"> | string
-  to_address?: Prisma.StringFilter<"transactions"> | string
-  bulk_transfer_id?: Prisma.StringNullableFilter<"transactions"> | string | null
-}
-
 export type transactionsCreateWithoutUsersInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   bulk_transfers?: Prisma.bulk_transfersCreateNestedOneWithoutTransactionsInput
   wallets_transactions_from_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_from_addressTowalletsInput
   wallets_transactions_to_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_to_addressTowalletsInput
+  accounts_from?: Prisma.accountsCreateNestedOneWithoutTransactions_fromInput
+  accounts_to?: Prisma.accountsCreateNestedOneWithoutTransactions_toInput
+  ledger_lines?: Prisma.ledger_entriesCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsUncheckedCreateWithoutUsersInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   from_address: string
   to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
   bulk_transfer_id?: string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsCreateOrConnectWithoutUsersInput = {
@@ -713,22 +1123,32 @@ export type transactionsUpdateManyWithWhereWithoutUsersInput = {
 
 export type transactionsCreateWithoutWallets_transactions_from_addressTowalletsInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   bulk_transfers?: Prisma.bulk_transfersCreateNestedOneWithoutTransactionsInput
   users: Prisma.usersCreateNestedOneWithoutTransactionsInput
   wallets_transactions_to_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_to_addressTowalletsInput
+  accounts_from?: Prisma.accountsCreateNestedOneWithoutTransactions_fromInput
+  accounts_to?: Prisma.accountsCreateNestedOneWithoutTransactions_toInput
+  ledger_lines?: Prisma.ledger_entriesCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsUncheckedCreateWithoutWallets_transactions_from_addressTowalletsInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   initiated_by_id: string
   to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
   bulk_transfer_id?: string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsCreateOrConnectWithoutWallets_transactions_from_addressTowalletsInput = {
@@ -743,22 +1163,32 @@ export type transactionsCreateManyWallets_transactions_from_addressTowalletsInpu
 
 export type transactionsCreateWithoutWallets_transactions_to_addressTowalletsInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   bulk_transfers?: Prisma.bulk_transfersCreateNestedOneWithoutTransactionsInput
   wallets_transactions_from_addressTowallets: Prisma.walletsCreateNestedOneWithoutTransactions_transactions_from_addressTowalletsInput
   users: Prisma.usersCreateNestedOneWithoutTransactionsInput
+  accounts_from?: Prisma.accountsCreateNestedOneWithoutTransactions_fromInput
+  accounts_to?: Prisma.accountsCreateNestedOneWithoutTransactions_toInput
+  ledger_lines?: Prisma.ledger_entriesCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsUncheckedCreateWithoutWallets_transactions_to_addressTowalletsInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   initiated_by_id: string
   from_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
   bulk_transfer_id?: string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedCreateNestedManyWithoutTransactionsInput
 }
 
 export type transactionsCreateOrConnectWithoutWallets_transactions_to_addressTowalletsInput = {
@@ -803,242 +1233,491 @@ export type transactionsUpdateManyWithWhereWithoutWallets_transactions_to_addres
   data: Prisma.XOR<Prisma.transactionsUpdateManyMutationInput, Prisma.transactionsUncheckedUpdateManyWithoutWallets_transactions_to_addressTowalletsInput>
 }
 
-export type transactionsCreateManyBulk_transfersInput = {
+export type transactionsCreateManyAccounts_fromInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   initiated_by_id: string
   from_address: string
   to_address: string
+  to_account_id?: string | null
+  bulk_transfer_id?: string | null
+}
+
+export type transactionsCreateManyAccounts_toInput = {
+  id: string
+  created_at?: Date | string
+  amount: number
+  reference?: string | null
+  reason: string
+  timestamp?: Date | string
+  initiated_by_id: string
+  from_address: string
+  to_address: string
+  from_account_id?: string | null
+  bulk_transfer_id?: string | null
+}
+
+export type transactionsUpdateWithoutAccounts_fromInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUpdateOneWithoutTransactionsNestedInput
+  wallets_transactions_from_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_from_addressTowalletsNestedInput
+  users?: Prisma.usersUpdateOneRequiredWithoutTransactionsNestedInput
+  wallets_transactions_to_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_to_addressTowalletsNestedInput
+  accounts_to?: Prisma.accountsUpdateOneWithoutTransactions_toNestedInput
+  ledger_lines?: Prisma.ledger_entriesUpdateManyWithoutTransactionsNestedInput
+}
+
+export type transactionsUncheckedUpdateWithoutAccounts_fromInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_address?: Prisma.StringFieldUpdateOperationsInput | string
+  to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedUpdateManyWithoutTransactionsNestedInput
+}
+
+export type transactionsUncheckedUpdateManyWithoutAccounts_fromInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_address?: Prisma.StringFieldUpdateOperationsInput | string
+  to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type transactionsUpdateWithoutAccounts_toInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUpdateOneWithoutTransactionsNestedInput
+  wallets_transactions_from_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_from_addressTowalletsNestedInput
+  users?: Prisma.usersUpdateOneRequiredWithoutTransactionsNestedInput
+  wallets_transactions_to_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_to_addressTowalletsNestedInput
+  accounts_from?: Prisma.accountsUpdateOneWithoutTransactions_fromNestedInput
+  ledger_lines?: Prisma.ledger_entriesUpdateManyWithoutTransactionsNestedInput
+}
+
+export type transactionsUncheckedUpdateWithoutAccounts_toInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_address?: Prisma.StringFieldUpdateOperationsInput | string
+  to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedUpdateManyWithoutTransactionsNestedInput
+}
+
+export type transactionsUncheckedUpdateManyWithoutAccounts_toInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
+  from_address?: Prisma.StringFieldUpdateOperationsInput | string
+  to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type transactionsCreateManyBulk_transfersInput = {
+  id: string
+  created_at?: Date | string
+  amount: number
+  reference?: string | null
+  reason: string
+  timestamp?: Date | string
+  initiated_by_id: string
+  from_address: string
+  to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
 }
 
 export type transactionsUpdateWithoutBulk_transfersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wallets_transactions_from_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_from_addressTowalletsNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutTransactionsNestedInput
   wallets_transactions_to_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_to_addressTowalletsNestedInput
+  accounts_from?: Prisma.accountsUpdateOneWithoutTransactions_fromNestedInput
+  accounts_to?: Prisma.accountsUpdateOneWithoutTransactions_toNestedInput
+  ledger_lines?: Prisma.ledger_entriesUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateWithoutBulk_transfersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
   from_address?: Prisma.StringFieldUpdateOperationsInput | string
   to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateManyWithoutBulk_transfersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
   from_address?: Prisma.StringFieldUpdateOperationsInput | string
   to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsCreateManyUsersInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   from_address: string
   to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
   bulk_transfer_id?: string | null
 }
 
 export type transactionsUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bulk_transfers?: Prisma.bulk_transfersUpdateOneWithoutTransactionsNestedInput
   wallets_transactions_from_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_from_addressTowalletsNestedInput
   wallets_transactions_to_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_to_addressTowalletsNestedInput
+  accounts_from?: Prisma.accountsUpdateOneWithoutTransactions_fromNestedInput
+  accounts_to?: Prisma.accountsUpdateOneWithoutTransactions_toNestedInput
+  ledger_lines?: Prisma.ledger_entriesUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   from_address?: Prisma.StringFieldUpdateOperationsInput | string
   to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateManyWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   from_address?: Prisma.StringFieldUpdateOperationsInput | string
   to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsCreateManyWallets_transactions_from_addressTowalletsInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   initiated_by_id: string
   to_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
   bulk_transfer_id?: string | null
 }
 
 export type transactionsCreateManyWallets_transactions_to_addressTowalletsInput = {
   id: string
+  created_at?: Date | string
   amount: number
+  reference?: string | null
   reason: string
   timestamp?: Date | string
   initiated_by_id: string
   from_address: string
+  from_account_id?: string | null
+  to_account_id?: string | null
   bulk_transfer_id?: string | null
 }
 
 export type transactionsUpdateWithoutWallets_transactions_from_addressTowalletsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bulk_transfers?: Prisma.bulk_transfersUpdateOneWithoutTransactionsNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutTransactionsNestedInput
   wallets_transactions_to_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_to_addressTowalletsNestedInput
+  accounts_from?: Prisma.accountsUpdateOneWithoutTransactions_fromNestedInput
+  accounts_to?: Prisma.accountsUpdateOneWithoutTransactions_toNestedInput
+  ledger_lines?: Prisma.ledger_entriesUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateWithoutWallets_transactions_from_addressTowalletsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
   to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateManyWithoutWallets_transactions_from_addressTowalletsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
   to_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type transactionsUpdateWithoutWallets_transactions_to_addressTowalletsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bulk_transfers?: Prisma.bulk_transfersUpdateOneWithoutTransactionsNestedInput
   wallets_transactions_from_addressTowallets?: Prisma.walletsUpdateOneRequiredWithoutTransactions_transactions_from_addressTowalletsNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutTransactionsNestedInput
+  accounts_from?: Prisma.accountsUpdateOneWithoutTransactions_fromNestedInput
+  accounts_to?: Prisma.accountsUpdateOneWithoutTransactions_toNestedInput
+  ledger_lines?: Prisma.ledger_entriesUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateWithoutWallets_transactions_to_addressTowalletsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
   from_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ledger_lines?: Prisma.ledger_entriesUncheckedUpdateManyWithoutTransactionsNestedInput
 }
 
 export type transactionsUncheckedUpdateManyWithoutWallets_transactions_to_addressTowalletsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   amount?: Prisma.IntFieldUpdateOperationsInput | number
+  reference?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reason?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiated_by_id?: Prisma.StringFieldUpdateOperationsInput | string
   from_address?: Prisma.StringFieldUpdateOperationsInput | string
+  from_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  to_account_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bulk_transfer_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
+/**
+ * Count Type TransactionsCountOutputType
+ */
+
+export type TransactionsCountOutputType = {
+  ledger_lines: number
+}
+
+export type TransactionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  ledger_lines?: boolean | TransactionsCountOutputTypeCountLedger_linesArgs
+}
+
+/**
+ * TransactionsCountOutputType without action
+ */
+export type TransactionsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransactionsCountOutputType
+   */
+  select?: Prisma.TransactionsCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TransactionsCountOutputType without action
+ */
+export type TransactionsCountOutputTypeCountLedger_linesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ledger_entriesWhereInput
+}
+
 
 export type transactionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  created_at?: boolean
   amount?: boolean
+  reference?: boolean
   reason?: boolean
   timestamp?: boolean
   initiated_by_id?: boolean
   from_address?: boolean
   to_address?: boolean
+  from_account_id?: boolean
+  to_account_id?: boolean
   bulk_transfer_id?: boolean
   bulk_transfers?: boolean | Prisma.transactions$bulk_transfersArgs<ExtArgs>
   wallets_transactions_from_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   wallets_transactions_to_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
+  accounts_from?: boolean | Prisma.transactions$accounts_fromArgs<ExtArgs>
+  accounts_to?: boolean | Prisma.transactions$accounts_toArgs<ExtArgs>
+  ledger_lines?: boolean | Prisma.transactions$ledger_linesArgs<ExtArgs>
+  _count?: boolean | Prisma.TransactionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  created_at?: boolean
   amount?: boolean
+  reference?: boolean
   reason?: boolean
   timestamp?: boolean
   initiated_by_id?: boolean
   from_address?: boolean
   to_address?: boolean
+  from_account_id?: boolean
+  to_account_id?: boolean
   bulk_transfer_id?: boolean
   bulk_transfers?: boolean | Prisma.transactions$bulk_transfersArgs<ExtArgs>
   wallets_transactions_from_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   wallets_transactions_to_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
+  accounts_from?: boolean | Prisma.transactions$accounts_fromArgs<ExtArgs>
+  accounts_to?: boolean | Prisma.transactions$accounts_toArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  created_at?: boolean
   amount?: boolean
+  reference?: boolean
   reason?: boolean
   timestamp?: boolean
   initiated_by_id?: boolean
   from_address?: boolean
   to_address?: boolean
+  from_account_id?: boolean
+  to_account_id?: boolean
   bulk_transfer_id?: boolean
   bulk_transfers?: boolean | Prisma.transactions$bulk_transfersArgs<ExtArgs>
   wallets_transactions_from_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   wallets_transactions_to_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
+  accounts_from?: boolean | Prisma.transactions$accounts_fromArgs<ExtArgs>
+  accounts_to?: boolean | Prisma.transactions$accounts_toArgs<ExtArgs>
 }, ExtArgs["result"]["transactions"]>
 
 export type transactionsSelectScalar = {
   id?: boolean
+  created_at?: boolean
   amount?: boolean
+  reference?: boolean
   reason?: boolean
   timestamp?: boolean
   initiated_by_id?: boolean
   from_address?: boolean
   to_address?: boolean
+  from_account_id?: boolean
+  to_account_id?: boolean
   bulk_transfer_id?: boolean
 }
 
-export type transactionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "reason" | "timestamp" | "initiated_by_id" | "from_address" | "to_address" | "bulk_transfer_id", ExtArgs["result"]["transactions"]>
+export type transactionsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "amount" | "reference" | "reason" | "timestamp" | "initiated_by_id" | "from_address" | "to_address" | "from_account_id" | "to_account_id" | "bulk_transfer_id", ExtArgs["result"]["transactions"]>
 export type transactionsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bulk_transfers?: boolean | Prisma.transactions$bulk_transfersArgs<ExtArgs>
   wallets_transactions_from_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   wallets_transactions_to_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
+  accounts_from?: boolean | Prisma.transactions$accounts_fromArgs<ExtArgs>
+  accounts_to?: boolean | Prisma.transactions$accounts_toArgs<ExtArgs>
+  ledger_lines?: boolean | Prisma.transactions$ledger_linesArgs<ExtArgs>
+  _count?: boolean | Prisma.TransactionsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type transactionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bulk_transfers?: boolean | Prisma.transactions$bulk_transfersArgs<ExtArgs>
   wallets_transactions_from_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   wallets_transactions_to_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
+  accounts_from?: boolean | Prisma.transactions$accounts_fromArgs<ExtArgs>
+  accounts_to?: boolean | Prisma.transactions$accounts_toArgs<ExtArgs>
 }
 export type transactionsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bulk_transfers?: boolean | Prisma.transactions$bulk_transfersArgs<ExtArgs>
   wallets_transactions_from_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
   users?: boolean | Prisma.usersDefaultArgs<ExtArgs>
   wallets_transactions_to_addressTowallets?: boolean | Prisma.walletsDefaultArgs<ExtArgs>
+  accounts_from?: boolean | Prisma.transactions$accounts_fromArgs<ExtArgs>
+  accounts_to?: boolean | Prisma.transactions$accounts_toArgs<ExtArgs>
 }
 
 export type $transactionsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1048,15 +1727,22 @@ export type $transactionsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     wallets_transactions_from_addressTowallets: Prisma.$walletsPayload<ExtArgs>
     users: Prisma.$usersPayload<ExtArgs>
     wallets_transactions_to_addressTowallets: Prisma.$walletsPayload<ExtArgs>
+    accounts_from: Prisma.$accountsPayload<ExtArgs> | null
+    accounts_to: Prisma.$accountsPayload<ExtArgs> | null
+    ledger_lines: Prisma.$ledger_entriesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    created_at: Date
     amount: number
+    reference: string | null
     reason: string
     timestamp: Date
     initiated_by_id: string
     from_address: string
     to_address: string
+    from_account_id: string | null
+    to_account_id: string | null
     bulk_transfer_id: string | null
   }, ExtArgs["result"]["transactions"]>
   composites: {}
@@ -1456,6 +2142,9 @@ export interface Prisma__transactionsClient<T, Null = never, ExtArgs extends run
   wallets_transactions_from_addressTowallets<T extends Prisma.walletsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.walletsDefaultArgs<ExtArgs>>): Prisma.Prisma__walletsClient<runtime.Types.Result.GetResult<Prisma.$walletsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   users<T extends Prisma.usersDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.usersDefaultArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   wallets_transactions_to_addressTowallets<T extends Prisma.walletsDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.walletsDefaultArgs<ExtArgs>>): Prisma.Prisma__walletsClient<runtime.Types.Result.GetResult<Prisma.$walletsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  accounts_from<T extends Prisma.transactions$accounts_fromArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactions$accounts_fromArgs<ExtArgs>>): Prisma.Prisma__accountsClient<runtime.Types.Result.GetResult<Prisma.$accountsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  accounts_to<T extends Prisma.transactions$accounts_toArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactions$accounts_toArgs<ExtArgs>>): Prisma.Prisma__accountsClient<runtime.Types.Result.GetResult<Prisma.$accountsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  ledger_lines<T extends Prisma.transactions$ledger_linesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.transactions$ledger_linesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ledger_entriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1486,12 +2175,16 @@ export interface Prisma__transactionsClient<T, Null = never, ExtArgs extends run
  */
 export interface transactionsFieldRefs {
   readonly id: Prisma.FieldRef<"transactions", 'String'>
+  readonly created_at: Prisma.FieldRef<"transactions", 'DateTime'>
   readonly amount: Prisma.FieldRef<"transactions", 'Int'>
+  readonly reference: Prisma.FieldRef<"transactions", 'String'>
   readonly reason: Prisma.FieldRef<"transactions", 'String'>
   readonly timestamp: Prisma.FieldRef<"transactions", 'DateTime'>
   readonly initiated_by_id: Prisma.FieldRef<"transactions", 'String'>
   readonly from_address: Prisma.FieldRef<"transactions", 'String'>
   readonly to_address: Prisma.FieldRef<"transactions", 'String'>
+  readonly from_account_id: Prisma.FieldRef<"transactions", 'String'>
+  readonly to_account_id: Prisma.FieldRef<"transactions", 'String'>
   readonly bulk_transfer_id: Prisma.FieldRef<"transactions", 'String'>
 }
     
@@ -1910,6 +2603,68 @@ export type transactions$bulk_transfersArgs<ExtArgs extends runtime.Types.Extens
    */
   include?: Prisma.bulk_transfersInclude<ExtArgs> | null
   where?: Prisma.bulk_transfersWhereInput
+}
+
+/**
+ * transactions.accounts_from
+ */
+export type transactions$accounts_fromArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the accounts
+   */
+  select?: Prisma.accountsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the accounts
+   */
+  omit?: Prisma.accountsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.accountsInclude<ExtArgs> | null
+  where?: Prisma.accountsWhereInput
+}
+
+/**
+ * transactions.accounts_to
+ */
+export type transactions$accounts_toArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the accounts
+   */
+  select?: Prisma.accountsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the accounts
+   */
+  omit?: Prisma.accountsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.accountsInclude<ExtArgs> | null
+  where?: Prisma.accountsWhereInput
+}
+
+/**
+ * transactions.ledger_lines
+ */
+export type transactions$ledger_linesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ledger_entries
+   */
+  select?: Prisma.ledger_entriesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ledger_entries
+   */
+  omit?: Prisma.ledger_entriesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ledger_entriesInclude<ExtArgs> | null
+  where?: Prisma.ledger_entriesWhereInput
+  orderBy?: Prisma.ledger_entriesOrderByWithRelationInput | Prisma.ledger_entriesOrderByWithRelationInput[]
+  cursor?: Prisma.ledger_entriesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Ledger_entriesScalarFieldEnum | Prisma.Ledger_entriesScalarFieldEnum[]
 }
 
 /**

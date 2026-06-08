@@ -52,3 +52,12 @@ export const Tribe = {
 } as const
 
 export type Tribe = (typeof Tribe)[keyof typeof Tribe]
+
+
+export const AccountType = {
+  USER: 'USER',
+  TREASURY: 'TREASURY',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type AccountType = (typeof AccountType)[keyof typeof AccountType]

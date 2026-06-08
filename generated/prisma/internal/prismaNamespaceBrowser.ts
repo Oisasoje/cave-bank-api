@@ -51,10 +51,12 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  accounts: 'accounts',
   Session: 'Session',
   login_attempts: 'login_attempts',
   signup_attempts: 'signup_attempts',
   audit_log: 'audit_log',
+  ledger_entries: 'ledger_entries',
   bulk_transfers: 'bulk_transfers',
   mint_burn_events: 'mint_burn_events',
   otps: 'otps',
@@ -82,6 +84,17 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AccountsScalarFieldEnum = {
+  id: 'id',
+  address: 'address',
+  owner_id: 'owner_id',
+  type: 'type',
+  created_at: 'created_at'
+} as const
+
+export type AccountsScalarFieldEnum = (typeof AccountsScalarFieldEnum)[keyof typeof AccountsScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -126,6 +139,18 @@ export const Audit_logScalarFieldEnum = {
 } as const
 
 export type Audit_logScalarFieldEnum = (typeof Audit_logScalarFieldEnum)[keyof typeof Audit_logScalarFieldEnum]
+
+
+export const Ledger_entriesScalarFieldEnum = {
+  id: 'id',
+  transaction_id: 'transaction_id',
+  account_id: 'account_id',
+  debit: 'debit',
+  credit: 'credit',
+  created_at: 'created_at'
+} as const
+
+export type Ledger_entriesScalarFieldEnum = (typeof Ledger_entriesScalarFieldEnum)[keyof typeof Ledger_entriesScalarFieldEnum]
 
 
 export const Bulk_transfersScalarFieldEnum = {
@@ -198,12 +223,16 @@ export type Signup_setup_tokensScalarFieldEnum = (typeof Signup_setup_tokensScal
 
 export const TransactionsScalarFieldEnum = {
   id: 'id',
+  created_at: 'created_at',
   amount: 'amount',
+  reference: 'reference',
   reason: 'reason',
   timestamp: 'timestamp',
   initiated_by_id: 'initiated_by_id',
   from_address: 'from_address',
   to_address: 'to_address',
+  from_account_id: 'from_account_id',
+  to_account_id: 'to_account_id',
   bulk_transfer_id: 'bulk_transfer_id'
 } as const
 
@@ -290,6 +319,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -297,12 +334,4 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
