@@ -1,22 +1,46 @@
 import { getSession } from "../modules/auth/auth.service.js";
 import { rateLimit } from "express-rate-limit";
+import { Request, Response, NextFunction } from "express";
 
-export async function requireAuth(req: any, res: any, next: any) {
-  const sessionId = req.cookies.sessionId;
+export async function requireAuth(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  try {
+    const sessionId = req.cookies.sessionId;
 
-  if (!sessionId) {
-    return res.status(401).json({ error: "Unauthorized" });
+    if (!sessionId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const result = await getSession(sessionId);
+
+    if (!result) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const { session: sessionData, wallet_address } = result;
+
+    // 🔥 IMPORTANT: attach user explicitly
+
+    req.auth = {
+      session: {
+        id: sessionData.id,
+        userId: sessionData.userId,
+        expires_at: sessionData.expires_at,
+      },
+      user: sessionData.user,
+      wallet_address,
+    };
+
+    req.session = req.auth.session;
+    req.user = req.auth.user;
+
+    next();
+  } catch (err) {
+    return res.status(500).json({ error: "Auth failure" });
   }
-
-  const session = await getSession(sessionId);
-
-  if (!session) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
-  req.session = session;
-
-  next();
 }
 
 export const loginLimiter = rateLimit({
