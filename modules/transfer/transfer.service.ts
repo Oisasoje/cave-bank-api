@@ -1,7 +1,7 @@
 import { prisma } from "../../lib/prisma.js";
 import crypto from "crypto";
 
-export default async function transferService({
+export async function transferAction({
   fromAccountId,
   toAccountId,
   amount,
@@ -94,4 +94,21 @@ export default async function transferService({
 
     return transaction;
   });
+}
+
+export async function verifyReciepient(walletAddress: string) {
+  const account = await prisma.accounts.findUnique({
+    where: { address: walletAddress },
+    include: { users: true },
+  });
+
+  if (!account || !account.users) throw new Error("Recipient not found");
+
+  return {
+    data: {
+      name: account.users.name,
+      walletAddress: account.address,
+      accountId: account.id,
+    },
+  };
 }

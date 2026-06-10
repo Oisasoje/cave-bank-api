@@ -10,17 +10,17 @@ datasource db {
 }
 
 model accounts {
-  id       String      @id @default(uuid())
-  address  String      @unique
-  owner_id String?
-  type     AccountType
+  id         String      @id @default(uuid())
+  address    String      @unique
+  owner_id   String?
+  type       AccountType
+  created_at DateTime    @default(now())
 
-  created_at DateTime @default(now())
+  users users? @relation(fields: [owner_id], references: [id]) // ← add this
 
-  ledger_entries ledger_entries[]
-
-  transactions_from transactions[] @relation("account_from")
-  transactions_to   transactions[] @relation("account_to")
+  ledger_entries    ledger_entries[]
+  transactions_from transactions[]   @relation("account_from")
+  transactions_to   transactions[]   @relation("account_to")
 }
 
 model Session {
@@ -196,6 +196,7 @@ model users {
   wallets              wallets?
   sessions             Session[]
   signup_setup_tokens  signup_setup_tokens[]
+  accounts             accounts[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

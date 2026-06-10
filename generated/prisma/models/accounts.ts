@@ -182,6 +182,7 @@ export type accountsWhereInput = {
   owner_id?: Prisma.StringNullableFilter<"accounts"> | string | null
   type?: Prisma.EnumAccountTypeFilter<"accounts"> | $Enums.AccountType
   created_at?: Prisma.DateTimeFilter<"accounts"> | Date | string
+  users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
   ledger_entries?: Prisma.Ledger_entriesListRelationFilter
   transactions_from?: Prisma.TransactionsListRelationFilter
   transactions_to?: Prisma.TransactionsListRelationFilter
@@ -193,6 +194,7 @@ export type accountsOrderByWithRelationInput = {
   owner_id?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  users?: Prisma.usersOrderByWithRelationInput
   ledger_entries?: Prisma.ledger_entriesOrderByRelationAggregateInput
   transactions_from?: Prisma.transactionsOrderByRelationAggregateInput
   transactions_to?: Prisma.transactionsOrderByRelationAggregateInput
@@ -207,6 +209,7 @@ export type accountsWhereUniqueInput = Prisma.AtLeast<{
   owner_id?: Prisma.StringNullableFilter<"accounts"> | string | null
   type?: Prisma.EnumAccountTypeFilter<"accounts"> | $Enums.AccountType
   created_at?: Prisma.DateTimeFilter<"accounts"> | Date | string
+  users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
   ledger_entries?: Prisma.Ledger_entriesListRelationFilter
   transactions_from?: Prisma.TransactionsListRelationFilter
   transactions_to?: Prisma.TransactionsListRelationFilter
@@ -237,9 +240,9 @@ export type accountsScalarWhereWithAggregatesInput = {
 export type accountsCreateInput = {
   id?: string
   address: string
-  owner_id?: string | null
   type: $Enums.AccountType
   created_at?: Date | string
+  users?: Prisma.usersCreateNestedOneWithoutAccountsInput
   ledger_entries?: Prisma.ledger_entriesCreateNestedManyWithoutAccountsInput
   transactions_from?: Prisma.transactionsCreateNestedManyWithoutAccounts_fromInput
   transactions_to?: Prisma.transactionsCreateNestedManyWithoutAccounts_toInput
@@ -259,9 +262,9 @@ export type accountsUncheckedCreateInput = {
 export type accountsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.usersUpdateOneWithoutAccountsNestedInput
   ledger_entries?: Prisma.ledger_entriesUpdateManyWithoutAccountsNestedInput
   transactions_from?: Prisma.transactionsUpdateManyWithoutAccounts_fromNestedInput
   transactions_to?: Prisma.transactionsUpdateManyWithoutAccounts_toNestedInput
@@ -289,7 +292,6 @@ export type accountsCreateManyInput = {
 export type accountsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -336,12 +338,18 @@ export type AccountsNullableScalarRelationFilter = {
   isNot?: Prisma.accountsWhereInput | null
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type AccountsListRelationFilter = {
+  every?: Prisma.accountsWhereInput
+  some?: Prisma.accountsWhereInput
+  none?: Prisma.accountsWhereInput
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type accountsOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type StringFieldUpdateOperationsInput = {
+  set?: string
 }
 
 export type EnumAccountTypeFieldUpdateOperationsInput = {
@@ -350,6 +358,10 @@ export type EnumAccountTypeFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type accountsCreateNestedOneWithoutLedger_entriesInput = {
@@ -398,12 +410,54 @@ export type accountsUpdateOneWithoutTransactions_toNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.accountsUpdateToOneWithWhereWithoutTransactions_toInput, Prisma.accountsUpdateWithoutTransactions_toInput>, Prisma.accountsUncheckedUpdateWithoutTransactions_toInput>
 }
 
+export type accountsCreateNestedManyWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.accountsCreateWithoutUsersInput, Prisma.accountsUncheckedCreateWithoutUsersInput> | Prisma.accountsCreateWithoutUsersInput[] | Prisma.accountsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.accountsCreateOrConnectWithoutUsersInput | Prisma.accountsCreateOrConnectWithoutUsersInput[]
+  createMany?: Prisma.accountsCreateManyUsersInputEnvelope
+  connect?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+}
+
+export type accountsUncheckedCreateNestedManyWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.accountsCreateWithoutUsersInput, Prisma.accountsUncheckedCreateWithoutUsersInput> | Prisma.accountsCreateWithoutUsersInput[] | Prisma.accountsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.accountsCreateOrConnectWithoutUsersInput | Prisma.accountsCreateOrConnectWithoutUsersInput[]
+  createMany?: Prisma.accountsCreateManyUsersInputEnvelope
+  connect?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+}
+
+export type accountsUpdateManyWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.accountsCreateWithoutUsersInput, Prisma.accountsUncheckedCreateWithoutUsersInput> | Prisma.accountsCreateWithoutUsersInput[] | Prisma.accountsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.accountsCreateOrConnectWithoutUsersInput | Prisma.accountsCreateOrConnectWithoutUsersInput[]
+  upsert?: Prisma.accountsUpsertWithWhereUniqueWithoutUsersInput | Prisma.accountsUpsertWithWhereUniqueWithoutUsersInput[]
+  createMany?: Prisma.accountsCreateManyUsersInputEnvelope
+  set?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+  disconnect?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+  delete?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+  connect?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+  update?: Prisma.accountsUpdateWithWhereUniqueWithoutUsersInput | Prisma.accountsUpdateWithWhereUniqueWithoutUsersInput[]
+  updateMany?: Prisma.accountsUpdateManyWithWhereWithoutUsersInput | Prisma.accountsUpdateManyWithWhereWithoutUsersInput[]
+  deleteMany?: Prisma.accountsScalarWhereInput | Prisma.accountsScalarWhereInput[]
+}
+
+export type accountsUncheckedUpdateManyWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.accountsCreateWithoutUsersInput, Prisma.accountsUncheckedCreateWithoutUsersInput> | Prisma.accountsCreateWithoutUsersInput[] | Prisma.accountsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.accountsCreateOrConnectWithoutUsersInput | Prisma.accountsCreateOrConnectWithoutUsersInput[]
+  upsert?: Prisma.accountsUpsertWithWhereUniqueWithoutUsersInput | Prisma.accountsUpsertWithWhereUniqueWithoutUsersInput[]
+  createMany?: Prisma.accountsCreateManyUsersInputEnvelope
+  set?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+  disconnect?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+  delete?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+  connect?: Prisma.accountsWhereUniqueInput | Prisma.accountsWhereUniqueInput[]
+  update?: Prisma.accountsUpdateWithWhereUniqueWithoutUsersInput | Prisma.accountsUpdateWithWhereUniqueWithoutUsersInput[]
+  updateMany?: Prisma.accountsUpdateManyWithWhereWithoutUsersInput | Prisma.accountsUpdateManyWithWhereWithoutUsersInput[]
+  deleteMany?: Prisma.accountsScalarWhereInput | Prisma.accountsScalarWhereInput[]
+}
+
 export type accountsCreateWithoutLedger_entriesInput = {
   id?: string
   address: string
-  owner_id?: string | null
   type: $Enums.AccountType
   created_at?: Date | string
+  users?: Prisma.usersCreateNestedOneWithoutAccountsInput
   transactions_from?: Prisma.transactionsCreateNestedManyWithoutAccounts_fromInput
   transactions_to?: Prisma.transactionsCreateNestedManyWithoutAccounts_toInput
 }
@@ -437,9 +491,9 @@ export type accountsUpdateToOneWithWhereWithoutLedger_entriesInput = {
 export type accountsUpdateWithoutLedger_entriesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.usersUpdateOneWithoutAccountsNestedInput
   transactions_from?: Prisma.transactionsUpdateManyWithoutAccounts_fromNestedInput
   transactions_to?: Prisma.transactionsUpdateManyWithoutAccounts_toNestedInput
 }
@@ -457,9 +511,9 @@ export type accountsUncheckedUpdateWithoutLedger_entriesInput = {
 export type accountsCreateWithoutTransactions_fromInput = {
   id?: string
   address: string
-  owner_id?: string | null
   type: $Enums.AccountType
   created_at?: Date | string
+  users?: Prisma.usersCreateNestedOneWithoutAccountsInput
   ledger_entries?: Prisma.ledger_entriesCreateNestedManyWithoutAccountsInput
   transactions_to?: Prisma.transactionsCreateNestedManyWithoutAccounts_toInput
 }
@@ -482,9 +536,9 @@ export type accountsCreateOrConnectWithoutTransactions_fromInput = {
 export type accountsCreateWithoutTransactions_toInput = {
   id?: string
   address: string
-  owner_id?: string | null
   type: $Enums.AccountType
   created_at?: Date | string
+  users?: Prisma.usersCreateNestedOneWithoutAccountsInput
   ledger_entries?: Prisma.ledger_entriesCreateNestedManyWithoutAccountsInput
   transactions_from?: Prisma.transactionsCreateNestedManyWithoutAccounts_fromInput
 }
@@ -518,9 +572,9 @@ export type accountsUpdateToOneWithWhereWithoutTransactions_fromInput = {
 export type accountsUpdateWithoutTransactions_fromInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.usersUpdateOneWithoutAccountsNestedInput
   ledger_entries?: Prisma.ledger_entriesUpdateManyWithoutAccountsNestedInput
   transactions_to?: Prisma.transactionsUpdateManyWithoutAccounts_toNestedInput
 }
@@ -549,9 +603,9 @@ export type accountsUpdateToOneWithWhereWithoutTransactions_toInput = {
 export type accountsUpdateWithoutTransactions_toInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
-  owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.usersUpdateOneWithoutAccountsNestedInput
   ledger_entries?: Prisma.ledger_entriesUpdateManyWithoutAccountsNestedInput
   transactions_from?: Prisma.transactionsUpdateManyWithoutAccounts_fromNestedInput
 }
@@ -564,6 +618,97 @@ export type accountsUncheckedUpdateWithoutTransactions_toInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   ledger_entries?: Prisma.ledger_entriesUncheckedUpdateManyWithoutAccountsNestedInput
   transactions_from?: Prisma.transactionsUncheckedUpdateManyWithoutAccounts_fromNestedInput
+}
+
+export type accountsCreateWithoutUsersInput = {
+  id?: string
+  address: string
+  type: $Enums.AccountType
+  created_at?: Date | string
+  ledger_entries?: Prisma.ledger_entriesCreateNestedManyWithoutAccountsInput
+  transactions_from?: Prisma.transactionsCreateNestedManyWithoutAccounts_fromInput
+  transactions_to?: Prisma.transactionsCreateNestedManyWithoutAccounts_toInput
+}
+
+export type accountsUncheckedCreateWithoutUsersInput = {
+  id?: string
+  address: string
+  type: $Enums.AccountType
+  created_at?: Date | string
+  ledger_entries?: Prisma.ledger_entriesUncheckedCreateNestedManyWithoutAccountsInput
+  transactions_from?: Prisma.transactionsUncheckedCreateNestedManyWithoutAccounts_fromInput
+  transactions_to?: Prisma.transactionsUncheckedCreateNestedManyWithoutAccounts_toInput
+}
+
+export type accountsCreateOrConnectWithoutUsersInput = {
+  where: Prisma.accountsWhereUniqueInput
+  create: Prisma.XOR<Prisma.accountsCreateWithoutUsersInput, Prisma.accountsUncheckedCreateWithoutUsersInput>
+}
+
+export type accountsCreateManyUsersInputEnvelope = {
+  data: Prisma.accountsCreateManyUsersInput | Prisma.accountsCreateManyUsersInput[]
+  skipDuplicates?: boolean
+}
+
+export type accountsUpsertWithWhereUniqueWithoutUsersInput = {
+  where: Prisma.accountsWhereUniqueInput
+  update: Prisma.XOR<Prisma.accountsUpdateWithoutUsersInput, Prisma.accountsUncheckedUpdateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.accountsCreateWithoutUsersInput, Prisma.accountsUncheckedCreateWithoutUsersInput>
+}
+
+export type accountsUpdateWithWhereUniqueWithoutUsersInput = {
+  where: Prisma.accountsWhereUniqueInput
+  data: Prisma.XOR<Prisma.accountsUpdateWithoutUsersInput, Prisma.accountsUncheckedUpdateWithoutUsersInput>
+}
+
+export type accountsUpdateManyWithWhereWithoutUsersInput = {
+  where: Prisma.accountsScalarWhereInput
+  data: Prisma.XOR<Prisma.accountsUpdateManyMutationInput, Prisma.accountsUncheckedUpdateManyWithoutUsersInput>
+}
+
+export type accountsScalarWhereInput = {
+  AND?: Prisma.accountsScalarWhereInput | Prisma.accountsScalarWhereInput[]
+  OR?: Prisma.accountsScalarWhereInput[]
+  NOT?: Prisma.accountsScalarWhereInput | Prisma.accountsScalarWhereInput[]
+  id?: Prisma.StringFilter<"accounts"> | string
+  address?: Prisma.StringFilter<"accounts"> | string
+  owner_id?: Prisma.StringNullableFilter<"accounts"> | string | null
+  type?: Prisma.EnumAccountTypeFilter<"accounts"> | $Enums.AccountType
+  created_at?: Prisma.DateTimeFilter<"accounts"> | Date | string
+}
+
+export type accountsCreateManyUsersInput = {
+  id?: string
+  address: string
+  type: $Enums.AccountType
+  created_at?: Date | string
+}
+
+export type accountsUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ledger_entries?: Prisma.ledger_entriesUpdateManyWithoutAccountsNestedInput
+  transactions_from?: Prisma.transactionsUpdateManyWithoutAccounts_fromNestedInput
+  transactions_to?: Prisma.transactionsUpdateManyWithoutAccounts_toNestedInput
+}
+
+export type accountsUncheckedUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  ledger_entries?: Prisma.ledger_entriesUncheckedUpdateManyWithoutAccountsNestedInput
+  transactions_from?: Prisma.transactionsUncheckedUpdateManyWithoutAccounts_fromNestedInput
+  transactions_to?: Prisma.transactionsUncheckedUpdateManyWithoutAccounts_toNestedInput
+}
+
+export type accountsUncheckedUpdateManyWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -621,6 +766,7 @@ export type accountsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   owner_id?: boolean
   type?: boolean
   created_at?: boolean
+  users?: boolean | Prisma.accounts$usersArgs<ExtArgs>
   ledger_entries?: boolean | Prisma.accounts$ledger_entriesArgs<ExtArgs>
   transactions_from?: boolean | Prisma.accounts$transactions_fromArgs<ExtArgs>
   transactions_to?: boolean | Prisma.accounts$transactions_toArgs<ExtArgs>
@@ -633,6 +779,7 @@ export type accountsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   owner_id?: boolean
   type?: boolean
   created_at?: boolean
+  users?: boolean | Prisma.accounts$usersArgs<ExtArgs>
 }, ExtArgs["result"]["accounts"]>
 
 export type accountsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -641,6 +788,7 @@ export type accountsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   owner_id?: boolean
   type?: boolean
   created_at?: boolean
+  users?: boolean | Prisma.accounts$usersArgs<ExtArgs>
 }, ExtArgs["result"]["accounts"]>
 
 export type accountsSelectScalar = {
@@ -653,17 +801,23 @@ export type accountsSelectScalar = {
 
 export type accountsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "address" | "owner_id" | "type" | "created_at", ExtArgs["result"]["accounts"]>
 export type accountsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  users?: boolean | Prisma.accounts$usersArgs<ExtArgs>
   ledger_entries?: boolean | Prisma.accounts$ledger_entriesArgs<ExtArgs>
   transactions_from?: boolean | Prisma.accounts$transactions_fromArgs<ExtArgs>
   transactions_to?: boolean | Prisma.accounts$transactions_toArgs<ExtArgs>
   _count?: boolean | Prisma.AccountsCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type accountsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type accountsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type accountsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  users?: boolean | Prisma.accounts$usersArgs<ExtArgs>
+}
+export type accountsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  users?: boolean | Prisma.accounts$usersArgs<ExtArgs>
+}
 
 export type $accountsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "accounts"
   objects: {
+    users: Prisma.$usersPayload<ExtArgs> | null
     ledger_entries: Prisma.$ledger_entriesPayload<ExtArgs>[]
     transactions_from: Prisma.$transactionsPayload<ExtArgs>[]
     transactions_to: Prisma.$transactionsPayload<ExtArgs>[]
@@ -1068,6 +1222,7 @@ readonly fields: accountsFieldRefs;
  */
 export interface Prisma__accountsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  users<T extends Prisma.accounts$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.accounts$usersArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ledger_entries<T extends Prisma.accounts$ledger_entriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.accounts$ledger_entriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ledger_entriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions_from<T extends Prisma.accounts$transactions_fromArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.accounts$transactions_fromArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions_to<T extends Prisma.accounts$transactions_toArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.accounts$transactions_toArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$transactionsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1359,6 +1514,10 @@ export type accountsCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    */
   data: Prisma.accountsCreateManyInput | Prisma.accountsCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.accountsIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1429,6 +1588,10 @@ export type accountsUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many accounts to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.accountsIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1495,6 +1658,25 @@ export type accountsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many accounts to delete.
    */
   limit?: number
+}
+
+/**
+ * accounts.users
+ */
+export type accounts$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the users
+   */
+  select?: Prisma.usersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the users
+   */
+  omit?: Prisma.usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
+  where?: Prisma.usersWhereInput
 }
 
 /**

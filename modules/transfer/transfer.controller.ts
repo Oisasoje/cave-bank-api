@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import transferService from "./transfer.service.js";
+import { transferAction, verifyReciepient } from "./transfer.service.js";
 
-export default async function transferController(req: Request, res: Response) {
+export async function transferController(req: Request, res: Response) {
   try {
     const { fromAccountId, toAccountId, amount, reference, reason } = req.body;
 
@@ -20,7 +20,7 @@ export default async function transferController(req: Request, res: Response) {
       return res.status(400).json({ error: "Missing reference" });
     }
 
-    const transaction = await transferService({
+    const transaction = await transferAction({
       fromAccountId,
       toAccountId,
       amount,
@@ -30,13 +30,31 @@ export default async function transferController(req: Request, res: Response) {
     });
 
     return res.status(201).json({
-      success: true,
-      transaction,
+      message: { success: true },
+
+      data: { transaction },
     });
   } catch (err: any) {
     return res.status(400).json({
       success: false,
       error: err.message || "Transfer failed",
+    });
+  }
+}
+
+export async function verifyReciepientController(req: Request, res: Response) {
+  try {
+    const { walletAddress } = req.body;
+    if (!walletAddress) {
+      return res.status(400).json({ error: "Missing wallet address" });
+    }
+
+    const data = await verifyReciepient(walletAddress);
+    return res.status(200).json({ user: data });
+  } catch (err: any) {
+    return res.status(400).json({
+      success: false,
+      error: err.message || "Failed to verify recipient",
     });
   }
 }

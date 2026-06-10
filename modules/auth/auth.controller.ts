@@ -179,8 +179,10 @@ export async function me(req: any, res: any) {
   const wallet_address = result.wallet_address;
 
   return res.json({
-    user: userWithoutPin,
-    wallet_address,
+    data: {
+      user: userWithoutPin,
+      wallet_address,
+    },
   });
 }
 

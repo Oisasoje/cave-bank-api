@@ -1,9 +1,13 @@
 import { Router } from "express";
-import transferController from "./transfer.controller.js";
+import {
+  transferController,
+  verifyReciepientController,
+} from "./transfer.controller.js";
 import { requireAuth } from "../../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.post("/transfer", requireAuth, transferController);
+router.post("/", requireAuth, transferController);
+router.post("/getReciepient", requireAuth, verifyReciepientController);
 
 export default router;
