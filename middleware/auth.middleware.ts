@@ -36,6 +36,7 @@ export async function requireAuth(
 
     req.session = req.auth.session;
     req.user = req.auth.user;
+    req.walletAddress = req.auth.wallet_address;
 
     next();
   } catch (err) {

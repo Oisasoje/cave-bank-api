@@ -5,6 +5,7 @@ import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes.js";
 import { gloo } from "@oisasoje/gloo";
 import transferRoutes from "./modules/transfer/transfer.routes.js";
+import userRoutes from "./modules/user/user.routes.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.use("/auth", authRoutes);
 app.use("/transfer", transferRoutes);
+app.use("/user", userRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({

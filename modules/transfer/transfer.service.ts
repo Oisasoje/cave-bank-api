@@ -1,30 +1,28 @@
 import { prisma } from "../../lib/prisma.js";
 import crypto from "crypto";
+import verifyPin from "../../utils/password.js";
 
 export async function transferAction({
+  pin,
   fromAccountId,
   toAccountId,
   amount,
-  reference,
+
   reason,
   initiatedById,
 }: {
+  pin: string;
   fromAccountId: string;
   toAccountId: string;
   amount: number;
-  reference: string;
+
   reason?: string;
   initiatedById: string;
 }) {
   return prisma.$transaction(async (tx) => {
-    // 1. IDEMPOTENCY CHECK
-    const existing = await tx.transactions.findUnique({
-      where: { reference },
-    });
-
-    if (existing) return existing;
-
-    // 2. VERIFY ACCOUNTS EXIST (no extra logic)
+    if (!Number.isFinite(amount) || amount <= 0) {
+      throw new Error("Invalid amount");
+    }
     const [senderAccount, receiverAccount] = await Promise.all([
       tx.accounts.findUnique({ where: { id: fromAccountId } }),
       tx.accounts.findUnique({ where: { id: toAccountId } }),
@@ -32,6 +30,38 @@ export async function transferAction({
 
     if (!senderAccount || !receiverAccount) {
       throw new Error("Invalid accounts");
+    }
+
+    if (fromAccountId === toAccountId) {
+      throw new Error("Cannot transfer to same account");
+    }
+
+    // 2. AUTHORIZATION (PIN CHECK)
+    if (!senderAccount.owner_id) {
+      throw new Error("Account has no owner");
+    }
+    const senderUser = await tx.users.findUnique({
+      where: { id: senderAccount.owner_id },
+    });
+
+    if (!senderUser) {
+      throw new Error("User not found");
+    }
+
+    const hashedPin = senderUser.pin_hash;
+
+    if (!hashedPin) {
+      throw new Error("PIN not set up");
+    }
+
+    if (senderAccount.owner_id !== initiatedById) {
+      throw new Error("Unauthorized");
+    }
+
+    const validPin = await verifyPin(hashedPin, pin);
+
+    if (!validPin) {
+      throw new Error("Invalid PIN");
     }
 
     // 3. ATOMIC DEBIT (single source of truth for balance safety)
@@ -62,7 +92,7 @@ export async function transferAction({
       data: {
         id: crypto.randomUUID(),
         amount,
-        reference,
+        reference: crypto.randomUUID(),
         reason: reason ?? "transfer",
         initiated_by_id: initiatedById,
         from_account_id: fromAccountId,

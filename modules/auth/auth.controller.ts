@@ -174,8 +174,23 @@ export async function me(req: any, res: any) {
     return res.status(401).json({ message: "Authentication required." });
   }
 
-  const { pin_hash, academic_status, id, ...userWithoutPin } =
-    result.session.user;
+  const {
+    pin_hash,
+    academic_status,
+    created_at,
+    schools_attended,
+    member_since_month,
+    member_since_year,
+    updated_at,
+    deactivated_at,
+    is_active,
+    space,
+    birthday,
+    tribe,
+    phone,
+    email,
+    ...userWithoutPin
+  } = result.session.user;
   const wallet_address = result.wallet_address;
 
   return res.json({
