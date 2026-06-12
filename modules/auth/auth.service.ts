@@ -258,6 +258,12 @@ export async function getSession(sessionId: string) {
     }),
   );
 
+  const account = await span("prisma.account.findUnique", () =>
+    prisma.accounts.findUnique({
+      where: { address: wallet?.wallets?.address },
+    }),
+  );
+
   if (session.expires_at < new Date()) {
     await span("prisma.session.deleteMany", () =>
       prisma.session.deleteMany({
@@ -268,7 +274,11 @@ export async function getSession(sessionId: string) {
     return null;
   }
 
-  return { session, wallet_address: wallet?.wallets?.address };
+  return {
+    session,
+    wallet_address: wallet?.wallets?.address,
+    accountId: account?.id,
+  };
 }
 
 export async function logoutUser(sessionId: string) {

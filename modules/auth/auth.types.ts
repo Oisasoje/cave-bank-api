@@ -16,4 +16,5 @@ export type AuthContext = {
     space: string;
   };
   wallet_address?: string;
+  accountId?: string;
 };

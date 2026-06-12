@@ -7,6 +7,7 @@ declare global {
       user: AuthContext["user"];
       session: SessionRecord;
       walletAddress: AuthContext["wallet_address"];
+      accountId: AuthContext["accountId"];
     }
   }
 }

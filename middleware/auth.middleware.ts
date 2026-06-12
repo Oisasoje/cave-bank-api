@@ -20,7 +20,7 @@ export async function requireAuth(
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const { session: sessionData, wallet_address } = result;
+    const { session: sessionData, wallet_address, accountId } = result;
 
     // 🔥 IMPORTANT: attach user explicitly
 
@@ -32,11 +32,13 @@ export async function requireAuth(
       },
       user: sessionData.user,
       wallet_address,
+      accountId,
     };
 
     req.session = req.auth.session;
     req.user = req.auth.user;
     req.walletAddress = req.auth.wallet_address;
+    req.accountId = req.auth.accountId;
 
     next();
   } catch (err) {

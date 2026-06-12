@@ -28,8 +28,12 @@ export async function transferAction({
       tx.accounts.findUnique({ where: { id: toAccountId } }),
     ]);
 
-    if (!senderAccount || !receiverAccount) {
-      throw new Error("Invalid accounts");
+    if (!senderAccount) {
+      throw new Error("Invalid sender account");
+    }
+
+    if (!receiverAccount) {
+      throw new Error("Invalid recipient account");
     }
 
     if (fromAccountId === toAccountId) {

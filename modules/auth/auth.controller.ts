@@ -192,11 +192,13 @@ export async function me(req: any, res: any) {
     ...userWithoutPin
   } = result.session.user;
   const wallet_address = result.wallet_address;
+  const accountId = result.accountId;
 
   return res.json({
     data: {
       user: userWithoutPin,
       wallet_address,
+      accountId,
     },
   });
 }

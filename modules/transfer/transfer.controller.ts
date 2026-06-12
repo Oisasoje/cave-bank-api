@@ -4,15 +4,11 @@ import { log } from "@oisasoje/gloo";
 
 export async function transferController(req: Request, res: Response) {
   try {
-    log(req.auth);
     const { pin, fromAccountId, toAccountId, amount, reason } = await req.body;
 
-    log(
-      `Initiating transfer from ${fromAccountId} to ${toAccountId} for amount ${amount}`,
-    );
-    log("Failed basic validation check 1 ........");
-
     const initiatedById = req.user.id;
+
+    log("Received transfer request, doing basic validation");
 
     // BASIC GUARDS (not business logic)
     if (!fromAccountId || !toAccountId) {
@@ -26,6 +22,10 @@ export async function transferController(req: Request, res: Response) {
     // if (!reference) {
     //   return res.status(400).json({ error: "Missing reference" });
     // }
+
+    log(
+      `Initiating transfer from account ${fromAccountId} to ${toAccountId} for amount ${amount} by user ${initiatedById}`,
+    );
 
     const transaction = await transferAction({
       pin,
@@ -43,6 +43,7 @@ export async function transferController(req: Request, res: Response) {
       data: { transaction },
     });
   } catch (err: any) {
+    log("Transfer failed with error: " + err.message);
     return res.status(400).json({
       success: false,
       error: err.message || "Transfer failed",
@@ -60,6 +61,7 @@ export async function verifyReciepientController(req: Request, res: Response) {
     const data = await verifyReciepient(walletAddress);
     return res.status(200).json({ user: data });
   } catch (err: any) {
+    log("Failed to verify recipient with error: " + err.message);
     return res.status(400).json({
       success: false,
       error: err.message || "Failed to verify recipient",
