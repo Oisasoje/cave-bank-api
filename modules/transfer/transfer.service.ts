@@ -49,7 +49,17 @@ export async function transferAction({
       where: { id: senderAccount.owner_id },
     });
 
+    if (!receiverAccount.owner_id) {
+      throw new Error("Account has no owner");
+    }
+    const receiverUser = await tx.users.findUnique({
+      where: { id: receiverAccount.owner_id },
+    });
+
     if (!senderUser) {
+      throw new Error("User not found");
+    }
+    if (!receiverUser) {
       throw new Error("User not found");
     }
 
@@ -127,7 +137,10 @@ export async function transferAction({
       ],
     });
 
-    return transaction;
+    const receiverUserName = receiverUser.name;
+    const senderUserName = senderUser.name;
+
+    return { transaction, receiverUserName, senderUserName };
   });
 }
 
@@ -154,4 +167,15 @@ export async function verifyReciepient(
       accountId: account.id,
     },
   };
+}
+
+export async function getRecentTransactions(id: string) {
+  const user = await prisma.users.findUnique({
+    where: { id },
+    include: {
+      accounts: { include: { transactions_from: true, transactions_to: true } },
+    },
+  });
+
+  if (!user) throw new Error("User not found");
 }

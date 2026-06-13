@@ -27,20 +27,21 @@ export async function transferController(req: Request, res: Response) {
       `Initiating transfer from account ${fromAccountId} to ${toAccountId} for amount ${amount} by user ${initiatedById}`,
     );
 
-    const transaction = await transferAction({
-      pin,
-      fromAccountId,
-      toAccountId,
-      amount,
+    const { transaction, receiverUserName, senderUserName } =
+      await transferAction({
+        pin,
+        fromAccountId,
+        toAccountId,
+        amount,
 
-      reason,
-      initiatedById,
-    });
+        reason,
+        initiatedById,
+      });
 
     return res.status(201).json({
       message: { success: true },
 
-      data: { transaction },
+      data: { transaction, receiverUserName, senderUserName },
     });
   } catch (err: any) {
     log("Transfer failed with error: " + err.message);
