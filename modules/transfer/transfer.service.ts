@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma.js";
 import crypto from "crypto";
 import verifyPin from "../../utils/password.js";
+import { log } from "@oisasoje/gloo";
 
 export async function transferAction({
   pin,
@@ -130,13 +131,21 @@ export async function transferAction({
   });
 }
 
-export async function verifyReciepient(walletAddress: string) {
+export async function verifyReciepient(
+  walletAddress: string,
+  senderWalletAddress: string,
+) {
   const account = await prisma.accounts.findUnique({
     where: { address: walletAddress },
     include: { users: true },
   });
 
   if (!account || !account.users) throw new Error("Recipient not found");
+  if (senderWalletAddress === walletAddress)
+    throw new Error("Cannot transfer to self");
+  log(
+    "Recipient verified: " + account.users.name + " (" + account.address + ")",
+  );
 
   return {
     data: {

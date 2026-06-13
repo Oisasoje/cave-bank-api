@@ -58,7 +58,13 @@ export async function verifyReciepientController(req: Request, res: Response) {
       return res.status(400).json({ error: "Missing wallet address" });
     }
 
-    const data = await verifyReciepient(walletAddress);
+    log(`${walletAddress}, ${req.walletAddress}`);
+    const senderWalletAddress = req.walletAddress;
+    if (!senderWalletAddress) {
+      return res.status(400).json({ error: "Missing sender wallet address" });
+    }
+
+    const data = await verifyReciepient(walletAddress, senderWalletAddress);
     return res.status(200).json({ user: data });
   } catch (err: any) {
     log("Failed to verify recipient with error: " + err.message);
