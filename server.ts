@@ -1,8 +1,7 @@
-import app from "./app.js";
+import { httpServer } from "./app.js";
 
 if (process.env.NODE_ENV !== "production") {
-  app.listen(8000, () => console.log("Server running on port 8000"));
+  httpServer.listen(8000, () => console.log("Server running on port 8000"));
 }
 
-// Export for Vercel
-export default app;
+export default httpServer;

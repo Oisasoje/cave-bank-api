@@ -2,13 +2,13 @@ import { prisma } from "../../lib/prisma.js";
 import crypto from "crypto";
 import verifyPin from "../../utils/password.js";
 import { log } from "@oisasoje/gloo";
+import { io } from "../../realTime/socket.js";
 
 export async function transferAction({
   pin,
   fromAccountId,
   toAccountId,
   amount,
-
   reason,
   initiatedById,
 }: {
@@ -16,70 +16,48 @@ export async function transferAction({
   fromAccountId: string;
   toAccountId: string;
   amount: number;
-
   reason?: string;
   initiatedById: string;
 }) {
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     if (!Number.isFinite(amount) || amount <= 0) {
       throw new Error("Invalid amount");
     }
+
     const [senderAccount, receiverAccount] = await Promise.all([
       tx.accounts.findUnique({ where: { id: fromAccountId } }),
       tx.accounts.findUnique({ where: { id: toAccountId } }),
     ]);
 
-    if (!senderAccount) {
-      throw new Error("Invalid sender account");
-    }
-
-    if (!receiverAccount) {
-      throw new Error("Invalid recipient account");
-    }
-
-    if (fromAccountId === toAccountId) {
+    if (!senderAccount) throw new Error("Invalid sender account");
+    if (!receiverAccount) throw new Error("Invalid recipient account");
+    if (fromAccountId === toAccountId)
       throw new Error("Cannot transfer to same account");
-    }
 
-    // 2. AUTHORIZATION (PIN CHECK)
-    if (!senderAccount.owner_id) {
-      throw new Error("Account has no owner");
-    }
+    if (!senderAccount.owner_id) throw new Error("Account has no owner");
+    if (!receiverAccount.owner_id) throw new Error("Account has no owner");
+
     const senderUser = await tx.users.findUnique({
       where: { id: senderAccount.owner_id },
     });
 
-    if (!receiverAccount.owner_id) {
-      throw new Error("Account has no owner");
-    }
     const receiverUser = await tx.users.findUnique({
       where: { id: receiverAccount.owner_id },
     });
 
-    if (!senderUser) {
-      throw new Error("User not found");
-    }
-    if (!receiverUser) {
-      throw new Error("User not found");
-    }
+    if (!senderUser) throw new Error("User not found");
+    if (!receiverUser) throw new Error("User not found");
 
     const hashedPin = senderUser.pin_hash;
-
-    if (!hashedPin) {
-      throw new Error("PIN not set up");
-    }
+    if (!hashedPin) throw new Error("PIN not set up");
 
     if (senderAccount.owner_id !== initiatedById) {
       throw new Error("Unauthorized");
     }
 
     const validPin = await verifyPin(hashedPin, pin);
+    if (!validPin) throw new Error("Invalid PIN");
 
-    if (!validPin) {
-      throw new Error("Invalid PIN");
-    }
-
-    // 3. ATOMIC DEBIT (single source of truth for balance safety)
     const debitResult = await tx.wallets.updateMany({
       where: {
         address: senderAccount.address,
@@ -94,7 +72,6 @@ export async function transferAction({
       throw new Error("Insufficient funds");
     }
 
-    // 4. CREDIT (no need to pre-read wallet)
     await tx.wallets.update({
       where: { address: receiverAccount.address },
       data: {
@@ -102,7 +79,6 @@ export async function transferAction({
       },
     });
 
-    // 5. TRANSACTION RECORD (audit/event layer)
     const transaction = await tx.transactions.create({
       data: {
         id: crypto.randomUUID(),
@@ -117,7 +93,6 @@ export async function transferAction({
       },
     });
 
-    // 6. LEDGER (truth layer)
     await tx.ledger_entries.createMany({
       data: [
         {
@@ -137,11 +112,26 @@ export async function transferAction({
       ],
     });
 
-    const receiverUserName = receiverUser.name;
-    const senderUserName = senderUser.name;
-
-    return { transaction, receiverUserName, senderUserName };
+    return {
+      transaction,
+      senderUser,
+      receiverUser,
+      senderAccountId: fromAccountId,
+      receiverAccountId: toAccountId,
+    };
   });
+
+  io.to(`user:${result.senderAccountId}`).emit("wallet:updated", {
+    type: "debit",
+    amount,
+  });
+
+  io.to(`user:${result.receiverAccountId}`).emit("wallet:updated", {
+    type: "credit",
+    amount,
+  });
+
+  return result;
 }
 
 export async function verifyReciepient(
