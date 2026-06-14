@@ -10,13 +10,21 @@ export async function getBalance(walletAddress: string) {
   return { balance: wallet.balance };
 }
 
-export async function getRecentTransactions(accountId: string, limit = 20) {
+export async function getTransactions(
+  accountId: string,
+  limit = 20,
+  cursor?: string,
+) {
   const transactions = await prisma.transactions.findMany({
     where: {
       OR: [{ from_account_id: accountId }, { to_account_id: accountId }],
     },
-    orderBy: { created_at: "desc" },
-    take: limit,
+    orderBy: [{ created_at: "desc" }, { id: "desc" }],
+    take: limit + 1,
+    ...(cursor && {
+      cursor: { id: cursor },
+      skip: 1,
+    }),
     include: {
       accounts_from: {
         include: { users: { select: { name: true } } },
@@ -27,8 +35,15 @@ export async function getRecentTransactions(accountId: string, limit = 20) {
     },
   });
 
-  return transactions.map((tx) => ({
-    ...tx,
-    type: tx.from_account_id === accountId ? "debit" : "credit",
-  }));
+  const hasNextPage = transactions.length > limit;
+  if (hasNextPage) transactions.pop();
+
+  return {
+    data: transactions.map((tx) => ({
+      ...tx,
+      type: tx.from_account_id === accountId ? "debit" : "credit",
+    })),
+    hasNextPage,
+    nextCursor: hasNextPage ? transactions[transactions.length - 1].id : null,
+  };
 }
