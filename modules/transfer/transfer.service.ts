@@ -2,7 +2,7 @@ import { prisma } from "../../lib/prisma.js";
 import crypto from "crypto";
 import verifyPin from "../../utils/password.js";
 import { log } from "@oisasoje/gloo";
-import { io } from "../../realTime/socket.js";
+import { io } from "../../app.js";
 
 export async function transferAction({
   pin,
@@ -19,11 +19,10 @@ export async function transferAction({
   reason?: string;
   initiatedById: string;
 }) {
+  if (!Number.isFinite(amount) || amount <= 0) {
+    throw new Error("Invalid amount");
+  }
   const result = await prisma.$transaction(async (tx) => {
-    if (!Number.isFinite(amount) || amount <= 0) {
-      throw new Error("Invalid amount");
-    }
-
     const [senderAccount, receiverAccount] = await Promise.all([
       tx.accounts.findUnique({ where: { id: fromAccountId } }),
       tx.accounts.findUnique({ where: { id: toAccountId } }),
@@ -121,12 +120,12 @@ export async function transferAction({
     };
   });
 
-  io.to(`user:${result.senderAccountId}`).emit("wallet:updated", {
+  io.to(`user:${result.senderUser.id}`).emit("wallet:updated", {
     type: "debit",
     amount,
   });
 
-  io.to(`user:${result.receiverAccountId}`).emit("wallet:updated", {
+  io.to(`user:${result.receiverUser.id}`).emit("wallet:updated", {
     type: "credit",
     amount,
   });
