@@ -2,7 +2,7 @@ import { prisma } from "../../lib/prisma.js";
 import crypto from "crypto";
 import verifyPin from "../../utils/password.js";
 import { log } from "@oisasoje/gloo";
-import { io } from "../../app.js";
+import { pusher } from "../../lib/pusher.js";
 
 export async function transferAction({
   pin,
@@ -120,12 +120,14 @@ export async function transferAction({
     };
   });
 
-  io.to(`user:${result.senderUser.id}`).emit("wallet:updated", {
+  console.log("📡 emitting to sender:", `user:${result.senderUser.id}`);
+  console.log("📡 emitting to receiver:", `user:${result.receiverUser.id}`);
+
+  await pusher.trigger(`user-${result.senderUser.id}`, "wallet:updated", {
     type: "debit",
     amount,
   });
-
-  io.to(`user:${result.receiverUser.id}`).emit("wallet:updated", {
+  await pusher.trigger(`user-${result.receiverUser.id}`, "wallet:updated", {
     type: "credit",
     amount,
   });
