@@ -6,6 +6,15 @@ export async function transferController(req: Request, res: Response) {
   try {
     const { pin, fromAccountId, toAccountId, amount, reason } = await req.body;
 
+    console.log(
+      pin,
+      fromAccountId,
+      toAccountId,
+      amount,
+      reason,
+      "hello from controller",
+    );
+
     const initiatedById = req.user.id;
 
     log("Received transfer request, doing basic validation");
