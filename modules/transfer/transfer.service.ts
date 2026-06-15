@@ -120,17 +120,19 @@ export async function transferAction({
     };
   });
 
-  console.log("📡 emitting to sender:", `user:${result.senderUser.id}`);
-  console.log("📡 emitting to receiver:", `user:${result.receiverUser.id}`);
-
-  await pusher.trigger(`user-${result.senderUser.id}`, "wallet:updated", {
-    type: "debit",
-    amount,
-  });
-  await pusher.trigger(`user-${result.receiverUser.id}`, "wallet:updated", {
-    type: "credit",
-    amount,
-  });
+  try {
+    await pusher.trigger(`user-${result.senderUser.id}`, "wallet:updated", {
+      type: "debit",
+      amount,
+    });
+    await pusher.trigger(`user-${result.receiverUser.id}`, "wallet:updated", {
+      type: "credit",
+      amount,
+    });
+  } catch (pusherError: any) {
+    console.error("Pusher error:", pusherError.message);
+    // don't throw — transfer already succeeded
+  }
 
   return result;
 }

@@ -4,16 +4,7 @@ import { log } from "@oisasoje/gloo";
 
 export async function transferController(req: Request, res: Response) {
   try {
-    const { pin, fromAccountId, toAccountId, amount, reason } = await req.body;
-
-    console.log(
-      pin,
-      fromAccountId,
-      toAccountId,
-      amount,
-      reason,
-      "hello from controller",
-    );
+    const { pin, fromAccountId, toAccountId, amount, reason } = req.body;
 
     const initiatedById = req.user.id;
 
@@ -31,10 +22,6 @@ export async function transferController(req: Request, res: Response) {
     // if (!reference) {
     //   return res.status(400).json({ error: "Missing reference" });
     // }
-
-    log(
-      `Initiating transfer from account ${fromAccountId} to ${toAccountId} for amount ${amount} by user ${initiatedById}`,
-    );
 
     const { transaction, receiverUser, senderUser } = await transferAction({
       pin,
@@ -56,8 +43,8 @@ export async function transferController(req: Request, res: Response) {
       },
     });
   } catch (err: any) {
+    console.error("Transfer error:", err); // ← full error object
     log("Transfer failed with error: " + err.message);
-    //check for transaction time expiration
     return res.status(400).json({
       success: false,
       error: err.message || "Transfer failed",

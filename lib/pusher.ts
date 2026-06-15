@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import Pusher from "pusher";
 
 export const pusher = new Pusher({
