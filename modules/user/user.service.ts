@@ -47,3 +47,19 @@ export async function getTransactions(
     nextCursor: hasNextPage ? transactions[transactions.length - 1].id : null,
   };
 }
+
+export async function getTransactionById(transactionId: string) {
+  const transaction = await prisma.transactions.findUnique({
+    where: { id: transactionId },
+    include: {
+      accounts_from: {
+        include: { users: { select: { name: true } } },
+      },
+      accounts_to: {
+        include: { users: { select: { name: true } } },
+      },
+    },
+  });
+  if (!transaction) throw new Error("Transaction not found");
+  return transaction;
+}

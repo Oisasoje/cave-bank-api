@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { getBalance, getTransactions } from "./user.service.js";
+import {
+  getBalance,
+  getTransactionById,
+  getTransactions,
+} from "./user.service.js";
 
 export async function getBalanceController(req: Request, res: Response) {
   try {
@@ -34,6 +38,27 @@ export async function getTransactionsController(req: Request, res: Response) {
     return res.status(400).json({
       success: false,
       error: err.message || "Failed to get recent transactions",
+    });
+  }
+}
+
+export async function getTransactionByIdController(
+  req: Request,
+  res: Response,
+) {
+  try {
+    const transactionId = req.params.transactionId;
+
+    if (!transactionId || Array.isArray(transactionId)) {
+      return res.status(400).json({ error: "Missing transaction ID" });
+    }
+
+    const transaction = await getTransactionById(transactionId);
+    return res.status(200).json(transaction);
+  } catch (err: any) {
+    return res.status(400).json({
+      success: false,
+      error: err.message || "Failed to get transaction",
     });
   }
 }
