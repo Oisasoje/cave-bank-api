@@ -161,14 +161,3 @@ export async function verifyReciepient(
     },
   };
 }
-
-export async function getRecentTransactions(id: string) {
-  const user = await prisma.users.findUnique({
-    where: { id },
-    include: {
-      accounts: { include: { transactions_from: true, transactions_to: true } },
-    },
-  });
-
-  if (!user) throw new Error("User not found");
-}

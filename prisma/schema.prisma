@@ -197,6 +197,21 @@ model users {
   sessions             Session[]
   signup_setup_tokens  signup_setup_tokens[]
   accounts             accounts[]
+  favorites            user_favorites[]       @relation("user_favorites")
+  favorited_by         user_favorites[]       @relation("favorited_by")
+}
+
+model user_favorites {
+  user_id     String
+  favorite_id String
+
+  created_at DateTime @default(now())
+
+  user     users @relation("user_favorites", fields: [user_id], references: [id], onDelete: Cascade)
+  favorite users @relation("favorited_by", fields: [favorite_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, favorite_id])
+  @@index([user_id])
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.

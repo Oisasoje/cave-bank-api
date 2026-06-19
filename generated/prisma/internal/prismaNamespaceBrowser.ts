@@ -67,6 +67,7 @@ export const ModelName = {
   treasuries: 'treasuries',
   treasury_signatories: 'treasury_signatories',
   users: 'users',
+  user_favorites: 'user_favorites',
   wallets: 'wallets'
 } as const
 
@@ -282,6 +283,15 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const User_favoritesScalarFieldEnum = {
+  user_id: 'user_id',
+  favorite_id: 'favorite_id',
+  created_at: 'created_at'
+} as const
+
+export type User_favoritesScalarFieldEnum = (typeof User_favoritesScalarFieldEnum)[keyof typeof User_favoritesScalarFieldEnum]
 
 
 export const WalletsScalarFieldEnum = {

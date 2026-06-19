@@ -400,6 +400,7 @@ export const ModelName = {
   treasuries: 'treasuries',
   treasury_signatories: 'treasury_signatories',
   users: 'users',
+  user_favorites: 'user_favorites',
   wallets: 'wallets'
 } as const
 
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "accounts" | "session" | "login_attempts" | "signup_attempts" | "audit_log" | "ledger_entries" | "bulk_transfers" | "mint_burn_events" | "otps" | "signup_otps" | "reset_password_otps" | "signup_setup_tokens" | "transactions" | "treasuries" | "treasury_signatories" | "users" | "wallets"
+    modelProps: "accounts" | "session" | "login_attempts" | "signup_attempts" | "audit_log" | "ledger_entries" | "bulk_transfers" | "mint_burn_events" | "otps" | "signup_otps" | "reset_password_otps" | "signup_setup_tokens" | "transactions" | "treasuries" | "treasury_signatories" | "users" | "user_favorites" | "wallets"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1604,6 +1605,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    user_favorites: {
+      payload: Prisma.$user_favoritesPayload<ExtArgs>
+      fields: Prisma.user_favoritesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.user_favoritesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.user_favoritesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>
+        }
+        findFirst: {
+          args: Prisma.user_favoritesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.user_favoritesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>
+        }
+        findMany: {
+          args: Prisma.user_favoritesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>[]
+        }
+        create: {
+          args: Prisma.user_favoritesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>
+        }
+        createMany: {
+          args: Prisma.user_favoritesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.user_favoritesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>[]
+        }
+        delete: {
+          args: Prisma.user_favoritesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>
+        }
+        update: {
+          args: Prisma.user_favoritesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>
+        }
+        deleteMany: {
+          args: Prisma.user_favoritesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.user_favoritesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.user_favoritesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>[]
+        }
+        upsert: {
+          args: Prisma.user_favoritesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$user_favoritesPayload>
+        }
+        aggregate: {
+          args: Prisma.User_favoritesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUser_favorites>
+        }
+        groupBy: {
+          args: Prisma.user_favoritesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.User_favoritesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.user_favoritesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.User_favoritesCountAggregateOutputType> | number
+        }
+      }
+    }
     wallets: {
       payload: Prisma.$walletsPayload<ExtArgs>
       fields: Prisma.walletsFieldRefs
@@ -1913,6 +1988,15 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const User_favoritesScalarFieldEnum = {
+  user_id: 'user_id',
+  favorite_id: 'favorite_id',
+  created_at: 'created_at'
+} as const
+
+export type User_favoritesScalarFieldEnum = (typeof User_favoritesScalarFieldEnum)[keyof typeof User_favoritesScalarFieldEnum]
 
 
 export const WalletsScalarFieldEnum = {
@@ -2259,6 +2343,7 @@ export type GlobalOmitConfig = {
   treasuries?: Prisma.treasuriesOmit
   treasury_signatories?: Prisma.treasury_signatoriesOmit
   users?: Prisma.usersOmit
+  user_favorites?: Prisma.user_favoritesOmit
   wallets?: Prisma.walletsOmit
 }
 

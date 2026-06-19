@@ -98,6 +98,11 @@ export type treasury_signatories = Prisma.treasury_signatoriesModel
  */
 export type users = Prisma.usersModel
 /**
+ * Model user_favorites
+ * 
+ */
+export type user_favorites = Prisma.user_favoritesModel
+/**
  * Model wallets
  * This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
  */

@@ -320,6 +320,8 @@ export type usersWhereInput = {
   sessions?: Prisma.SessionListRelationFilter
   signup_setup_tokens?: Prisma.Signup_setup_tokensListRelationFilter
   accounts?: Prisma.AccountsListRelationFilter
+  favorites?: Prisma.User_favoritesListRelationFilter
+  favorited_by?: Prisma.User_favoritesListRelationFilter
 }
 
 export type usersOrderByWithRelationInput = {
@@ -348,6 +350,8 @@ export type usersOrderByWithRelationInput = {
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   signup_setup_tokens?: Prisma.signup_setup_tokensOrderByRelationAggregateInput
   accounts?: Prisma.accountsOrderByRelationAggregateInput
+  favorites?: Prisma.user_favoritesOrderByRelationAggregateInput
+  favorited_by?: Prisma.user_favoritesOrderByRelationAggregateInput
 }
 
 export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -379,6 +383,8 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   sessions?: Prisma.SessionListRelationFilter
   signup_setup_tokens?: Prisma.Signup_setup_tokensListRelationFilter
   accounts?: Prisma.AccountsListRelationFilter
+  favorites?: Prisma.User_favoritesListRelationFilter
+  favorited_by?: Prisma.User_favoritesListRelationFilter
 }, "id" | "email" | "phone">
 
 export type usersOrderByWithAggregationInput = {
@@ -455,6 +461,8 @@ export type usersCreateInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateInput = {
@@ -483,6 +491,8 @@ export type usersUncheckedCreateInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUpdateInput = {
@@ -511,6 +521,8 @@ export type usersUpdateInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateInput = {
@@ -539,6 +551,8 @@ export type usersUncheckedUpdateInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersCreateManyInput = {
@@ -808,6 +822,34 @@ export type usersUpdateschools_attendedInput = {
   push?: $Enums.School | $Enums.School[]
 }
 
+export type usersCreateNestedOneWithoutFavoritesInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutFavoritesInput, Prisma.usersUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFavoritesInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersCreateNestedOneWithoutFavorited_byInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutFavorited_byInput, Prisma.usersUncheckedCreateWithoutFavorited_byInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFavorited_byInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutFavoritesNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutFavoritesInput, Prisma.usersUncheckedCreateWithoutFavoritesInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFavoritesInput
+  upsert?: Prisma.usersUpsertWithoutFavoritesInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFavoritesInput, Prisma.usersUpdateWithoutFavoritesInput>, Prisma.usersUncheckedUpdateWithoutFavoritesInput>
+}
+
+export type usersUpdateOneRequiredWithoutFavorited_byNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutFavorited_byInput, Prisma.usersUncheckedCreateWithoutFavorited_byInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutFavorited_byInput
+  upsert?: Prisma.usersUpsertWithoutFavorited_byInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutFavorited_byInput, Prisma.usersUpdateWithoutFavorited_byInput>, Prisma.usersUncheckedUpdateWithoutFavorited_byInput>
+}
+
 export type usersCreateNestedOneWithoutWalletsInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutWalletsInput, Prisma.usersUncheckedCreateWithoutWalletsInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutWalletsInput
@@ -849,6 +891,8 @@ export type usersCreateWithoutAccountsInput = {
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateWithoutAccountsInput = {
@@ -876,6 +920,8 @@ export type usersUncheckedCreateWithoutAccountsInput = {
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersCreateOrConnectWithoutAccountsInput = {
@@ -919,6 +965,8 @@ export type usersUpdateWithoutAccountsInput = {
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateWithoutAccountsInput = {
@@ -946,6 +994,8 @@ export type usersUncheckedUpdateWithoutAccountsInput = {
   wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersCreateWithoutSessionsInput = {
@@ -973,6 +1023,8 @@ export type usersCreateWithoutSessionsInput = {
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
   signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateWithoutSessionsInput = {
@@ -1000,6 +1052,8 @@ export type usersUncheckedCreateWithoutSessionsInput = {
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersCreateOrConnectWithoutSessionsInput = {
@@ -1043,6 +1097,8 @@ export type usersUpdateWithoutSessionsInput = {
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateWithoutSessionsInput = {
@@ -1070,6 +1126,8 @@ export type usersUncheckedUpdateWithoutSessionsInput = {
   wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersCreateWithoutBulk_transfersInput = {
@@ -1097,6 +1155,8 @@ export type usersCreateWithoutBulk_transfersInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateWithoutBulk_transfersInput = {
@@ -1124,6 +1184,8 @@ export type usersUncheckedCreateWithoutBulk_transfersInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersCreateOrConnectWithoutBulk_transfersInput = {
@@ -1167,6 +1229,8 @@ export type usersUpdateWithoutBulk_transfersInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateWithoutBulk_transfersInput = {
@@ -1194,6 +1258,8 @@ export type usersUncheckedUpdateWithoutBulk_transfersInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersCreateWithoutSignup_setup_tokensInput = {
@@ -1221,6 +1287,8 @@ export type usersCreateWithoutSignup_setup_tokensInput = {
   wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateWithoutSignup_setup_tokensInput = {
@@ -1248,6 +1316,8 @@ export type usersUncheckedCreateWithoutSignup_setup_tokensInput = {
   wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersCreateOrConnectWithoutSignup_setup_tokensInput = {
@@ -1291,6 +1361,8 @@ export type usersUpdateWithoutSignup_setup_tokensInput = {
   wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateWithoutSignup_setup_tokensInput = {
@@ -1318,6 +1390,8 @@ export type usersUncheckedUpdateWithoutSignup_setup_tokensInput = {
   wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersCreateWithoutTransactionsInput = {
@@ -1345,6 +1419,8 @@ export type usersCreateWithoutTransactionsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateWithoutTransactionsInput = {
@@ -1372,6 +1448,8 @@ export type usersUncheckedCreateWithoutTransactionsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersCreateOrConnectWithoutTransactionsInput = {
@@ -1415,6 +1493,8 @@ export type usersUpdateWithoutTransactionsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateWithoutTransactionsInput = {
@@ -1442,6 +1522,8 @@ export type usersUncheckedUpdateWithoutTransactionsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersCreateWithoutTreasuriesInput = {
@@ -1469,6 +1551,8 @@ export type usersCreateWithoutTreasuriesInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateWithoutTreasuriesInput = {
@@ -1496,6 +1580,8 @@ export type usersUncheckedCreateWithoutTreasuriesInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersCreateOrConnectWithoutTreasuriesInput = {
@@ -1539,6 +1625,8 @@ export type usersUpdateWithoutTreasuriesInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateWithoutTreasuriesInput = {
@@ -1566,6 +1654,8 @@ export type usersUncheckedUpdateWithoutTreasuriesInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersCreateWithoutTreasury_signatoriesInput = {
@@ -1593,6 +1683,8 @@ export type usersCreateWithoutTreasury_signatoriesInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateWithoutTreasury_signatoriesInput = {
@@ -1620,6 +1712,8 @@ export type usersUncheckedCreateWithoutTreasury_signatoriesInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersCreateOrConnectWithoutTreasury_signatoriesInput = {
@@ -1663,6 +1757,8 @@ export type usersUpdateWithoutTreasury_signatoriesInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateWithoutTreasury_signatoriesInput = {
@@ -1690,6 +1786,272 @@ export type usersUncheckedUpdateWithoutTreasury_signatoriesInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
+}
+
+export type usersCreateWithoutFavoritesInput = {
+  id: string
+  name: string
+  email: string
+  phone: string
+  birthday: Date | string
+  academic_status: $Enums.AcademicStatus
+  space: $Enums.Space
+  tribe?: $Enums.Tribe | null
+  schools_attended?: Prisma.usersCreateschools_attendedInput | $Enums.School[]
+  pin_hash?: string | null
+  is_admin?: boolean
+  member_since_year: number
+  member_since_month: number
+  is_active?: boolean
+  deactivated_at?: Date | string | null
+  created_at?: Date | string
+  updated_at: Date | string
+  bulk_transfers?: Prisma.bulk_transfersCreateNestedManyWithoutUsersInput
+  transactions?: Prisma.transactionsCreateNestedManyWithoutUsersInput
+  treasuries?: Prisma.treasuriesCreateNestedManyWithoutUsersInput
+  treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
+  wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
+  accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
+}
+
+export type usersUncheckedCreateWithoutFavoritesInput = {
+  id: string
+  name: string
+  email: string
+  phone: string
+  birthday: Date | string
+  academic_status: $Enums.AcademicStatus
+  space: $Enums.Space
+  tribe?: $Enums.Tribe | null
+  schools_attended?: Prisma.usersCreateschools_attendedInput | $Enums.School[]
+  pin_hash?: string | null
+  is_admin?: boolean
+  member_since_year: number
+  member_since_month: number
+  is_active?: boolean
+  deactivated_at?: Date | string | null
+  created_at?: Date | string
+  updated_at: Date | string
+  bulk_transfers?: Prisma.bulk_transfersUncheckedCreateNestedManyWithoutUsersInput
+  transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutUsersInput
+  treasuries?: Prisma.treasuriesUncheckedCreateNestedManyWithoutUsersInput
+  treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
+  wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
+  accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
+}
+
+export type usersCreateOrConnectWithoutFavoritesInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutFavoritesInput, Prisma.usersUncheckedCreateWithoutFavoritesInput>
+}
+
+export type usersCreateWithoutFavorited_byInput = {
+  id: string
+  name: string
+  email: string
+  phone: string
+  birthday: Date | string
+  academic_status: $Enums.AcademicStatus
+  space: $Enums.Space
+  tribe?: $Enums.Tribe | null
+  schools_attended?: Prisma.usersCreateschools_attendedInput | $Enums.School[]
+  pin_hash?: string | null
+  is_admin?: boolean
+  member_since_year: number
+  member_since_month: number
+  is_active?: boolean
+  deactivated_at?: Date | string | null
+  created_at?: Date | string
+  updated_at: Date | string
+  bulk_transfers?: Prisma.bulk_transfersCreateNestedManyWithoutUsersInput
+  transactions?: Prisma.transactionsCreateNestedManyWithoutUsersInput
+  treasuries?: Prisma.treasuriesCreateNestedManyWithoutUsersInput
+  treasury_signatories?: Prisma.treasury_signatoriesCreateNestedManyWithoutUsersInput
+  wallets?: Prisma.walletsCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
+  accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+}
+
+export type usersUncheckedCreateWithoutFavorited_byInput = {
+  id: string
+  name: string
+  email: string
+  phone: string
+  birthday: Date | string
+  academic_status: $Enums.AcademicStatus
+  space: $Enums.Space
+  tribe?: $Enums.Tribe | null
+  schools_attended?: Prisma.usersCreateschools_attendedInput | $Enums.School[]
+  pin_hash?: string | null
+  is_admin?: boolean
+  member_since_year: number
+  member_since_month: number
+  is_active?: boolean
+  deactivated_at?: Date | string | null
+  created_at?: Date | string
+  updated_at: Date | string
+  bulk_transfers?: Prisma.bulk_transfersUncheckedCreateNestedManyWithoutUsersInput
+  transactions?: Prisma.transactionsUncheckedCreateNestedManyWithoutUsersInput
+  treasuries?: Prisma.treasuriesUncheckedCreateNestedManyWithoutUsersInput
+  treasury_signatories?: Prisma.treasury_signatoriesUncheckedCreateNestedManyWithoutUsersInput
+  wallets?: Prisma.walletsUncheckedCreateNestedOneWithoutUsersInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
+  accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type usersCreateOrConnectWithoutFavorited_byInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutFavorited_byInput, Prisma.usersUncheckedCreateWithoutFavorited_byInput>
+}
+
+export type usersUpsertWithoutFavoritesInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutFavoritesInput, Prisma.usersUncheckedUpdateWithoutFavoritesInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutFavoritesInput, Prisma.usersUncheckedCreateWithoutFavoritesInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutFavoritesInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutFavoritesInput, Prisma.usersUncheckedUpdateWithoutFavoritesInput>
+}
+
+export type usersUpdateWithoutFavoritesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_status?: Prisma.EnumAcademicStatusFieldUpdateOperationsInput | $Enums.AcademicStatus
+  space?: Prisma.EnumSpaceFieldUpdateOperationsInput | $Enums.Space
+  tribe?: Prisma.NullableEnumTribeFieldUpdateOperationsInput | $Enums.Tribe | null
+  schools_attended?: Prisma.usersUpdateschools_attendedInput | $Enums.School[]
+  pin_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_admin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  member_since_year?: Prisma.IntFieldUpdateOperationsInput | number
+  member_since_month?: Prisma.IntFieldUpdateOperationsInput | number
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deactivated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUpdateManyWithoutUsersNestedInput
+  transactions?: Prisma.transactionsUpdateManyWithoutUsersNestedInput
+  treasuries?: Prisma.treasuriesUpdateManyWithoutUsersNestedInput
+  treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
+  wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
+  accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
+}
+
+export type usersUncheckedUpdateWithoutFavoritesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_status?: Prisma.EnumAcademicStatusFieldUpdateOperationsInput | $Enums.AcademicStatus
+  space?: Prisma.EnumSpaceFieldUpdateOperationsInput | $Enums.Space
+  tribe?: Prisma.NullableEnumTribeFieldUpdateOperationsInput | $Enums.Tribe | null
+  schools_attended?: Prisma.usersUpdateschools_attendedInput | $Enums.School[]
+  pin_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_admin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  member_since_year?: Prisma.IntFieldUpdateOperationsInput | number
+  member_since_month?: Prisma.IntFieldUpdateOperationsInput | number
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deactivated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUncheckedUpdateManyWithoutUsersNestedInput
+  transactions?: Prisma.transactionsUncheckedUpdateManyWithoutUsersNestedInput
+  treasuries?: Prisma.treasuriesUncheckedUpdateManyWithoutUsersNestedInput
+  treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
+  wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
+}
+
+export type usersUpsertWithoutFavorited_byInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutFavorited_byInput, Prisma.usersUncheckedUpdateWithoutFavorited_byInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutFavorited_byInput, Prisma.usersUncheckedCreateWithoutFavorited_byInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutFavorited_byInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutFavorited_byInput, Prisma.usersUncheckedUpdateWithoutFavorited_byInput>
+}
+
+export type usersUpdateWithoutFavorited_byInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_status?: Prisma.EnumAcademicStatusFieldUpdateOperationsInput | $Enums.AcademicStatus
+  space?: Prisma.EnumSpaceFieldUpdateOperationsInput | $Enums.Space
+  tribe?: Prisma.NullableEnumTribeFieldUpdateOperationsInput | $Enums.Tribe | null
+  schools_attended?: Prisma.usersUpdateschools_attendedInput | $Enums.School[]
+  pin_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_admin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  member_since_year?: Prisma.IntFieldUpdateOperationsInput | number
+  member_since_month?: Prisma.IntFieldUpdateOperationsInput | number
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deactivated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUpdateManyWithoutUsersNestedInput
+  transactions?: Prisma.transactionsUpdateManyWithoutUsersNestedInput
+  treasuries?: Prisma.treasuriesUpdateManyWithoutUsersNestedInput
+  treasury_signatories?: Prisma.treasury_signatoriesUpdateManyWithoutUsersNestedInput
+  wallets?: Prisma.walletsUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
+  accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+}
+
+export type usersUncheckedUpdateWithoutFavorited_byInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  birthday?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  academic_status?: Prisma.EnumAcademicStatusFieldUpdateOperationsInput | $Enums.AcademicStatus
+  space?: Prisma.EnumSpaceFieldUpdateOperationsInput | $Enums.Space
+  tribe?: Prisma.NullableEnumTribeFieldUpdateOperationsInput | $Enums.Tribe | null
+  schools_attended?: Prisma.usersUpdateschools_attendedInput | $Enums.School[]
+  pin_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_admin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  member_since_year?: Prisma.IntFieldUpdateOperationsInput | number
+  member_since_month?: Prisma.IntFieldUpdateOperationsInput | number
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deactivated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bulk_transfers?: Prisma.bulk_transfersUncheckedUpdateManyWithoutUsersNestedInput
+  transactions?: Prisma.transactionsUncheckedUpdateManyWithoutUsersNestedInput
+  treasuries?: Prisma.treasuriesUncheckedUpdateManyWithoutUsersNestedInput
+  treasury_signatories?: Prisma.treasury_signatoriesUncheckedUpdateManyWithoutUsersNestedInput
+  wallets?: Prisma.walletsUncheckedUpdateOneWithoutUsersNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
+  accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type usersCreateWithoutWalletsInput = {
@@ -1717,6 +2079,8 @@ export type usersCreateWithoutWalletsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersUncheckedCreateWithoutWalletsInput = {
@@ -1744,6 +2108,8 @@ export type usersUncheckedCreateWithoutWalletsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedCreateNestedManyWithoutUsersInput
   accounts?: Prisma.accountsUncheckedCreateNestedManyWithoutUsersInput
+  favorites?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutUserInput
+  favorited_by?: Prisma.user_favoritesUncheckedCreateNestedManyWithoutFavoriteInput
 }
 
 export type usersCreateOrConnectWithoutWalletsInput = {
@@ -1787,6 +2153,8 @@ export type usersUpdateWithoutWalletsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUpdateManyWithoutFavoriteNestedInput
 }
 
 export type usersUncheckedUpdateWithoutWalletsInput = {
@@ -1814,6 +2182,8 @@ export type usersUncheckedUpdateWithoutWalletsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   signup_setup_tokens?: Prisma.signup_setup_tokensUncheckedUpdateManyWithoutUsersNestedInput
   accounts?: Prisma.accountsUncheckedUpdateManyWithoutUsersNestedInput
+  favorites?: Prisma.user_favoritesUncheckedUpdateManyWithoutUserNestedInput
+  favorited_by?: Prisma.user_favoritesUncheckedUpdateManyWithoutFavoriteNestedInput
 }
 
 
@@ -1829,6 +2199,8 @@ export type UsersCountOutputType = {
   sessions: number
   signup_setup_tokens: number
   accounts: number
+  favorites: number
+  favorited_by: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1839,6 +2211,8 @@ export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   sessions?: boolean | UsersCountOutputTypeCountSessionsArgs
   signup_setup_tokens?: boolean | UsersCountOutputTypeCountSignup_setup_tokensArgs
   accounts?: boolean | UsersCountOutputTypeCountAccountsArgs
+  favorites?: boolean | UsersCountOutputTypeCountFavoritesArgs
+  favorited_by?: boolean | UsersCountOutputTypeCountFavorited_byArgs
 }
 
 /**
@@ -1900,6 +2274,20 @@ export type UsersCountOutputTypeCountAccountsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.accountsWhereInput
 }
 
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountFavoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_favoritesWhereInput
+}
+
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountFavorited_byArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.user_favoritesWhereInput
+}
+
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1927,6 +2315,8 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   sessions?: boolean | Prisma.users$sessionsArgs<ExtArgs>
   signup_setup_tokens?: boolean | Prisma.users$signup_setup_tokensArgs<ExtArgs>
   accounts?: boolean | Prisma.users$accountsArgs<ExtArgs>
+  favorites?: boolean | Prisma.users$favoritesArgs<ExtArgs>
+  favorited_by?: boolean | Prisma.users$favorited_byArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
@@ -2000,6 +2390,8 @@ export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   sessions?: boolean | Prisma.users$sessionsArgs<ExtArgs>
   signup_setup_tokens?: boolean | Prisma.users$signup_setup_tokensArgs<ExtArgs>
   accounts?: boolean | Prisma.users$accountsArgs<ExtArgs>
+  favorites?: boolean | Prisma.users$favoritesArgs<ExtArgs>
+  favorited_by?: boolean | Prisma.users$favorited_byArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2016,6 +2408,8 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     signup_setup_tokens: Prisma.$signup_setup_tokensPayload<ExtArgs>[]
     accounts: Prisma.$accountsPayload<ExtArgs>[]
+    favorites: Prisma.$user_favoritesPayload<ExtArgs>[]
+    favorited_by: Prisma.$user_favoritesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2437,6 +2831,8 @@ export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Ty
   sessions<T extends Prisma.users$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   signup_setup_tokens<T extends Prisma.users$signup_setup_tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$signup_setup_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$signup_setup_tokensPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.users$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$accountsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favorites<T extends Prisma.users$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_favoritesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  favorited_by<T extends Prisma.users$favorited_byArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$favorited_byArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_favoritesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3060,6 +3456,54 @@ export type users$accountsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.AccountsScalarFieldEnum | Prisma.AccountsScalarFieldEnum[]
+}
+
+/**
+ * users.favorites
+ */
+export type users$favoritesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_favorites
+   */
+  select?: Prisma.user_favoritesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_favorites
+   */
+  omit?: Prisma.user_favoritesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_favoritesInclude<ExtArgs> | null
+  where?: Prisma.user_favoritesWhereInput
+  orderBy?: Prisma.user_favoritesOrderByWithRelationInput | Prisma.user_favoritesOrderByWithRelationInput[]
+  cursor?: Prisma.user_favoritesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_favoritesScalarFieldEnum | Prisma.User_favoritesScalarFieldEnum[]
+}
+
+/**
+ * users.favorited_by
+ */
+export type users$favorited_byArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the user_favorites
+   */
+  select?: Prisma.user_favoritesSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the user_favorites
+   */
+  omit?: Prisma.user_favoritesOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.user_favoritesInclude<ExtArgs> | null
+  where?: Prisma.user_favoritesWhereInput
+  orderBy?: Prisma.user_favoritesOrderByWithRelationInput | Prisma.user_favoritesOrderByWithRelationInput[]
+  cursor?: Prisma.user_favoritesWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.User_favoritesScalarFieldEnum | Prisma.User_favoritesScalarFieldEnum[]
 }
 
 /**
