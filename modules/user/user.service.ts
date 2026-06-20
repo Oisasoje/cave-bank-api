@@ -175,34 +175,26 @@ export async function getFavoriteContacts(userId: string) {
   }));
 }
 
-export async function getRecentCounterparties(userId: string, limit = 10) {
+export async function getRecentCounterparties(userId: string, limit = 50) {
   const transactions = await prisma.transactions.findMany({
     where: {
       OR: [
         {
-          wallets_transactions_from_addressTowallets: {
-            users: { id: userId },
-          },
+          wallets_transactions_from_addressTowallets: { users: { id: userId } },
         },
-        {
-          wallets_transactions_to_addressTowallets: {
-            users: { id: userId },
-          },
-        },
+        { wallets_transactions_to_addressTowallets: { users: { id: userId } } },
       ],
     },
     orderBy: [{ created_at: "desc" }, { id: "desc" }],
     include: {
       wallets_transactions_from_addressTowallets: {
-        include: {
-          users: { select: { id: true, name: true } },
-        },
+        include: { users: { select: { id: true, name: true } } },
       },
       wallets_transactions_to_addressTowallets: {
-        include: {
-          users: { select: { id: true, name: true } },
-        },
+        include: { users: { select: { id: true, name: true } } },
       },
+      accounts_from: { select: { id: true } },
+      accounts_to: { select: { id: true } },
     },
   });
 
@@ -220,23 +212,23 @@ export async function getRecentCounterparties(userId: string, limit = 10) {
   for (const tx of transactions) {
     const fromUser = tx.wallets_transactions_from_addressTowallets?.users;
     const toUser = tx.wallets_transactions_to_addressTowallets?.users;
-
     if (!fromUser || !toUser) continue;
 
     const isSender = fromUser.id === userId;
-
     const counterpartyUser = isSender ? toUser : fromUser;
     const counterpartyWallet = isSender
       ? tx.wallets_transactions_to_addressTowallets
       : tx.wallets_transactions_from_addressTowallets;
+    const counterpartyAccountId = isSender
+      ? tx.to_account_id
+      : tx.from_account_id;
 
-    const key = counterpartyUser.id;
+    if (!counterpartyAccountId) continue;
 
-    const existing = map.get(key);
-
+    const existing = map.get(counterpartyAccountId);
     if (!existing) {
-      map.set(key, {
-        accountId: key,
+      map.set(counterpartyAccountId, {
+        accountId: counterpartyAccountId,
         displayName: counterpartyUser.name,
         displayAddress: counterpartyWallet?.address ?? null,
         lastInteractionAt: tx.created_at,

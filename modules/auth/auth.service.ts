@@ -129,7 +129,14 @@ export async function signupCreatePin(setupToken: string, pin: string) {
     data: { pin_hash: hashedPin, is_active: true },
   });
 
-  await createWallet(token.userId, token.users.phone);
+  const result = validateAndCreateWalletAddress(token.users.phone);
+
+  if (!result.success) {
+    throw new Error(result.error);
+  }
+
+  await createWallet(token.userId, token.users.phone, result.walletAddress);
+  await createAccount(token.userId, result.walletAddress);
 
   await prisma.signup_setup_tokens.delete({ where: { id: setupToken } });
 
@@ -137,15 +144,19 @@ export async function signupCreatePin(setupToken: string, pin: string) {
   return { session };
 }
 
-async function createWallet(userID: string, phone: string) {
-  const result = validateAndCreateWalletAddress(phone);
-  if (!result.success) {
-    throw new Error(result.error);
-  }
-
-  const { walletAddress } = result;
+async function createWallet(
+  userID: string,
+  phone: string,
+  walletAddress: string,
+) {
   await prisma.wallets.create({
     data: { address: walletAddress, owner_user_id: userID },
+  });
+}
+
+async function createAccount(userID: string, walletAddress: string) {
+  await prisma.accounts.create({
+    data: { address: walletAddress, owner_id: userID, type: "USER" },
   });
 }
 

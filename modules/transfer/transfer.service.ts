@@ -22,6 +22,7 @@ export async function transferAction({
   if (!Number.isFinite(amount) || amount <= 0) {
     throw new Error("Invalid amount");
   }
+
   const result = await prisma.$transaction(async (tx) => {
     const [senderAccount, receiverAccount] = await Promise.all([
       tx.accounts.findUnique({ where: { id: fromAccountId } }),
