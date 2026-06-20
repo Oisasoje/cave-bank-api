@@ -129,7 +129,6 @@ export async function addFavoriteContacts(
       if (from === userId && to) interactedWith.add(to);
       if (to === userId && from) interactedWith.add(from);
     }
-
     const notInteracted = uniqueIds.filter((id) => !interactedWith.has(id));
     if (notInteracted.length > 0) {
       throw new Error("You can only favorite users you have transacted with");
@@ -202,6 +201,7 @@ export async function getRecentCounterparties(userId: string, limit = 50) {
     string,
     {
       accountId: string;
+      userId: string;
       displayName: string;
       displayAddress: string | null;
       lastInteractionAt: Date;
@@ -229,6 +229,7 @@ export async function getRecentCounterparties(userId: string, limit = 50) {
     if (!existing) {
       map.set(counterpartyAccountId, {
         accountId: counterpartyAccountId,
+        userId: counterpartyUser.id,
         displayName: counterpartyUser.name,
         displayAddress: counterpartyWallet?.address ?? null,
         lastInteractionAt: tx.created_at,

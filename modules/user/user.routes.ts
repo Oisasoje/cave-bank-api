@@ -23,7 +23,7 @@ router.get(
   requireAuth,
   getRecentCounterpartiesController,
 );
-router.post("/favorites", requireAuth, addFavoriteContactController);
-router.get("/favorites", requireAuth, getFavoriteContactsController);
+router.post("/add-favorites", requireAuth, addFavoriteContactController);
+router.get("/get-favorites", requireAuth, getFavoriteContactsController);
 
 export default router;
