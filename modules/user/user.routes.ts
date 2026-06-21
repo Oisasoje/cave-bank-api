@@ -9,6 +9,7 @@ import {
   getRecentCounterpartiesController,
   getTransactionByIdController,
   getTransactionsController,
+  removeFavoriteContactController,
 } from "./user.controller.js";
 
 router.get("/getBalance", requireAuth, getBalanceController);
@@ -25,5 +26,10 @@ router.get(
 );
 router.post("/add-favorites", requireAuth, addFavoriteContactController);
 router.get("/get-favorites", requireAuth, getFavoriteContactsController);
+router.delete(
+  "/favorites/:favoriteId",
+  requireAuth,
+  removeFavoriteContactController,
+);
 
 export default router;

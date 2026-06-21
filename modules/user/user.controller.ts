@@ -6,6 +6,7 @@ import {
   getRecentCounterparties,
   getTransactionById,
   getTransactions,
+  removeFavoriteContact,
 } from "./user.service.js";
 
 export async function getBalanceController(req: Request, res: Response) {
@@ -137,6 +138,36 @@ export async function getRecentCounterpartiesController(
   } catch (error: any) {
     return res.status(500).json({
       error: error.message || "Failed to fetch recent counterparties",
+    });
+  }
+}
+
+export async function removeFavoriteContactController(
+  req: Request,
+  res: Response,
+) {
+  try {
+    const userId = req.user.id;
+    const { favoriteId } = req.params;
+
+    console.log(favoriteId);
+
+    if (!userId) {
+      return res.status(400).json({ error: "Missing userId" });
+    }
+
+    if (!favoriteId || Array.isArray(favoriteId)) {
+      return res.status(400).json({ error: "Missing or invalid favoriteId" });
+    }
+
+    const result = await removeFavoriteContact(userId, favoriteId);
+
+    return res.status(200).json({
+      data: result,
+    });
+  } catch (error: any) {
+    return res.status(400).json({
+      error: error.message || "Failed to remove favorite contact",
     });
   }
 }

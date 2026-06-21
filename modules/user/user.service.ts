@@ -144,12 +144,8 @@ export async function addFavoriteContacts(
 
 export async function getFavoriteContacts(userId: string) {
   const favorites = await prisma.user_favorites.findMany({
-    where: {
-      user_id: userId,
-    },
-    orderBy: {
-      created_at: "asc",
-    },
+    where: { user_id: userId },
+    orderBy: { created_at: "asc" },
     select: {
       created_at: true,
       favorite: {
@@ -157,9 +153,12 @@ export async function getFavoriteContacts(userId: string) {
           id: true,
           name: true,
           wallets: {
-            select: {
-              address: true,
-            },
+            select: { address: true },
+          },
+          accounts: {
+            where: { type: "USER" },
+            select: { id: true },
+            take: 1,
           },
         },
       },
@@ -168,6 +167,7 @@ export async function getFavoriteContacts(userId: string) {
 
   return favorites.map((fav) => ({
     id: fav.favorite.id,
+    accountId: fav.favorite.accounts[0]?.id ?? null,
     name: fav.favorite.name,
     walletAddress: fav.favorite.wallets?.address ?? null,
     pinnedAt: fav.created_at,
@@ -243,4 +243,33 @@ export async function getRecentCounterparties(userId: string, limit = 50) {
       (a, b) => b.lastInteractionAt.getTime() - a.lastInteractionAt.getTime(),
     )
     .slice(0, limit);
+}
+
+export async function removeFavoriteContact(
+  userId: string,
+  favoriteId: string,
+) {
+  const existing = await prisma.user_favorites.findUnique({
+    where: {
+      user_id_favorite_id: {
+        user_id: userId,
+        favorite_id: favoriteId,
+      },
+    },
+  });
+
+  if (!existing) {
+    throw new Error("This contact is not in your favorites");
+  }
+
+  await prisma.user_favorites.delete({
+    where: {
+      user_id_favorite_id: {
+        user_id: userId,
+        favorite_id: favoriteId,
+      },
+    },
+  });
+
+  return { removed: favoriteId };
 }
