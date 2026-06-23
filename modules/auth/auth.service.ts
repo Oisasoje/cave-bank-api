@@ -262,18 +262,6 @@ export async function getSession(sessionId: string) {
   );
 
   if (!session) return null;
-  const wallet = await span("prisma.wallet.findUnique", () =>
-    prisma.users.findUnique({
-      where: { id: session?.user.id },
-      include: { wallets: true },
-    }),
-  );
-
-  const account = await span("prisma.account.findUnique", () =>
-    prisma.accounts.findUnique({
-      where: { address: wallet?.wallets?.address },
-    }),
-  );
 
   if (session.expires_at < new Date()) {
     await span("prisma.session.deleteMany", () =>
@@ -285,9 +273,22 @@ export async function getSession(sessionId: string) {
     return null;
   }
 
+  const users = await span("prisma.users.findUnique", () =>
+    prisma.users.findUnique({
+      where: { id: session.user.id },
+      include: { wallets: true },
+    }),
+  );
+
+  const account = await span("prisma.account.findUnique", () =>
+    prisma.accounts.findUnique({
+      where: { address: users?.wallets?.address },
+    }),
+  );
+
   return {
     session,
-    wallet_address: wallet?.wallets?.address,
+    wallet_address: users?.wallets?.address,
     accountId: account?.id,
   };
 }

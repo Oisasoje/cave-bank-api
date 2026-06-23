@@ -168,9 +168,7 @@ export async function me(req: any, res: any) {
     getSession(sessionId),
   );
 
-  if (!result) throw new Error("Something went wrong. Try again later.");
-
-  if (!result.session) {
+  if (!result) {
     return res.status(401).json({ message: "Authentication required." });
   }
 
