@@ -8,6 +8,7 @@ import {
   signupAuthOTP,
   signupCreatePin,
   resendAuthOTP,
+  verifyUserPin,
 } from "./auth.service.js";
 import {
   resendOTPSchema,
@@ -154,7 +155,7 @@ export async function loginVerify(req: Request, res: Response) {
   }
 }
 
-export async function me(req: any, res: any) {
+export async function me(req: Request, res: Response) {
   log("Retrieving session data");
   const sessionId = req.cookies.sessionId;
 
@@ -201,7 +202,27 @@ export async function me(req: any, res: any) {
   });
 }
 
-export async function logout(req: any, res: any) {
+export async function verifyUserPinController(req: Request, res: Response) {
+  try {
+    const { pin } = req.body;
+    console.log(pin, req.user);
+    if (!pin) {
+      return res.status(400).json({ message: "Pin is required." });
+    }
+    const userId = req.user.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Authentication required." });
+    }
+
+    verifyUserPin(userId, pin);
+    return res.status(200).json({ message: "Pin verified successfully." });
+  } catch (error: any) {
+    return res.status(401).json({ message: error.message || "Invalid pin." });
+  }
+}
+
+export async function logout(req: Request, res: Response) {
   log("Logging out user");
   const sessionId = req.cookies.sessionId;
 

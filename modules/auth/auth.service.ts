@@ -93,7 +93,7 @@ export async function signupAuthOTP(id: string, otp: string) {
   const setupToken = await prisma.signup_setup_tokens.create({
     data: {
       userId: user.id,
-      expires_at: new Date(Date.now() + 1000 * 60 * 15), // 15 min
+      expires_at: new Date(Date.now() + 1000 * 60 * 15),
     },
   });
 
@@ -112,7 +112,7 @@ export async function resendAuthOTP(id: string) {
 export async function signupCreatePin(setupToken: string, pin: string) {
   const token = await prisma.signup_setup_tokens.findUnique({
     where: { id: setupToken },
-    include: { users: true }, // ← corrected
+    include: { users: true },
   });
 
   if (!token) throw new Error("Invalid or expired setup token.");
@@ -291,6 +291,20 @@ export async function getSession(sessionId: string) {
     wallet_address: users?.wallets?.address,
     accountId: account?.id,
   };
+}
+
+export async function verifyUserPin(userId: string, pin: string) {
+  const user = await prisma.users.findUnique({
+    where: { id: userId },
+  });
+  if (!user) throw new Error("User not found.");
+  const targetHash = user.pin_hash || DUMMY_HASH;
+
+  const valid = await verifyPin(targetHash, pin);
+
+  if (!valid) {
+    throw new Error("Invalid credentials.");
+  }
 }
 
 export async function logoutUser(sessionId: string) {

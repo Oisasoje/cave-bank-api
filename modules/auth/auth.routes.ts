@@ -8,9 +8,11 @@ import {
   signupVerifyOTP,
   createPin,
   resendOTP,
+  verifyUserPinController,
 } from "./auth.controller.js";
 import {
   loginLimiter,
+  requireAuth,
   signupLimiter,
 } from "../../middleware/auth.middleware.js";
 
@@ -22,6 +24,7 @@ router.post("/signup/resend-otp", signupLimiter, resendOTP);
 router.post("/signup/create-pin", signupLimiter, createPin);
 router.post("/login/start", loginLimiter, loginStart);
 router.post("/login/verify", loginLimiter, loginVerify);
+router.post("/verify-pin", requireAuth, loginLimiter, verifyUserPinController);
 
 router.get("/me", me);
 router.post("/logout", logout);
