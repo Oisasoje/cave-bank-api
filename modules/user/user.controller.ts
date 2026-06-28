@@ -150,8 +150,6 @@ export async function removeFavoriteContactController(
     const userId = req.user.id;
     const { favoriteId } = req.params;
 
-    console.log(favoriteId);
-
     if (!userId) {
       return res.status(400).json({ error: "Missing userId" });
     }

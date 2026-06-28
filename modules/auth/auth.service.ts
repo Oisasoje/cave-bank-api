@@ -307,6 +307,20 @@ export async function verifyUserPin(userId: string, pin: string) {
   }
 }
 
+export async function changeUserPin(userId: string, newPin: string) {
+  const user = await prisma.users.findUnique({
+    where: { id: userId },
+  });
+  if (!user) throw new Error("User not found.");
+
+  const newPinHash = await argon2.hash(newPin);
+
+  await prisma.users.update({
+    where: { id: userId },
+    data: { pin_hash: newPinHash },
+  });
+}
+
 export async function logoutUser(sessionId: string) {
   await span("prisma.session.deleteMany", () =>
     prisma.session.deleteMany({

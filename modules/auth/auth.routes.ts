@@ -9,6 +9,7 @@ import {
   createPin,
   resendOTP,
   verifyUserPinController,
+  changeUserPinController,
 } from "./auth.controller.js";
 import {
   loginLimiter,
@@ -25,6 +26,7 @@ router.post("/signup/create-pin", signupLimiter, createPin);
 router.post("/login/start", loginLimiter, loginStart);
 router.post("/login/verify", loginLimiter, loginVerify);
 router.post("/verify-pin", requireAuth, loginLimiter, verifyUserPinController);
+router.post("/change-pin", requireAuth, loginLimiter, changeUserPinController);
 
 router.get("/me", me);
 router.post("/logout", logout);

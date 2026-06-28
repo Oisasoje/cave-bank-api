@@ -9,6 +9,7 @@ import {
   signupCreatePin,
   resendAuthOTP,
   verifyUserPin,
+  changeUserPin,
 } from "./auth.service.js";
 import {
   resendOTPSchema,
@@ -205,7 +206,7 @@ export async function me(req: Request, res: Response) {
 export async function verifyUserPinController(req: Request, res: Response) {
   try {
     const { pin } = req.body;
-    console.log(pin, req.user);
+
     if (!pin) {
       return res.status(400).json({ message: "Pin is required." });
     }
@@ -215,10 +216,32 @@ export async function verifyUserPinController(req: Request, res: Response) {
       return res.status(401).json({ message: "Authentication required." });
     }
 
-    verifyUserPin(userId, pin);
+    const valid = await verifyUserPin(userId, pin);
+
     return res.status(200).json({ message: "Pin verified successfully." });
   } catch (error: any) {
-    return res.status(401).json({ message: error.message || "Invalid pin." });
+    return res.status(401).json({ message: "Invalid pin." });
+  }
+}
+
+export async function changeUserPinController(req: Request, res: Response) {
+  try {
+    const { newPin } = req.body;
+
+    if (!newPin) {
+      return res.status(400).json({ message: "New pin is required." });
+    }
+    const userId = req.user.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Authentication required." });
+    }
+
+    await changeUserPin(userId, newPin);
+
+    return res.status(200).json({ message: "Pin changed successfully." });
+  } catch (error: any) {
+    return res.status(400).json({ message: "Failed to change pin." });
   }
 }
 
