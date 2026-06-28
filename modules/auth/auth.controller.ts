@@ -92,7 +92,7 @@ export async function createPin(req: Request, res: Response) {
       httpOnly: true,
       path: "/",
       secure: isProd,
-      sameSite: isProd ? "none" : "lax",
+      sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
     return res.status(200).send({ message: "Pin created successfully" });
