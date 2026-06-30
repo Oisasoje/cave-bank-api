@@ -9,6 +9,7 @@ import {
 import { sendOTP, sendPasswordResetOTP } from "../../services/EmailService.js";
 import argon2 from "argon2";
 import { validateAndCreateWalletAddress } from "../../utils/validateAndCreateWalletAddress.js";
+import maskEmail from "../../utils/maskEmail.js";
 
 const DUMMY_HASH = "$argon2id$v=19$m=65536,t=3,p=4$dummyhashdummyhashdummyhash";
 
@@ -332,10 +333,12 @@ export async function logoutUser(sessionId: string) {
   );
 }
 
-export async function resetPinSendOTP(phone: string) {
-  const user = await prisma.users.findUnique({ where: { phone } });
+export async function resetPinSendOTP(id: string) {
+  const user = await prisma.users.findUnique({ where: { id } });
 
-  if (!user) throw new Error("No Cave account exists with this number.");
+  const phone = user?.phone!;
+
+  if (!user) throw new Error("Cave account not found.");
 
   const userName = user.name;
   const userEmail = user.email;
@@ -396,7 +399,6 @@ export async function resetPinConfirmOTP(id: string, otp: string) {
   await prisma.reset_attempts.delete({ where: { id } });
   await prisma.reset_password_otps.delete({ where: { email: user.email } });
 
-  // issue a narrow-scoped token for the actual "set new pin" step
   const token = await prisma.password_reset_tokens.create({
     data: {
       userId: user.id,
@@ -419,7 +421,7 @@ export async function setNewPin(resetToken: string, newPin: string) {
     throw new Error("This reset link has expired.");
   }
 
-  const pin_hash = await argon2.hash(newPin);
+  const pin_hash = await argon2.hash(newPin); // however you hash elsewhere
 
   await prisma.$transaction([
     prisma.users.update({
@@ -431,4 +433,29 @@ export async function setNewPin(resetToken: string, newPin: string) {
       data: { used: true },
     }),
   ]);
+}
+
+export async function resendResetOTP(id: string) {
+  const attempt = await prisma.reset_attempts.findUnique({ where: { id } });
+  if (!attempt) throw new Error("Reset attempt not found.");
+
+  if (attempt.expires_at < new Date()) {
+    await prisma.reset_attempts.delete({ where: { id } });
+    throw new Error("Reset attempt has expired. Please start over.");
+  }
+
+  const user = await prisma.users.findUnique({
+    where: { phone: attempt.phone },
+  });
+  if (!user) throw new Error("Something unexpected occurred. Try again later.");
+
+  const otp = await generateResetPasswordOTP(user.email);
+  await sendPasswordResetOTP(user.email, user.name, otp);
+
+  await prisma.reset_attempts.update({
+    where: { id },
+    data: { expires_at: new Date(Date.now() + 1000 * 60 * 10) },
+  });
+
+  return { email: maskEmail(user.email) };
 }

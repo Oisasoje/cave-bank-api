@@ -13,6 +13,7 @@ import {
   resetPinStart,
   resetPinVerifyOTP,
   resetPinSetNew,
+  resetPinResendOTP,
 } from "./auth.controller.js";
 import {
   loginLimiter,
@@ -30,9 +31,10 @@ router.post("/login/start", loginLimiter, loginStart);
 router.post("/login/verify", loginLimiter, loginVerify);
 router.post("/verify-pin", requireAuth, loginLimiter, verifyUserPinController);
 router.post("/change-pin", requireAuth, loginLimiter, changeUserPinController);
-router.post("/reset/start", resetPinStart);
-router.post("/reset/verify-otp", resetPinVerifyOTP);
-router.post("/reset/set-new-pin", resetPinSetNew);
+router.post("/reset-pin/start", resetPinStart);
+router.post("/reset-pin/verify-otp", resetPinVerifyOTP);
+router.post("/reset-pin/set-new-pin", resetPinSetNew);
+router.post("/reset/resend-otp", resetPinResendOTP);
 
 router.get("/me", me);
 router.post("/logout", logout);

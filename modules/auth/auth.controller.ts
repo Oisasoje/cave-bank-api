@@ -13,9 +13,11 @@ import {
   setNewPin,
   resetPinConfirmOTP,
   resetPinSendOTP,
+  resendResetOTP,
 } from "./auth.service.js";
 import {
   resendOTPSchema,
+  resetStartSchema,
   setNewPinSchema,
   startSchema,
   verifyLoginSchema,
@@ -251,16 +253,16 @@ export async function changeUserPinController(req: Request, res: Response) {
 }
 
 export async function resetPinStart(req: Request, res: Response) {
-  const result = startSchema.safeParse(req.body); // same {phone} schema as login/signup
+  const result = resetStartSchema.safeParse(req.body); // same {phone} schema as login/signup
   if (!result.success) {
     return res.status(400).json({ message: result.error.issues });
   }
 
   try {
-    const { phone } = result.data;
-    log(`Starting PIN reset for phone: ${phone}`);
+    const { id } = result.data;
+    log(`Starting PIN reset for id: ${id}`);
 
-    const { userEmail, attempt } = await resetPinSendOTP(phone);
+    const { userEmail, attempt } = await resetPinSendOTP(id);
     const email = maskEmail(userEmail);
 
     log(`Reset attempt created with ID: ${attempt.id} for email: ${email}`);
@@ -273,16 +275,16 @@ export async function resetPinStart(req: Request, res: Response) {
 }
 
 export async function resetPinVerifyOTP(req: Request, res: Response) {
-  const result = verifyResetOTPSchema.safeParse(req.body); // {id, otp} — same shape as verifySignupOTP
+  const result = verifyResetOTPSchema.safeParse(req.body);
   if (!result.success) {
     return res.status(400).json({ message: result.error.issues });
   }
 
   try {
-    const { id, otp } = result.data;
+    const { reset_token_id, otp } = result.data;
 
-    const { resetToken } = await resetPinConfirmOTP(id, otp);
-    log(`OTP confirmed for reset attempt ID: ${id}`);
+    const { resetToken } = await resetPinConfirmOTP(reset_token_id, otp);
+    log(`OTP confirmed for reset attempt ID: ${reset_token_id}`);
 
     return res.status(200).json({
       message: "OTP verified successfully!",
@@ -307,6 +309,26 @@ export async function resetPinSetNew(req: Request, res: Response) {
     log(`PIN reset completed for token: ${reset_token_id}`);
 
     return res.status(200).json({ message: "PIN reset successfully." });
+  } catch (err: any) {
+    error(err);
+    return res.status(400).json({ message: err.message });
+  }
+}
+
+export async function resetPinResendOTP(req: Request, res: Response) {
+  const result = resendOTPSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ message: result.error.issues });
+  }
+
+  try {
+    const { id } = result.data;
+    const { email } = await resendResetOTP(id);
+
+    return res.status(200).json({
+      message: "A new OTP has been sent.",
+      data: { email },
+    });
   } catch (err: any) {
     error(err);
     return res.status(400).json({ message: err.message });

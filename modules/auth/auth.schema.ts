@@ -23,8 +23,12 @@ export const verifySignupOTP = z.object({
     .regex(/^\d+$/, "OTP must contain only digits."),
 });
 
-export const verifyResetOTPSchema = z.object({
+export const resetStartSchema = z.object({
   id: z.string(),
+});
+
+export const verifyResetOTPSchema = z.object({
+  reset_token_id: z.string(),
   otp: z.string(),
 });
 
