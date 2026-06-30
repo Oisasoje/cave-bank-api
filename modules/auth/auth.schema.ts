@@ -22,3 +22,13 @@ export const verifySignupOTP = z.object({
     .length(6, "OTP must be exactly 6 digits.")
     .regex(/^\d+$/, "OTP must contain only digits."),
 });
+
+export const verifyResetOTPSchema = z.object({
+  id: z.string(),
+  otp: z.string(),
+});
+
+export const setNewPinSchema = z.object({
+  reset_token_id: z.string(),
+  newPin: z.string(), // same constraints you use for pin elsewhere
+});

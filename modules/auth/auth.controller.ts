@@ -10,11 +10,16 @@ import {
   resendAuthOTP,
   verifyUserPin,
   changeUserPin,
+  setNewPin,
+  resetPinConfirmOTP,
+  resetPinSendOTP,
 } from "./auth.service.js";
 import {
   resendOTPSchema,
+  setNewPinSchema,
   startSchema,
   verifyLoginSchema,
+  verifyResetOTPSchema,
   verifySignupOTP,
 } from "./auth.schema.js";
 import { Request, Response } from "express";
@@ -242,6 +247,69 @@ export async function changeUserPinController(req: Request, res: Response) {
     return res.status(200).json({ message: "Pin changed successfully." });
   } catch (error: any) {
     return res.status(400).json({ message: "Failed to change pin." });
+  }
+}
+
+export async function resetPinStart(req: Request, res: Response) {
+  const result = startSchema.safeParse(req.body); // same {phone} schema as login/signup
+  if (!result.success) {
+    return res.status(400).json({ message: result.error.issues });
+  }
+
+  try {
+    const { phone } = result.data;
+    log(`Starting PIN reset for phone: ${phone}`);
+
+    const { userEmail, attempt } = await resetPinSendOTP(phone);
+    const email = maskEmail(userEmail);
+
+    log(`Reset attempt created with ID: ${attempt.id} for email: ${email}`);
+
+    return res.status(200).send({ data: { id: attempt.id, email } });
+  } catch (err: any) {
+    error(err);
+    return res.status(400).json({ message: err.message });
+  }
+}
+
+export async function resetPinVerifyOTP(req: Request, res: Response) {
+  const result = verifyResetOTPSchema.safeParse(req.body); // {id, otp} — same shape as verifySignupOTP
+  if (!result.success) {
+    return res.status(400).json({ message: result.error.issues });
+  }
+
+  try {
+    const { id, otp } = result.data;
+
+    const { resetToken } = await resetPinConfirmOTP(id, otp);
+    log(`OTP confirmed for reset attempt ID: ${id}`);
+
+    return res.status(200).json({
+      message: "OTP verified successfully!",
+      data: { reset_token_id: resetToken },
+    });
+  } catch (err: any) {
+    error(err);
+    return res.status(401).json({ message: err.message });
+  }
+}
+
+export async function resetPinSetNew(req: Request, res: Response) {
+  const result = setNewPinSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ message: result.error.issues });
+  }
+
+  try {
+    const { reset_token_id, newPin } = result.data;
+
+    await setNewPin(reset_token_id, newPin);
+    log(`PIN reset completed for token: ${reset_token_id}`);
+
+    return res.status(200).json({ message: "PIN reset successfully." });
+  } catch (err: any) {
+    error(err);
+    return res.status(400).json({ message: err.message });
   }
 }
 
