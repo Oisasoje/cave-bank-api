@@ -55,6 +55,7 @@ export const ModelName = {
   Session: 'Session',
   login_attempts: 'login_attempts',
   signup_attempts: 'signup_attempts',
+  reset_attempts: 'reset_attempts',
   audit_log: 'audit_log',
   ledger_entries: 'ledger_entries',
   bulk_transfers: 'bulk_transfers',
@@ -63,6 +64,7 @@ export const ModelName = {
   signup_otps: 'signup_otps',
   reset_password_otps: 'reset_password_otps',
   signup_setup_tokens: 'signup_setup_tokens',
+  password_reset_tokens: 'password_reset_tokens',
   transactions: 'transactions',
   treasuries: 'treasuries',
   treasury_signatories: 'treasury_signatories',
@@ -128,6 +130,17 @@ export const Signup_attemptsScalarFieldEnum = {
 } as const
 
 export type Signup_attemptsScalarFieldEnum = (typeof Signup_attemptsScalarFieldEnum)[keyof typeof Signup_attemptsScalarFieldEnum]
+
+
+export const Reset_attemptsScalarFieldEnum = {
+  id: 'id',
+  phone: 'phone',
+  created_at: 'created_at',
+  expires_at: 'expires_at',
+  attempts: 'attempts'
+} as const
+
+export type Reset_attemptsScalarFieldEnum = (typeof Reset_attemptsScalarFieldEnum)[keyof typeof Reset_attemptsScalarFieldEnum]
 
 
 export const Audit_logScalarFieldEnum = {
@@ -220,6 +233,16 @@ export const Signup_setup_tokensScalarFieldEnum = {
 } as const
 
 export type Signup_setup_tokensScalarFieldEnum = (typeof Signup_setup_tokensScalarFieldEnum)[keyof typeof Signup_setup_tokensScalarFieldEnum]
+
+
+export const Password_reset_tokensScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expires_at: 'expires_at',
+  used: 'used'
+} as const
+
+export type Password_reset_tokensScalarFieldEnum = (typeof Password_reset_tokensScalarFieldEnum)[keyof typeof Password_reset_tokensScalarFieldEnum]
 
 
 export const TransactionsScalarFieldEnum = {

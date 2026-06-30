@@ -388,6 +388,7 @@ export const ModelName = {
   Session: 'Session',
   login_attempts: 'login_attempts',
   signup_attempts: 'signup_attempts',
+  reset_attempts: 'reset_attempts',
   audit_log: 'audit_log',
   ledger_entries: 'ledger_entries',
   bulk_transfers: 'bulk_transfers',
@@ -396,6 +397,7 @@ export const ModelName = {
   signup_otps: 'signup_otps',
   reset_password_otps: 'reset_password_otps',
   signup_setup_tokens: 'signup_setup_tokens',
+  password_reset_tokens: 'password_reset_tokens',
   transactions: 'transactions',
   treasuries: 'treasuries',
   treasury_signatories: 'treasury_signatories',
@@ -417,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "accounts" | "session" | "login_attempts" | "signup_attempts" | "audit_log" | "ledger_entries" | "bulk_transfers" | "mint_burn_events" | "otps" | "signup_otps" | "reset_password_otps" | "signup_setup_tokens" | "transactions" | "treasuries" | "treasury_signatories" | "users" | "user_favorites" | "wallets"
+    modelProps: "accounts" | "session" | "login_attempts" | "signup_attempts" | "reset_attempts" | "audit_log" | "ledger_entries" | "bulk_transfers" | "mint_burn_events" | "otps" | "signup_otps" | "reset_password_otps" | "signup_setup_tokens" | "password_reset_tokens" | "transactions" | "treasuries" | "treasury_signatories" | "users" | "user_favorites" | "wallets"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -714,6 +716,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.signup_attemptsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Signup_attemptsCountAggregateOutputType> | number
+        }
+      }
+    }
+    reset_attempts: {
+      payload: Prisma.$reset_attemptsPayload<ExtArgs>
+      fields: Prisma.reset_attemptsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.reset_attemptsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.reset_attemptsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>
+        }
+        findFirst: {
+          args: Prisma.reset_attemptsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.reset_attemptsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>
+        }
+        findMany: {
+          args: Prisma.reset_attemptsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>[]
+        }
+        create: {
+          args: Prisma.reset_attemptsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>
+        }
+        createMany: {
+          args: Prisma.reset_attemptsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.reset_attemptsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>[]
+        }
+        delete: {
+          args: Prisma.reset_attemptsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>
+        }
+        update: {
+          args: Prisma.reset_attemptsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>
+        }
+        deleteMany: {
+          args: Prisma.reset_attemptsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.reset_attemptsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.reset_attemptsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>[]
+        }
+        upsert: {
+          args: Prisma.reset_attemptsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$reset_attemptsPayload>
+        }
+        aggregate: {
+          args: Prisma.Reset_attemptsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReset_attempts>
+        }
+        groupBy: {
+          args: Prisma.reset_attemptsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Reset_attemptsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.reset_attemptsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Reset_attemptsCountAggregateOutputType> | number
         }
       }
     }
@@ -1309,6 +1385,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    password_reset_tokens: {
+      payload: Prisma.$password_reset_tokensPayload<ExtArgs>
+      fields: Prisma.password_reset_tokensFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.password_reset_tokensFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.password_reset_tokensFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>
+        }
+        findFirst: {
+          args: Prisma.password_reset_tokensFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.password_reset_tokensFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>
+        }
+        findMany: {
+          args: Prisma.password_reset_tokensFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>[]
+        }
+        create: {
+          args: Prisma.password_reset_tokensCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>
+        }
+        createMany: {
+          args: Prisma.password_reset_tokensCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.password_reset_tokensCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>[]
+        }
+        delete: {
+          args: Prisma.password_reset_tokensDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>
+        }
+        update: {
+          args: Prisma.password_reset_tokensUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>
+        }
+        deleteMany: {
+          args: Prisma.password_reset_tokensDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.password_reset_tokensUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.password_reset_tokensUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>[]
+        }
+        upsert: {
+          args: Prisma.password_reset_tokensUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$password_reset_tokensPayload>
+        }
+        aggregate: {
+          args: Prisma.Password_reset_tokensAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePassword_reset_tokens>
+        }
+        groupBy: {
+          args: Prisma.password_reset_tokensGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Password_reset_tokensGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.password_reset_tokensCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Password_reset_tokensCountAggregateOutputType> | number
+        }
+      }
+    }
     transactions: {
       payload: Prisma.$transactionsPayload<ExtArgs>
       fields: Prisma.transactionsFieldRefs
@@ -1835,6 +1985,17 @@ export const Signup_attemptsScalarFieldEnum = {
 export type Signup_attemptsScalarFieldEnum = (typeof Signup_attemptsScalarFieldEnum)[keyof typeof Signup_attemptsScalarFieldEnum]
 
 
+export const Reset_attemptsScalarFieldEnum = {
+  id: 'id',
+  phone: 'phone',
+  created_at: 'created_at',
+  expires_at: 'expires_at',
+  attempts: 'attempts'
+} as const
+
+export type Reset_attemptsScalarFieldEnum = (typeof Reset_attemptsScalarFieldEnum)[keyof typeof Reset_attemptsScalarFieldEnum]
+
+
 export const Audit_logScalarFieldEnum = {
   id: 'id',
   table_name: 'table_name',
@@ -1925,6 +2086,16 @@ export const Signup_setup_tokensScalarFieldEnum = {
 } as const
 
 export type Signup_setup_tokensScalarFieldEnum = (typeof Signup_setup_tokensScalarFieldEnum)[keyof typeof Signup_setup_tokensScalarFieldEnum]
+
+
+export const Password_reset_tokensScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  expires_at: 'expires_at',
+  used: 'used'
+} as const
+
+export type Password_reset_tokensScalarFieldEnum = (typeof Password_reset_tokensScalarFieldEnum)[keyof typeof Password_reset_tokensScalarFieldEnum]
 
 
 export const TransactionsScalarFieldEnum = {
@@ -2331,6 +2502,7 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   login_attempts?: Prisma.login_attemptsOmit
   signup_attempts?: Prisma.signup_attemptsOmit
+  reset_attempts?: Prisma.reset_attemptsOmit
   audit_log?: Prisma.audit_logOmit
   ledger_entries?: Prisma.ledger_entriesOmit
   bulk_transfers?: Prisma.bulk_transfersOmit
@@ -2339,6 +2511,7 @@ export type GlobalOmitConfig = {
   signup_otps?: Prisma.signup_otpsOmit
   reset_password_otps?: Prisma.reset_password_otpsOmit
   signup_setup_tokens?: Prisma.signup_setup_tokensOmit
+  password_reset_tokens?: Prisma.password_reset_tokensOmit
   transactions?: Prisma.transactionsOmit
   treasuries?: Prisma.treasuriesOmit
   treasury_signatories?: Prisma.treasury_signatoriesOmit

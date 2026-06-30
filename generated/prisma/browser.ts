@@ -38,6 +38,11 @@ export type login_attempts = Prisma.login_attemptsModel
  */
 export type signup_attempts = Prisma.signup_attemptsModel
 /**
+ * Model reset_attempts
+ * 
+ */
+export type reset_attempts = Prisma.reset_attemptsModel
+/**
  * Model audit_log
  * 
  */
@@ -77,6 +82,11 @@ export type reset_password_otps = Prisma.reset_password_otpsModel
  * 
  */
 export type signup_setup_tokens = Prisma.signup_setup_tokensModel
+/**
+ * Model password_reset_tokens
+ * 
+ */
+export type password_reset_tokens = Prisma.password_reset_tokensModel
 /**
  * Model transactions
  * 

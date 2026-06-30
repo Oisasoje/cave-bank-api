@@ -47,6 +47,14 @@ model signup_attempts {
   attempts   Int      @default(0)
 }
 
+model reset_attempts {
+  id         String   @id @default(uuid())
+  phone      String
+  created_at DateTime @default(now())
+  expires_at DateTime
+  attempts   Int      @default(0)
+}
+
 model audit_log {
   id          Int      @id @default(autoincrement())
   table_name  String
@@ -125,6 +133,14 @@ model signup_setup_tokens {
   users      users    @relation(fields: [userId], references: [id])
 }
 
+model password_reset_tokens {
+  id         String   @id @default(uuid())
+  userId     String
+  expires_at DateTime
+  used       Boolean  @default(false)
+  users      users    @relation(fields: [userId], references: [id])
+}
+
 model transactions {
   id                                         String          @id
   created_at                                 DateTime        @default(now())
@@ -172,22 +188,22 @@ model treasury_signatories {
 }
 
 model users {
-  id                   String                 @id
+  id                   String                  @id
   name                 String
-  email                String                 @unique
-  phone                String                 @unique
-  birthday             DateTime               @db.Date
+  email                String                  @unique
+  phone                String                  @unique
+  birthday             DateTime                @db.Date
   academic_status      AcademicStatus
   space                Space
   tribe                Tribe?
   schools_attended     School[]
   pin_hash             String?
-  is_admin             Boolean                @default(false)
+  is_admin             Boolean                 @default(false)
   member_since_year    Int
   member_since_month   Int
-  is_active            Boolean                @default(true)
+  is_active            Boolean                 @default(true)
   deactivated_at       DateTime?
-  created_at           DateTime               @default(now())
+  created_at           DateTime                @default(now())
   updated_at           DateTime
   bulk_transfers       bulk_transfers[]
   transactions         transactions[]
@@ -197,8 +213,9 @@ model users {
   sessions             Session[]
   signup_setup_tokens  signup_setup_tokens[]
   accounts             accounts[]
-  favorites            user_favorites[]       @relation("user_favorites")
-  favorited_by         user_favorites[]       @relation("favorited_by")
+  favorites            user_favorites[]        @relation("user_favorites")
+  favorited_by         user_favorites[]        @relation("favorited_by")
+  passwordResetTokens  password_reset_tokens[]
 }
 
 model user_favorites {

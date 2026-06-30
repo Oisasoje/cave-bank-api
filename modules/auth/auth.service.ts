@@ -2,8 +2,11 @@ import { prisma } from "../../lib/prisma.js";
 import verifyPin from "../../utils/password.js";
 import crypto from "crypto";
 import { log, span } from "@oisasoje/gloo";
-import { generateSignupOTP } from "../../services/GenerateOTP.js";
-import { sendOTP } from "../../services/EmailService.js";
+import {
+  generateResetPasswordOTP,
+  generateSignupOTP,
+} from "../../services/GenerateOTP.js";
+import { sendOTP, sendPasswordResetOTP } from "../../services/EmailService.js";
 import argon2 from "argon2";
 import { validateAndCreateWalletAddress } from "../../utils/validateAndCreateWalletAddress.js";
 
@@ -78,7 +81,7 @@ export async function signupAuthOTP(id: string, otp: string) {
       data: { attempts: otpMatch.attempts + 1 },
     });
 
-    throw new Error("Wrong OTP");
+    throw new Error("Invalid OTP");
   }
   if (otpMatch.expires_at < new Date()) {
     await prisma.signup_attempts.delete({ where: { id } });
@@ -327,4 +330,105 @@ export async function logoutUser(sessionId: string) {
       where: { id: sessionId },
     }),
   );
+}
+
+export async function resetPinSendOTP(phone: string) {
+  const user = await prisma.users.findUnique({ where: { phone } });
+
+  if (!user) throw new Error("No Cave account exists with this number.");
+
+  const userName = user.name;
+  const userEmail = user.email;
+
+  const attempt = await prisma.reset_attempts.create({
+    data: {
+      phone,
+      expires_at: new Date(Date.now() + 1000 * 60 * 10),
+    },
+  });
+  const otp = await generateResetPasswordOTP(userEmail);
+
+  await sendPasswordResetOTP(userEmail, userName, otp);
+
+  return { userEmail, attempt };
+}
+
+export async function resetPinConfirmOTP(id: string, otp: string) {
+  const attempt = await prisma.reset_attempts.findUnique({ where: { id } });
+  if (!attempt) throw new Error("Authentication failed.");
+
+  if (attempt.expires_at < new Date()) {
+    await prisma.reset_attempts.delete({ where: { id } });
+    throw new Error("Authentication attempt has expired.");
+  }
+
+  const user = await prisma.users.findUnique({
+    where: { phone: attempt.phone },
+  });
+  if (!user) throw new Error("Something unexpected occurred. Try again later.");
+
+  const otpMatch = await prisma.reset_password_otps.findUnique({
+    where: { email: user.email },
+  });
+  if (!otpMatch) throw new Error("Something went wrong. Try again later.");
+
+  if (otpMatch.expires_at < new Date()) {
+    await prisma.reset_attempts.delete({ where: { id } });
+    await prisma.reset_password_otps.delete({ where: { email: user.email } });
+    throw new Error("OTP has expired");
+  }
+
+  if (otpMatch.attempts >= 5) {
+    await prisma.reset_attempts.delete({ where: { id } });
+    await prisma.reset_password_otps.delete({ where: { email: user.email } });
+    throw new Error("Too many attempts. Please try again later.");
+  }
+
+  if (otp !== otpMatch.code) {
+    await prisma.reset_password_otps.update({
+      where: { email: user.email },
+      data: { attempts: { increment: 1 } },
+    });
+    throw new Error("Invalid OTP");
+  }
+
+  // OTP confirmed — clean up both attempt trackers
+  await prisma.reset_attempts.delete({ where: { id } });
+  await prisma.reset_password_otps.delete({ where: { email: user.email } });
+
+  // issue a narrow-scoped token for the actual "set new pin" step
+  const token = await prisma.password_reset_tokens.create({
+    data: {
+      userId: user.id,
+      expires_at: new Date(Date.now() + 15 * 60 * 1000), // 15 min
+    },
+  });
+
+  return { resetToken: token.id };
+}
+
+export async function setNewPin(resetToken: string, newPin: string) {
+  const tokenRecord = await prisma.password_reset_tokens.findUnique({
+    where: { id: resetToken },
+  });
+
+  if (!tokenRecord) throw new Error("Invalid or expired reset link.");
+  if (tokenRecord.used)
+    throw new Error("This reset link has already been used.");
+  if (tokenRecord.expires_at < new Date()) {
+    throw new Error("This reset link has expired.");
+  }
+
+  const pin_hash = await argon2.hash(newPin);
+
+  await prisma.$transaction([
+    prisma.users.update({
+      where: { id: tokenRecord.userId },
+      data: { pin_hash },
+    }),
+    prisma.password_reset_tokens.update({
+      where: { id: tokenRecord.id },
+      data: { used: true },
+    }),
+  ]);
 }
