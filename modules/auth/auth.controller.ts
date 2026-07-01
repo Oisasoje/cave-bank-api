@@ -186,8 +186,6 @@ export async function me(req: Request, res: Response) {
     academic_status,
     created_at,
     schools_attended,
-    member_since_month,
-    member_since_year,
     updated_at,
     deactivated_at,
     is_active,
@@ -195,17 +193,25 @@ export async function me(req: Request, res: Response) {
     birthday,
     tribe,
     phone,
-    email,
+
+    member_since_month,
+    member_since_year,
     ...userWithoutPin
   } = result.session.user;
   const wallet_address = result.wallet_address;
   const accountId = result.accountId;
+
+  const monthJoined = result.session.user.member_since_month;
+  const yearJoined = result.session.user.member_since_year;
 
   return res.json({
     data: {
       user: userWithoutPin,
       wallet_address,
       accountId,
+
+      monthJoined,
+      yearJoined,
     },
   });
 }
